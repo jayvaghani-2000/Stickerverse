@@ -17,15 +17,17 @@ enum parentCategory {
 
 model user {
   id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  username String
-  email    String    @unique
-  phone    String
-  password String
-  address  String
+  username String?
+  email    String?
+  phone    String?
+  password String?
+  address  String?
   orders   order[]
   cart     cart[]
   payment  payment[]
   avatar   avatar[]
+
+  @@unique([email, phone])
 }
 
 model category {
@@ -77,6 +79,7 @@ model order {
   userId     String      @db.Uuid
   items      orderItem[]
   totalPrice Float
+  address    String
   createdAt  DateTime    @default(now())
 }
 

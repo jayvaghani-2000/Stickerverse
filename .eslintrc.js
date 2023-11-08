@@ -40,6 +40,9 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "react/react-in-jsx-scope": "off",
+    "vars-on-top": "off",
+    "no-var": "off",
+    "no-self-assign": "off",
     "react/jsx-filename-extension": [
       1,
       {
@@ -57,6 +60,9 @@ module.exports = {
         tsx: "never",
       },
     ],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "warn",
+    "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
