@@ -44,7 +44,24 @@ const theme = createTheme({
     snackbar: 1400,
     tooltip: 1500,
   },
-
+  components: {
+    MuiTypography: {
+      defaultProps: {
+        variantMapping: {
+          h1: "h2",
+          h2: "h2",
+          h3: "h2",
+          h4: "h2",
+          h5: "h2",
+          h6: "h2",
+          subtitle1: "h1",
+          subtitle2: "h2",
+          body1: "span",
+          body2: "span",
+        },
+      },
+    },
+  },
   typography: {
     fontFamily: ["Poppins", "sans-serif"].join(","),
     h1: {
@@ -66,6 +83,10 @@ const theme = createTheme({
     body1: {
       fontWeight: "normal",
       fontSize: "0.9rem",
+    },
+    subtitle1: {
+      fontWeight: "bold",
+      fontSize: "14px",
     },
   },
 });

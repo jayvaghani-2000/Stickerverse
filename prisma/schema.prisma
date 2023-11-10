@@ -26,6 +26,7 @@ model user {
   cart     cart[]
   payment  payment[]
   avatar   avatar[]
+  rating   rating[]
 
   @@unique([email, phone])
 }
@@ -45,12 +46,14 @@ model sticker {
   categoryId  Int
   category    category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   price       Int
-  description Json
+  description String
+  offer       Int
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   image       image[]
   orderItem   orderItem[]
   cartItem    cartItem[]
+  rating      rating[]
 }
 
 model image {
@@ -115,4 +118,13 @@ model payment {
   amount    Float
   status    String
   createdAt DateTime @default(now())
+}
+
+model rating {
+  id        String  @id @default(uuid()) @db.Uuid
+  value     Int
+  user      user    @relation(fields: [userId], references: [id])
+  userId    String  @db.Uuid
+  sticker   sticker @relation(fields: [stickerId], references: [id])
+  stickerId Int
 }
