@@ -34,7 +34,7 @@ const AddProduct = () => {
   };
 
   return (
-    <form className="mt-24 flex flex-col" onSubmit={handleCreateProduct}>
+    <form className="mt-24 flex flex-col gap-2" onSubmit={handleCreateProduct}>
       <div>Product Name: </div>
       <input
         className="border-2"
@@ -55,12 +55,6 @@ const AddProduct = () => {
           setProduct(prev => ({ ...prev, description: value }));
         }}
         value={product.description}
-      />
-      <input
-        className="border-2"
-        type="text"
-        name="description"
-        onChange={updateData}
       />
       <div>Offer:</div>{" "}
       <input

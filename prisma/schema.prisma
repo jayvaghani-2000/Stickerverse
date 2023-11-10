@@ -16,7 +16,7 @@ enum parentCategory {
 }
 
 model user {
-  id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id       String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   username String?
   email    String?
   phone    String?
@@ -27,6 +27,7 @@ model user {
   payment  payment[]
   avatar   avatar[]
   rating   rating[]
+  wistlist wistlist[]
 
   @@unique([email, phone])
 }
@@ -41,19 +42,20 @@ model category {
 }
 
 model sticker {
-  id          Int         @id @default(autoincrement())
-  productName String
-  categoryId  Int
-  category    category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  price       Int
-  description String
-  offer       Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  image       image[]
-  orderItem   orderItem[]
-  cartItem    cartItem[]
-  rating      rating[]
+  id           Int            @id @default(autoincrement())
+  productName  String
+  categoryId   Int
+  category     category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  price        Int
+  description  String
+  offer        Int
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  image        image[]
+  orderItem    orderItem[]
+  cartItem     cartItem[]
+  rating       rating[]
+  wistlistItem wistlistItem[]
 }
 
 model image {
@@ -127,4 +129,19 @@ model rating {
   userId    String  @db.Uuid
   sticker   sticker @relation(fields: [stickerId], references: [id])
   stickerId Int
+}
+
+model wistlist {
+  id     Int            @id @default(autoincrement())
+  user   user           @relation(fields: [userId], references: [id])
+  userId String         @db.Uuid
+  items  wistlistItem[]
+}
+
+model wistlistItem {
+  id         Int      @id @default(autoincrement())
+  wistlist   wistlist @relation(fields: [wistlistId], references: [id])
+  wistlistId Int
+  sticker    sticker  @relation(fields: [stickerId], references: [id])
+  stickerId  Int
 }

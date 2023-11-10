@@ -19,7 +19,7 @@ const ReactQuillWrapper = (props) => {
 
 
   return <div>
-    <ReactQuill value={props.value}
+    <ReactQuill value={props.value} 
       modules={modules}
       formats={formats}
       onChange={(value) => props.onChange(value)}
