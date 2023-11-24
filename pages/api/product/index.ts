@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { handlePostProduct } from "../../helpers/product/add";
+import { handlePostProduct } from "../helpers/product/add";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {

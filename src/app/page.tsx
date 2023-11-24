@@ -3,7 +3,7 @@
 // import { useEffect } from "react";
 // import { supabase } from "../../supabase/init";
 
-export default function Home() {
+function Home() {
   // const handleLogin = async () => {
   //   await supabase.auth.signInWithOAuth({
   //     provider: "google",
@@ -21,5 +21,7 @@ export default function Home() {
   //   });
   // }, []);
 
-  return <main></main>;
+  return "Home";
 }
+
+export default Home;

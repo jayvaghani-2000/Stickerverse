@@ -1,11 +1,7 @@
 import ReactQuillWrapper from "./editor";
 
-type propType = {
-  onChange: (value: string) => void;
-  value: string;
-};
 
-const TextEditor = (props: propType) => (
+const TextEditor = (props) => (
   <div>
     <ReactQuillWrapper {...props} />
   </div>
