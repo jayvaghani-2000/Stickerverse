@@ -5,7 +5,7 @@
   "scope": "/",
   "start_url": "/",
   "name": "Sticker Verse",
-  "short_name": "PWA",
+  "short_name": "Sticker Verse",
   "icons": [
     {
       "src": "/icon-192x192.png",
