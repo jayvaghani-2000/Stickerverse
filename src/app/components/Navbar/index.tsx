@@ -7,6 +7,7 @@ import Icon from "../Icon";
 import classNames from "classnames";
 import { activeRoute } from "@/app/utils/activeRoute";
 import styles from "./navbar.module.scss";
+import { useMobileScreen } from "@/app/utils/useScreenSize";
 
 const TABS = [
   { title: "Stickers", path: "/stickers" },
@@ -15,9 +16,30 @@ const TABS = [
 
 const Navbar = () => {
   const path = usePathname();
+  const isMobile = useMobileScreen();
 
-  return (
-    <nav className="h-[85px] border-b-2 border-black px-[30px] md:px-[70px] flex justify-between">
+  return isMobile ? (
+    <nav className="h-[60px] border-b-2 flex sm:hidden items-center border-black px-[16px] justify-between">
+      <Icon name="menu" />
+
+      <div className="flex items-center gap-[16px]">
+        <Link href="/" className="h-[42px] w-[42px] ">
+          <Icon name="logo" className="scale-[0.3] origin-top-left" />
+        </Link>
+        <Typography variant="subtitle1" className="uppercase">
+          Sticker verse
+        </Typography>
+      </div>
+
+      <div className="flex items-center justify-between gap-[15px] md:gap-[20px]">
+        <Icon name="search" className="scale-90 md:scale-100" />
+        <Link href="/cart" className="scale-90 md:scale-100">
+          <Icon name="cart" />
+        </Link>
+      </div>
+    </nav>
+  ) : (
+    <nav className="h-[85px] border-b-2 hidden sm:flex sm:border-black px-[30px] md:px-[70px] justify-between">
       <Link href="/" className="h-fit w-fit scale-75 md:scale-100">
         <Icon name="logo" />
       </Link>

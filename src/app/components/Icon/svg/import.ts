@@ -5,6 +5,7 @@ import HeartBlackIcon from "./heartBlack.svg";
 import SearchIcon from "./search.svg";
 import CartColorIcon from "./cartColor.svg";
 import UserIcon from "./user.svg";
+import MenuIcon from "./menu.svg";
 
 const images = {
   cart: CartIcon,
@@ -14,6 +15,7 @@ const images = {
   search: SearchIcon,
   cartColor: CartColorIcon,
   user: UserIcon,
+  menu: MenuIcon,
 };
 
 export type imagesList = keyof typeof images;
