@@ -59,7 +59,7 @@ export default function Drawer(props: propType) {
                 href={i.path}
                 key={i.title}
                 className={classNames(
-                  "flex justify-between items-center px-[10px] border-b-2 border-lightGray",
+                  "flex justify-between items-center px-[10px] border-b-2 border-lightGray pb-1",
                   styles.navItems
                 )}
               >
