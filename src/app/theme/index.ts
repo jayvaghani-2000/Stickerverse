@@ -87,6 +87,9 @@ const theme = createTheme({
     subtitle1: {
       fontWeight: "bold",
       fontSize: "14px",
+      "@media (max-width:900px)": {
+        fontSize: "12px",
+      },
     },
   },
 });

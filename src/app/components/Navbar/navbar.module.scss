@@ -1,0 +1,15 @@
+@import "./../../variables.scss";
+
+.active {
+  position: relative;
+  &::after {
+    content: "";
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    background-color: $black;
+    display: block;
+    position: absolute;
+    left: calc(50% - 3px);
+  }
+}

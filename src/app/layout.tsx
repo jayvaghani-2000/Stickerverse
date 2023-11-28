@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import React from "react";
 import classNames from "classnames";
-import "./globals.css";
+import "./globals.scss";
+import "./variables.scss";
 import Navbar from "./components/Navbar";
 import ThemeProvider from "./theme/themeProvider";
 
