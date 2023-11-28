@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Typography } from "@mui/material";
 import { usePathname } from "next/navigation";
@@ -8,6 +8,7 @@ import classNames from "classnames";
 import { activeRoute } from "@/app/utils/activeRoute";
 import styles from "./navbar.module.scss";
 import { useMobileScreen } from "@/app/utils/useScreenSize";
+import Drawer from "./drawer";
 
 const TABS = [
   { title: "Stickers", path: "/stickers" },
@@ -15,14 +16,26 @@ const TABS = [
 ];
 
 const Navbar = () => {
+  const [openNav, setOpenNav] = useState(false);
   const path = usePathname();
   const isMobile = useMobileScreen();
 
+  const toggleDrawer = (open: boolean) => {
+    setOpenNav(open);
+  };
+
   return isMobile ? (
     <nav className="h-[60px] border-b-2 flex sm:hidden items-center border-black px-[16px] justify-between">
-      <Icon name="menu" />
+      <button
+        onClick={() => {
+          toggleDrawer(true);
+        }}
+      >
+        <Icon name="menu" />
+      </button>
+      <Drawer open={openNav} toggleNav={toggleDrawer} />
 
-      <div className="flex items-center gap-[16px]">
+      <div className="flex items-center gap-[8px]">
         <Link href="/" className="h-[42px] w-[42px] ">
           <Icon name="logo" className="scale-[0.3] origin-top-left" />
         </Link>

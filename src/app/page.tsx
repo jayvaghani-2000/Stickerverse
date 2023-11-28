@@ -21,7 +21,13 @@ function Home() {
   //   });
   // }, []);
 
-  return <input type="text" />;
+  return (
+    <>
+      <div>
+        <input type="text" />
+      </div>
+    </>
+  );
 }
 
 export default Home;
