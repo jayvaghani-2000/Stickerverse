@@ -1,27 +1,28 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Image from "next/image";
 import Icon from "../Icon";
+import Link from "next/link";
+import classNames from "classnames";
+import styles from "./navbar.module.scss";
+import { Typography } from "@mui/material";
 
 type propType = {
   open: boolean;
   toggleNav: (value: boolean) => void;
 };
 
+const UN_AUTH_TABS = [
+  { title: "Stickers", path: "/stickers" },
+  { title: "Category", path: "/categories" },
+  { title: "Contact Us", path: "/contact-us" },
+];
+
 export default function Drawer(props: propType) {
   const { open, toggleNav } = props;
 
   const toggleDrawer =
-    (anchor: "left", open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event &&
         event.type === "keydown" &&
@@ -37,10 +38,10 @@ export default function Drawer(props: propType) {
     <SwipeableDrawer
       anchor={"left"}
       open={open}
-      onClose={toggleDrawer("left", false)}
-      onOpen={toggleDrawer("left", true)}
+      onClose={toggleDrawer(false)}
+      onOpen={toggleDrawer(true)}
     >
-      <div className="w-[300px] relative min-h-full overflow-auto max-w-[100vw] bg-cream">
+      <div className="w-[300px] flex flex-col relative min-h-full overflow-auto max-w-[100vw] bg-cream">
         <Image
           src="/assets/png/navSticker.png"
           width={300}
@@ -49,6 +50,33 @@ export default function Drawer(props: propType) {
         />
         <div className="h-[105px] w-[105px] absolute top-[90px] left-4">
           <Icon name="logo" className="scale-[0.75] origin-top-left" />
+        </div>
+
+        <div className="px-4 pt-[58px] pb-[38px] flex-1 flex flex-col justify-between">
+          <div className="flex flex-col gap-[22px]">
+            {UN_AUTH_TABS.map(i => (
+              <Link
+                href={i.path}
+                key={i.title}
+                className={classNames(
+                  "flex justify-between items-center px-[10px] border-b-2 border-lightGray",
+                  styles.navItems
+                )}
+              >
+                <Typography variant="subtitle1" className="pl-5 uppercase">
+                  {i.title}
+                </Typography>
+                <Icon name="ChevronRight" />
+              </Link>
+            ))}
+          </div>
+
+          <button className="px-[10px] flex gap-2 items-center">
+            <Typography variant="subtitle1" className="uppercase">
+              Sign In
+            </Typography>
+            <Icon name="signIn" />
+          </button>
         </div>
       </div>
     </SwipeableDrawer>

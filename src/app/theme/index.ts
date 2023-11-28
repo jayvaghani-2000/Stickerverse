@@ -5,6 +5,7 @@ export enum ThemeColor {
   CREAM = "#fcf8f3",
   BLACK = "#000000",
   WHITE = "#fff",
+  LIGHT_GRAY = "#A6A6A6",
 }
 
 const theme = createTheme({
@@ -88,7 +89,7 @@ const theme = createTheme({
       fontWeight: "bold",
       fontSize: "14px",
       "@media (max-width:900px)": {
-        fontSize: "12px",
+        fontSize: "13px",
       },
     },
   },

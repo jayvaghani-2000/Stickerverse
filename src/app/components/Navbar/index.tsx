@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Typography } from "@mui/material";
 import { usePathname } from "next/navigation";
@@ -23,6 +23,12 @@ const Navbar = () => {
   const toggleDrawer = (open: boolean) => {
     setOpenNav(open);
   };
+
+  useEffect(() => {
+    if (openNav) {
+      toggleDrawer(false);
+    }
+  }, [path]);
 
   return isMobile ? (
     <nav className="h-[60px] border-b-2 flex sm:hidden items-center border-black px-[16px] justify-between">

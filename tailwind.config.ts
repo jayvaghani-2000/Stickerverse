@@ -18,6 +18,7 @@ const config: Config = {
         cream: "#fcf8f3",
         white: "#fff",
         black: "#000",
+        lightGray: "#A6A6A6",
       },
     },
     screens: {

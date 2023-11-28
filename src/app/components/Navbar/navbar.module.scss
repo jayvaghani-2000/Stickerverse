@@ -13,3 +13,16 @@
     left: calc(50% - 3px);
   }
 }
+
+.navItems {
+  position: relative;
+  &::after {
+    content: "";
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: $black;
+    display: block;
+    position: absolute;
+  }
+}
