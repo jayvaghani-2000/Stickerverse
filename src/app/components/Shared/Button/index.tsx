@@ -23,10 +23,9 @@ const Button = (props: propType) => {
     className = "",
     variant = "rounded-shadow",
   } = props;
+
   return (
-    <MUIButton
-      className={classNames(variants[variant], { [className]: !!className })}
-    >
+    <MUIButton className={classNames(variants[variant], className)}>
       <Typography variant="button" className={childClassName}>
         {children}
       </Typography>
