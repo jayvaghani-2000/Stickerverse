@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect } from "react";
-import { ThemeProvider as MuiThemeProvider } from "@mui/material";
+import {
+  StyledEngineProvider,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material";
 import theme from "./index";
-import "./../globals.scss";
 
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
@@ -22,7 +24,11 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
+  return (
+    <StyledEngineProvider injectFirst>
+      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
+    </StyledEngineProvider>
+  );
 };
 
 export default ThemeProvider;
