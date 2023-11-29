@@ -31,11 +31,12 @@ const Navbar = () => {
   }, [path]);
 
   return isMobile ? (
-    <nav className="h-[60px] border-b-2 flex sm:hidden items-center border-black px-[16px] justify-between">
+    <nav className="relative z-10 h-[60px] border-b-2 flex sm:hidden items-center border-black px-[16px] justify-between">
       <button
         onClick={() => {
           toggleDrawer(true);
         }}
+        className="inline-block h-6 w-6"
       >
         <Icon name="menu" />
       </button>
@@ -58,7 +59,7 @@ const Navbar = () => {
       </div>
     </nav>
   ) : (
-    <nav className="h-[85px] border-b-2 hidden sm:flex sm:border-black px-[30px] md:px-[70px] justify-between">
+    <nav className="relative z-10  h-[85px] border-b-2 hidden sm:flex sm:border-black px-[30px] md:px-[70px] justify-between">
       <Link href="/" className="h-fit w-fit scale-75 md:scale-100">
         <Icon name="logo" />
       </Link>

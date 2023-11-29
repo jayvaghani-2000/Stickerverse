@@ -2,6 +2,7 @@
 
 // import { useEffect } from "react";
 // import { supabase } from "../../supabase/init";
+import Homepage from "@/app/components/Home";
 
 function Home() {
   // const handleLogin = async () => {
@@ -21,13 +22,7 @@ function Home() {
   //   });
   // }, []);
 
-  return (
-    <>
-      <div>
-        <input type="text" />
-      </div>
-    </>
-  );
+  return <Homepage />;
 }
 
 export default Home;
