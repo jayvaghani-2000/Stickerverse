@@ -18,28 +18,38 @@
 
   .swiper-button-prev {
     left: 50px;
+    width: 40px;
     @media (max-width: 900px) {
       left: 10px;
     }
     &::after {
       content: "";
       background-image: url("/assets/svg/previous-arrow.svg") !important;
-      width: 24px;
-      height: 24px;
+      width: 40px;
+      height: 40px;
       background-size: cover;
+      @media (max-width: 900px) {
+        width: 24px;
+        height: 24px;
+      }
     }
   }
   .swiper-button-next {
     right: 50px;
+    width: 40px;
     @media (max-width: 900px) {
       right: 10px;
     }
     &::after {
       content: "";
       background-image: url("/assets/svg/next-arrow.svg") !important;
-      height: 24px;
-      width: 24px;
+      height: 40px;
+      width: 40px;
       background-size: cover;
+      @media (max-width: 900px) {
+        width: 24px;
+        height: 24px;
+      }
     }
   }
   .swiper-button-disabled {

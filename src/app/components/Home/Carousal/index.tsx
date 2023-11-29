@@ -36,7 +36,7 @@ const Carousal = () => {
   return (
     <div className="relative overflow-hidden">
       <motion.div
-        className="absolute h-full w-full z-10"
+        className="absolute h-full w-full z-[2]"
         animate={{ x: isMobile ? position.mx : position.x, y: position.y }}
         transition={{ type: "spring" }}
       >
