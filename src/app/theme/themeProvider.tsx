@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import theme from "./index";
+import "./../globals.scss";
 
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
