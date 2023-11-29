@@ -23,9 +23,10 @@
     }
     &::after {
       content: "";
-      background-image: url("/assets/png/previous-arrow.png") !important;
+      background-image: url("/assets/svg/previous-arrow.svg") !important;
       width: 24px;
       height: 24px;
+      background-size: cover;
     }
   }
   .swiper-button-next {
@@ -35,9 +36,10 @@
     }
     &::after {
       content: "";
-      background-image: url("/assets/png/next-arrow.png") !important;
+      background-image: url("/assets/svg/next-arrow.svg") !important;
       height: 24px;
       width: 24px;
+      background-size: cover;
     }
   }
   .swiper-button-disabled {

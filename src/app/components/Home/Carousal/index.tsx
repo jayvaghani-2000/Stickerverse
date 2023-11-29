@@ -9,33 +9,35 @@ import { motion } from "framer-motion";
 import { EffectFade, Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
 import Button from "../../Shared/Button";
+import { useMobileScreen } from "@/app/utils/useScreenSize";
 
 const CarousalImages = [
   {
     path: "/assets/png/carousal1.png",
     alt: "main",
-    position: { x: "20%", y: "65%" },
+    position: { x: "20%", y: "65%", mx: "10%" },
   },
   {
     path: "/assets/png/carousal2.png",
     alt: "school",
-    position: { x: "60%", y: "60%" },
+    position: { x: "65%", y: "60%", mx: "55%" },
   },
   {
     path: "/assets/png/carousal3.png",
     alt: "summer",
-    position: { x: "60%", y: "65%" },
+    position: { x: "60%", y: "65%", mx: "45%" },
   },
 ];
 
 const Carousal = () => {
   const [position, setPosition] = useState(CarousalImages[0].position);
+  const isMobile = useMobileScreen();
 
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       <motion.div
         className="absolute h-full w-full z-10"
-        animate={{ x: position.x, y: position.y }}
+        animate={{ x: isMobile ? position.mx : position.x, y: position.y }}
         transition={{ type: "spring" }}
       >
         <Button className="bg-primeGreen hover:bg-primeGreen">Shop Now</Button>
