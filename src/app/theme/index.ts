@@ -6,12 +6,21 @@ export enum ThemeColor {
   BLACK = "#000000",
   WHITE = "#fff",
   LIGHT_GRAY = "#A6A6A6",
+  PRIME_GREEN = "#D8F055",
+  PURPLE = "#8870FF",
+  LIGHT_RED = "#F25B5C",
+  LIGHT_ORANGE = "#FFB278",
+  DARK_PINK = "#FC9985",
+  LIGHT_GREEN = "#BDDEBC",
+  GREEN = "#20BF55",
+  MAROON = "#CF0000",
+  DARK_YELLOW = "#FF9400",
 }
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: ThemeColor.CREAM,
+      main: ThemeColor.BLACK,
     },
     common: {
       black: ThemeColor.BLACK,
@@ -59,6 +68,7 @@ const theme = createTheme({
           subtitle2: "h2",
           body1: "span",
           body2: "span",
+          button: "span",
         },
       },
     },
@@ -87,9 +97,17 @@ const theme = createTheme({
     },
     subtitle1: {
       fontWeight: "bold",
+      lineHeight: "1.5",
       fontSize: "14px",
       "@media (max-width:900px)": {
         fontSize: "13px",
+      },
+    },
+    button: {
+      fontWeight: "600",
+      fontSize: "14px",
+      "@media (max-width:900px)": {
+        fontSize: "10px",
       },
     },
   },
