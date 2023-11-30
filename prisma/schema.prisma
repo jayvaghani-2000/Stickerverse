@@ -51,6 +51,7 @@ model sticker {
   offer        Int
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
+  trending     Boolean        @default(false)
   image        image[]
   orderItem    orderItem[]
   cartItem     cartItem[]

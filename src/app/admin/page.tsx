@@ -22,7 +22,7 @@ const AddProduct = () => {
       const key = e as keyof typeof product;
       formData.append(e, product[key]);
     });
-    await axios.post("/api/product", formData, {
+    await axios.post("/api/sticker", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

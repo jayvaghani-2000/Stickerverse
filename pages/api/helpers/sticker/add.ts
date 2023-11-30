@@ -1,7 +1,7 @@
 import { IncomingMessage } from "http";
 import fs from "fs";
 import { parse } from "../formData";
-import { post } from "../../models/product";
+import { post } from "../../models/sticker";
 import { createMedia } from "../upload/uploadImage";
 import { preparePayload } from "../utils/converter";
 import { postStickerImage } from "../../models/image";

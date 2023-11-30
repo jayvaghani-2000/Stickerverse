@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { handlePostProduct } from "../helpers/product/add";
+import { handlePostProduct } from "../helpers/sticker/add";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === "POST") {
       await handlePostProduct(req);
-      return res.status(200).json({ success: true });
+      return res.status(201).json({ success: true });
     }
     res.setHeader("Allow", "POST");
     return res.status(405).end();
