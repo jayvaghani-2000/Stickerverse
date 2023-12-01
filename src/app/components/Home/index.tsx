@@ -3,6 +3,7 @@ import Carousal from "./Carousal";
 import StickerTrend from "./StickerTrend";
 import Description from "./Description";
 import Quote from "./Quote";
+import Example from "./Examples";
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
       <StickerTrend />
       <Description />
       <Quote />
+      <Example />
     </div>
   );
 };
