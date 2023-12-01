@@ -9,6 +9,7 @@ import { activeRoute } from "@/app/utils/activeRoute";
 import styles from "./navbar.module.scss";
 import { useMobileScreen } from "@/app/utils/useScreenSize";
 import Drawer from "./drawer";
+import { paddingSpacing } from "@/app/utils/styles";
 
 const TABS = [
   { title: "Stickers", path: "/stickers" },
@@ -31,7 +32,12 @@ const Navbar = () => {
   }, [path]);
 
   return isMobile ? (
-    <nav className="relative z-10 h-[60px] border-b-2 flex sm:hidden items-center border-black px-[16px] justify-between">
+    <nav
+      className={classNames(
+        "relative z-10 h-[60px] border-b-2 flex sm:hidden items-center border-black justify-between",
+        paddingSpacing
+      )}
+    >
       <button
         onClick={() => {
           toggleDrawer(true);
@@ -59,7 +65,12 @@ const Navbar = () => {
       </div>
     </nav>
   ) : (
-    <nav className="relative z-10  h-[85px] border-b-2 hidden sm:flex sm:border-black px-[30px] md:px-[70px] justify-between">
+    <nav
+      className={classNames(
+        "relative z-10  h-[85px] border-b-2 hidden sm:flex sm:border-black justify-between",
+        paddingSpacing
+      )}
+    >
       <Link href="/" className="h-fit w-fit scale-75 md:scale-100">
         <Icon name="logo" />
       </Link>

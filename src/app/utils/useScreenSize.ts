@@ -33,3 +33,7 @@ export function useMobileScreen() {
   const { width } = useWindowSize();
   return width < 600;
 }
+export function useTabScreen() {
+  const { width } = useWindowSize();
+  return width < 900;
+}

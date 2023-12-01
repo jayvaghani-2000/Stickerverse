@@ -4,9 +4,12 @@ import React from "react";
 
 const roundedShadow: React.HTMLProps<HTMLElement>["className"] =
   "border-solid	px-4 md:px-6 border-2 border-black rounded-full shadow-primaryShadow ";
+const roundedShadowFlat: React.HTMLProps<HTMLElement>["className"] =
+  "border-solid	px-2 md:px-3 py-0 border-2 border-black rounded-full shadow-primaryShadow ";
 
 const variants = {
   "rounded-shadow": roundedShadow,
+  "rounded-shadow-flat": roundedShadowFlat,
 };
 
 type propType = {

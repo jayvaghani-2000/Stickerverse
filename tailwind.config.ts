@@ -15,6 +15,7 @@ const config: Config = {
         lightGray: "#A6A6A6",
         primeGreen: "#D8F055",
         purple: "#8870FF",
+        lightBlue: "#A2CDFF",
         lightRed: "#F25B5C",
         lightOrange: "#FFB278",
         darkPink: "#FC9985",
@@ -22,6 +23,7 @@ const config: Config = {
         green: "#20BF55",
         maroon: "#CF0000",
         darkYellow: "#FF9400",
+        gary: "#e2dfda",
       },
       boxShadow: {
         primaryShadow: "3px 3px 0px 0px #000",
@@ -34,6 +36,6 @@ const config: Config = {
       xl: "1536px",
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };
 export default config;

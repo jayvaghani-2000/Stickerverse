@@ -6,6 +6,7 @@ export enum ThemeColor {
   BLACK = "#000000",
   WHITE = "#fff",
   LIGHT_GRAY = "#A6A6A6",
+  GRAY = "#e2dfda",
   PRIME_GREEN = "#D8F055",
   PURPLE = "#8870FF",
   LIGHT_RED = "#F25B5C",
@@ -15,6 +16,7 @@ export enum ThemeColor {
   GREEN = "#20BF55",
   MAROON = "#CF0000",
   DARK_YELLOW = "#FF9400",
+  LIGHT_BLUE = "#A2CDFF",
 }
 
 const theme = createTheme({
@@ -66,8 +68,8 @@ const theme = createTheme({
           h6: "h2",
           subtitle1: "h1",
           subtitle2: "h2",
-          body1: "span",
-          body2: "span",
+          body1: "p",
+          body2: "p",
           button: "span",
         },
       },
@@ -87,13 +89,21 @@ const theme = createTheme({
       fontWeight: "bold",
       fontSize: "1.5rem",
     },
-    h4: {
-      fontWeight: "normal",
-      fontSize: "1rem",
+    h6: {
+      fontWeight: "bold",
+      fontSize: "16px",
+      lineHeight: "1.5",
+      "@media (max-width:900px)": {
+        fontSize: "14px",
+      },
     },
-    body1: {
-      fontWeight: "normal",
-      fontSize: "0.9rem",
+    body2: {
+      fontWeight: "bold",
+      fontSize: "18px",
+      lineHeight: "1.5",
+      "@media (max-width:900px)": {
+        fontSize: "16px",
+      },
     },
     subtitle1: {
       fontWeight: "bold",
@@ -103,8 +113,17 @@ const theme = createTheme({
         fontSize: "13px",
       },
     },
+    subtitle2: {
+      fontWeight: "bold",
+      lineHeight: "1.5",
+      fontSize: "16px",
+      "@media (max-width:900px)": {
+        fontSize: "12px",
+      },
+    },
     button: {
       fontWeight: "600",
+      lineHeight: "1.5",
       fontSize: "14px",
       "@media (max-width:900px)": {
         fontSize: "10px",

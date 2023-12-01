@@ -11,7 +11,7 @@ const handleGetTrendingStickers = async (
       return res.status(200).json({ stickers });
     }
     res.setHeader("Allow", "GET");
-    return res.status(405).end();
+    return res.status(405).json({ error: "Method not allowed" });
   } catch (err) {
     return res.status(500).json({ error: "Something went wrong" });
   }

@@ -13,6 +13,14 @@ const nextConfig = {
   experimental: {
     webpackBuildWorker: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*",
+      },
+    ],
+  },
 };
 
 // Configuration object tells the next-pwa plugin

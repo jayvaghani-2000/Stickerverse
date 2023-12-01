@@ -5,6 +5,8 @@ import {
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material";
 import theme from "./index";
+import { Provider } from "react-redux";
+import store from "../store";
 
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
@@ -26,7 +28,9 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
+      <Provider store={store}>
+        <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
+      </Provider>
     </StyledEngineProvider>
   );
 };
