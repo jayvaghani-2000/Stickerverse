@@ -9,7 +9,7 @@
     "lint": "npx lint-staged",
     "prepare": "husky install",
     "tsc": "npx tsc --noEmit",
-    "generate": "npx prisma generate"
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
