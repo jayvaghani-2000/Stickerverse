@@ -51,7 +51,7 @@ const StickerTrend = () => {
               className="w-[160px] sm:w-[180px] md:w-[280px]  border-2 border-black rounded-2xl bg-white flex flex-col"
             >
               <div
-                className={`h-[120px] sm:h-[140px] md:h-[240px] m-auto overflow-hidden rounded-[30px] bg-white flex justify-center items-center py-[20px]`}
+                className={`h-[140px] sm:h-[160px] md:h-[240px] m-auto overflow-hidden rounded-[30px] bg-white flex justify-center items-center md:py-[20px]`}
                 style={{ aspectRatio: aspectRatio }}
               >
                 <MotionImage

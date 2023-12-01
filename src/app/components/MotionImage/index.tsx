@@ -3,16 +3,18 @@ import Image, { ImageProps } from "next/image";
 import { useState } from "react";
 import { getPlatform } from "@/app/utils/getPlatform";
 
-export function MotionImage(props: ImageProps) {
+export function MotionImage(props: ImageProps & { staticImg?: boolean }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const { isIOS } = getPlatform();
 
+  const { staticImg, ...rest } = props;
+
   return (
-    <div className={`relative h-full w-full ${props.className ?? ""}`}>
-      {!isIOS && (
+    <div className={`relative h-full w-full ${rest.className ?? ""}`}>
+      {!isIOS && !staticImg && (
         <motion.img
           alt=""
-          src={props.blurDataURL}
+          src={rest.blurDataURL}
           animate={{
             opacity: isLoaded ? 0 : 1,
             transition: { duration: 0.25 },
@@ -22,9 +24,9 @@ export function MotionImage(props: ImageProps) {
         />
       )}
       <Image
-        {...props}
-        alt={props.alt ?? ""}
-        placeholder={isIOS ? "blur" : "empty"}
+        {...rest}
+        alt={rest.alt ?? ""}
+        placeholder={isIOS && !staticImg ? "blur" : "empty"}
         onLoadingComplete={() => setIsLoaded(true)}
       />
     </div>

@@ -71,19 +71,29 @@ const theme = createTheme({
           body1: "p",
           body2: "p",
           button: "span",
+          caption: "p",
         },
       },
     },
   },
   typography: {
     fontFamily: ["Poppins", "sans-serif"].join(","),
-    h1: {
-      fontWeight: "bold",
-      fontSize: "3.5rem",
-    },
     h2: {
       fontWeight: "bold",
-      fontSize: "2rem",
+      fontSize: "30px",
+      "@media (max-width:900px)": {
+        fontSize: "18px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "14px",
+      },
+    },
+    h1: {
+      fontWeight: "bold",
+      fontSize: "40px",
+      "@media (max-width:900px)": {
+        fontSize: "24px",
+      },
     },
     h3: {
       fontWeight: "bold",
@@ -97,12 +107,23 @@ const theme = createTheme({
         fontSize: "14px",
       },
     },
+    caption: {
+      fontWeight: "normal",
+      fontSize: "22px",
+      lineHeight: "1.5",
+      "@media (max-width:900px)": {
+        fontSize: "13px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "9px",
+      },
+    },
     body2: {
       fontWeight: "bold",
       fontSize: "18px",
       lineHeight: "1.5",
       "@media (max-width:900px)": {
-        fontSize: "16px",
+        fontSize: "14px",
       },
     },
     subtitle1: {
