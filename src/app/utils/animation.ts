@@ -76,8 +76,8 @@ export const productAnimation = (
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.3 + rng() * 0.2,
-        delay: rng() * 0.2,
+        duration: 0.2 + rng() * 0.2,
+        delay: rng() * 0.1,
       },
     },
     viewport: { once: true },
