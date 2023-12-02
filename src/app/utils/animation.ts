@@ -53,18 +53,15 @@ export const avatarAnimation: AnimationProps = isIOS
       animate: { opacity: 1, scale: 1, rotateZ: 0 },
     };
 
-export const delayAnimation = (i: number): AnimationProps & MotionProps =>
-  isIOS
-    ? {}
-    : {
-        whileHover: { scale: 1.1 },
-        initial: { x: 20, opacity: 0 },
-        animate: {
-          x: 0,
-          opacity: 1,
-          transition: { duration: 0.2, delay: 0.1 + 0.05 * i },
-        },
-      };
+export const delayAnimation = (i: number): AnimationProps & MotionProps => ({
+  whileHover: { scale: 1.1 },
+  initial: { x: 20, opacity: 0 },
+  animate: {
+    x: 0,
+    opacity: 1,
+    transition: { duration: 0.2, delay: 0.1 + 0.05 * i },
+  },
+});
 
 export const productAnimation = (
   id: string
