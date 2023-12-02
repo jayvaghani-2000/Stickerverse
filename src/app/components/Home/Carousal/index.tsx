@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
@@ -15,29 +15,44 @@ const CarousalImages = [
   {
     path: "/assets/png/carousal1.png",
     alt: "main",
-    position: { x: "20%", y: "65%", mx: "10%" },
+    position: { x: 20, y: 65, mx: 10 },
   },
   {
     path: "/assets/png/carousal2.png",
     alt: "school",
-    position: { x: "65%", y: "60%", mx: "55%" },
+    position: { x: 65, y: 60, mx: 55 },
   },
   {
     path: "/assets/png/carousal3.png",
     alt: "summer",
-    position: { x: "60%", y: "65%", mx: "45%" },
+    position: { x: 60, y: 65, mx: 45 },
   },
 ];
 
 const Carousal = () => {
+  const [dimension, setDimension] = useState<[number, number]>([0, 0]);
   const [position, setPosition] = useState(CarousalImages[0].position);
+  const wrapper = useRef<HTMLDivElement>(null!);
   const isMobile = useMobileScreen();
 
+  useEffect(() => {
+    setDimension([wrapper.current.offsetWidth, wrapper.current.offsetHeight]);
+  }, []);
+
+  const calcPercentage = (percent: number, percentOf: number) => {
+    return (percentOf / 100) * percent;
+  };
+
   return (
-    <div className="relative overflow-hidden">
+    <div ref={wrapper} className="relative overflow-hidden">
       <motion.div
-        className="absolute h-full w-full z-[2]"
-        animate={{ x: isMobile ? position.mx : position.x, y: position.y }}
+        className="absolute z-[2]"
+        animate={{
+          x: isMobile
+            ? calcPercentage(dimension[0], position.mx)
+            : calcPercentage(dimension[0], position.x),
+          y: calcPercentage(dimension[1], position.y),
+        }}
         transition={{ type: "spring" }}
       >
         <Button className="bg-primeGreen hover:bg-primeGreen">Shop Now</Button>

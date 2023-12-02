@@ -1,6 +1,6 @@
 import { useHomeStore } from "@/app/store/home";
 import { useLazyGetTrendingStickerQuery } from "@/app/store/home/api";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { MotionImage } from "../../MotionImage";
 import { motion } from "framer-motion";
 import { Typography } from "@mui/material";
@@ -10,6 +10,9 @@ import { paddingSpacing } from "@/app/utils/styles";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Skeleton } from "../../Skeleton";
 import { delayAnimation, productAnimation } from "@/app/utils/animation";
+
+type className = React.HTMLProps<HTMLElement>["className"];
+const dummySticker: className = "w-[160px] sm:w-[180px] md:w-[280px]";
 
 const StickerTrend = () => {
   const { trendingSticker } = useHomeStore();
@@ -42,7 +45,7 @@ const StickerTrend = () => {
           See All
         </Button>
       </div>
-      <div className="grid grid-cols-[repeat(auto-fit,160px)] sm:grid-cols-[repeat(auto-fit,180px)] md:grid-cols-[repeat(auto-fit,280px)]  gap-[20px] scrollbar-hide  justify-center">
+      <div className=" flex flex-wrap justify-between gap-[20px] scrollbar-hide  justify-center">
         {trendingSticker.length !== 0
           ? trendingSticker.map((i, index) => {
               const aspectRatio =
@@ -109,6 +112,14 @@ const StickerTrend = () => {
                 </motion.figure>
               );
             })}
+
+        <div className={dummySticker} />
+        <div className={dummySticker} />
+        <div className={dummySticker} />
+        <div className={dummySticker} />
+        <div className={dummySticker} />
+        <div className={dummySticker} />
+        <div className={dummySticker} />
       </div>
     </div>
   );

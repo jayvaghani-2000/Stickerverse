@@ -18,7 +18,7 @@ const Description = () => {
 
   return (
     <section className="h-[200px] sm:h-[300px] md:h-[500px] flex border-2 border-black ">
-      <div className="w-[120px] sm:w-[30vw] md:w-[50vw] h-full">
+      <div className="w-[120px] sm:w-[30vw] md:w-[40vw] lg:w-[50vw] h-full">
         <MotionImage
           src={"/assets/png/stickers.png"}
           alt=""
