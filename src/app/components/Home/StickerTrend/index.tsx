@@ -43,7 +43,7 @@ const StickerTrend = () => {
         </Button>
       </div>
       <div className="grid grid-cols-[repeat(auto-fit,160px)] sm:grid-cols-[repeat(auto-fit,180px)] md:grid-cols-[repeat(auto-fit,280px)]  gap-[20px] scrollbar-hide  justify-center">
-        {trendingSticker.length > 0
+        {trendingSticker.length !== 0
           ? trendingSticker.map((i, index) => {
               const aspectRatio =
                 trendingSticker[index].image[0].width /
@@ -87,7 +87,7 @@ const StickerTrend = () => {
                 </motion.figure>
               );
             })
-          : [0, 1, 2].map((i, index) => {
+          : [0, 1, 2].map(i => {
               return (
                 <motion.figure key={i} {...delayAnimation(i)}>
                   <div className="w-[160px] sm:w-[180px] md:w-[280px]  border-2 border-black rounded-2xl bg-white flex flex-col">
