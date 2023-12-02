@@ -1,5 +1,5 @@
 import * as React from "react";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import MuiDrawer from "@mui/material/Drawer";
 import Image from "next/image";
 import Icon from "../Icon";
 import Link from "next/link";
@@ -35,12 +35,7 @@ export default function Drawer(props: propType) {
     };
 
   return (
-    <SwipeableDrawer
-      anchor={"left"}
-      open={open}
-      onClose={toggleDrawer(false)}
-      onOpen={toggleDrawer(true)}
-    >
+    <MuiDrawer anchor={"left"} open={open} onClose={toggleDrawer(false)}>
       <div className="w-[300px] flex flex-col relative min-h-full overflow-auto max-w-[100vw] bg-cream">
         <Image
           src="/assets/png/navSticker.png"
@@ -79,6 +74,6 @@ export default function Drawer(props: propType) {
           </button>
         </div>
       </div>
-    </SwipeableDrawer>
+    </MuiDrawer>
   );
 }

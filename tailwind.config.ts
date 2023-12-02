@@ -23,7 +23,7 @@ const config: Config = {
         green: "#20BF55",
         maroon: "#CF0000",
         darkYellow: "#FF9400",
-        gary: "#e2dfda",
+        gray: "#e2dfda",
       },
       boxShadow: {
         primaryShadow: "3px 3px 0px 0px #000",
