@@ -9,7 +9,11 @@ import classNames from "classnames";
 import { paddingSpacing } from "@/app/utils/styles";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Skeleton } from "../../Skeleton";
-import { delayAnimation, productAnimation } from "@/app/utils/animation";
+import {
+  delayAnimation,
+  productAnimation,
+  productHoverEffect,
+} from "@/app/utils/animation";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
@@ -41,7 +45,7 @@ const StickerTrend = () => {
         <Button
           className="bg-purple hover:bg-purple text-white"
           variant="rounded-shadow-flat"
-          typography="body2"
+          typography="subtitle2"
         >
           See All
         </Button>
@@ -57,9 +61,10 @@ const StickerTrend = () => {
                   key={i.id}
                   {...productAnimation(i.id.toString())}
                 >
-                  <div
+                  <motion.div
                     key={i.id}
                     className="w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col "
+                    {...productHoverEffect()}
                   >
                     <div className="py-[10px] sm:py-[15px] md:py-[20px]">
                       <div
@@ -88,7 +93,7 @@ const StickerTrend = () => {
                         ₹ {i.price}
                       </Typography>
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.figure>
               );
             })

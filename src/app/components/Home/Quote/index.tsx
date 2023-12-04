@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 
 const Quote = () => {
   return (
-    <section className="p-[32px] sm:p-[100px] md:p-[200px] border-b-2 border-black ">
+    <section className="p-[32px] sm:p-[64px] md:p-[100px] lg:p-[200px] border-b-2 border-black ">
       <div className="text-center uppercase">
         <Typography variant="h1">
           Stickers are like a temporary tattoo

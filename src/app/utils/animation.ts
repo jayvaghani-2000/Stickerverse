@@ -54,7 +54,6 @@ export const avatarAnimation: AnimationProps = isIOS
     };
 
 export const delayAnimation = (i: number): AnimationProps & MotionProps => ({
-  whileHover: { scale: 1.1 },
   initial: { x: 20, opacity: 0 },
   animate: {
     x: 0,
@@ -65,13 +64,15 @@ export const delayAnimation = (i: number): AnimationProps & MotionProps => ({
 
 export const productAnimation = (
   id: string
-): AnimationProps & {
-  whileInView: TargetAndTransition;
-  viewport: any;
-} => {
+): AnimationProps &
+  MotionProps & {
+    whileInView: TargetAndTransition;
+    viewport: any;
+  } => {
   const rng = seedrandom(id);
   return {
     initial: { opacity: 0, y: isIOS ? 60 : 100 },
+
     whileInView: {
       opacity: 1,
       y: 0,
@@ -81,6 +82,14 @@ export const productAnimation = (
       },
     },
     viewport: { once: true },
+  };
+};
+export const productHoverEffect = (): AnimationProps & MotionProps => {
+  return {
+    whileHover: { scale: 1.05, boxShadow: "3px 3px 0px 0px #000" },
+    animate: {
+      transition: { duration: 0.5 },
+    },
   };
 };
 

@@ -79,8 +79,9 @@ const theme = createTheme({
   typography: {
     fontFamily: ["Poppins", "sans-serif"].join(","),
     h1: {
-      fontWeight: "bold",
+      fontWeight: "700",
       fontSize: "50px",
+      lineHeight: "1.7",
       "@media (max-width:900px)": {
         fontSize: "28px",
       },
@@ -88,10 +89,19 @@ const theme = createTheme({
         fontSize: "15px",
       },
     },
-    h6: {
+    h2: {
       fontWeight: "bold",
-      fontSize: "16px",
-      lineHeight: "1.5",
+      fontSize: "40px",
+      "@media (max-width:900px)": {
+        fontSize: "24px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "24px",
+      },
+    },
+    h3: {
+      fontWeight: "bold",
+      fontSize: "30px",
       "@media (max-width:900px)": {
         fontSize: "18px",
       },
@@ -99,9 +109,10 @@ const theme = createTheme({
         fontSize: "12px",
       },
     },
-    h2: {
+    h6: {
       fontWeight: "bold",
-      fontSize: "30px",
+      fontSize: "16px",
+      lineHeight: "1.5",
       "@media (max-width:900px)": {
         fontSize: "18px",
       },
@@ -142,17 +153,7 @@ const theme = createTheme({
         fontSize: "10px",
       },
     },
-    body2: {
-      fontWeight: "bold",
-      fontSize: "15px",
-      lineHeight: "1.5",
-      "@media (max-width:900px)": {
-        fontSize: "12px",
-      },
-      "@media (max-width:600px)": {
-        fontSize: "9px",
-      },
-    },
+
     subtitle1: {
       fontWeight: 600,
       lineHeight: "1.5",
