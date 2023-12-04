@@ -60,7 +60,7 @@ const theme = createTheme({
     MuiTypography: {
       defaultProps: {
         variantMapping: {
-          h1: "h2",
+          h1: "h1",
           h2: "h2",
           h3: "h2",
           h4: "h2",
@@ -69,7 +69,7 @@ const theme = createTheme({
           subtitle1: "h1",
           subtitle2: "h2",
           body1: "p",
-          body2: "p",
+          body2: "span",
           button: "span",
           caption: "p",
         },
@@ -78,6 +78,27 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: ["Poppins", "sans-serif"].join(","),
+    h1: {
+      fontWeight: "bold",
+      fontSize: "50px",
+      "@media (max-width:900px)": {
+        fontSize: "28px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "15px",
+      },
+    },
+    h6: {
+      fontWeight: "bold",
+      fontSize: "16px",
+      lineHeight: "1.5",
+      "@media (max-width:900px)": {
+        fontSize: "18px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "12px",
+      },
+    },
     h2: {
       fontWeight: "bold",
       fontSize: "30px",
@@ -85,26 +106,7 @@ const theme = createTheme({
         fontSize: "18px",
       },
       "@media (max-width:600px)": {
-        fontSize: "14px",
-      },
-    },
-    h1: {
-      fontWeight: "bold",
-      fontSize: "40px",
-      "@media (max-width:900px)": {
-        fontSize: "24px",
-      },
-    },
-    h3: {
-      fontWeight: "bold",
-      fontSize: "1.5rem",
-    },
-    h6: {
-      fontWeight: "bold",
-      fontSize: "16px",
-      lineHeight: "1.5",
-      "@media (max-width:900px)": {
-        fontSize: "14px",
+        fontSize: "12px",
       },
     },
     caption: {
@@ -118,36 +120,59 @@ const theme = createTheme({
         fontSize: "9px",
       },
     },
-    body2: {
-      fontWeight: "bold",
+    body1: {
+      fontWeight: "normal",
       fontSize: "18px",
       lineHeight: "1.5",
       "@media (max-width:900px)": {
         fontSize: "14px",
       },
-    },
-    subtitle1: {
-      fontWeight: "bold",
-      lineHeight: "1.5",
-      fontSize: "14px",
-      "@media (max-width:900px)": {
-        fontSize: "13px",
+      "@media (max-width:600px)": {
+        fontSize: "10px",
       },
     },
     subtitle2: {
       fontWeight: "bold",
       lineHeight: "1.5",
-      fontSize: "16px",
+      fontSize: "15px",
       "@media (max-width:900px)": {
         fontSize: "12px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "10px",
+      },
+    },
+    body2: {
+      fontWeight: "bold",
+      fontSize: "15px",
+      lineHeight: "1.5",
+      "@media (max-width:900px)": {
+        fontSize: "12px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "9px",
+      },
+    },
+    subtitle1: {
+      fontWeight: 600,
+      lineHeight: "1.5",
+      fontSize: "14px",
+      "@media (max-width:900px)": {
+        fontSize: "12px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "13px",
       },
     },
     button: {
       fontWeight: "600",
       lineHeight: "1.5",
-      fontSize: "14px",
+      fontSize: "15px",
       "@media (max-width:900px)": {
-        fontSize: "10px",
+        fontSize: "13px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "12px",
       },
     },
   },

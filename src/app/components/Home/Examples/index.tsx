@@ -32,7 +32,7 @@ const Example = () => {
       {ExampleImages.map(i => (
         <div
           key={i.alt}
-          className="w-[30vw] sm:w-[260px] lg:w-[330px] max-w-[30vw] flex flex-col gap-[10px] text-center items-center justify-start"
+          className="w-[30vw] sm:w-[260px] lg:w-[330px] max-w-[30vw] flex flex-col gap-[4px] sm:gap-[6px] md:gap-[10px] text-center items-center justify-start"
         >
           <div className="w-full h-[100px] sm:h-[240px] lg:h-[330px] border-2 border-black">
             <MotionImage

@@ -30,8 +30,14 @@ const Description = () => {
       </div>
       <div className="h-full flex-1 flex flex-col gap-[10px] border-l-2 border-black bg-primeGreen justify-center px-[24px] sm:px-[50px] md:px-[90px]">
         <div>
-          <Typography variant="h2"> Welcome to the StickerVerse,</Typography>
-          <Typography variant="h2"> A wonderland of Hilarity</Typography>
+          <Typography variant="h2" className="uppercase">
+            {" "}
+            Welcome to the StickerVerse,
+          </Typography>
+          <Typography variant="h2" className="uppercase">
+            {" "}
+            A wonderland of Hilarity
+          </Typography>
         </div>
         <Typography variant="caption">
           Explore StickerVerse, where every amusing, eccentric, and
