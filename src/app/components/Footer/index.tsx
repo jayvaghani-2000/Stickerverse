@@ -2,14 +2,17 @@ import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import classNames from "classnames";
 import Image from "next/image";
+import Link from "next/link";
 
 type FooterSection =
   | {
       title: string;
+      path: string;
       image?: never;
     }
   | {
       image: string;
+      path: string;
       title?: never;
     };
 
@@ -24,42 +27,49 @@ const footer: FooterType = {
   support: [
     {
       title: "Help & FAQ",
+      path: "/help",
     },
     {
       title: "Account",
+      path: "/profile",
     },
     {
       title: "Privacy Policy",
+      path: "/policy/privacy",
     },
     {
       title: "Refund Policy",
+      path: "/policy/refund",
     },
   ],
   brand: [
     {
       title: "About us",
+      path: "/about-us",
     },
     {
       title: "Contact us",
+      path: "/contact-us",
     },
     {
       title: "Blog",
+      path: "/blog",
     },
   ],
   shop: [
     {
       title: "New Stickers",
-    },
-    {
-      title: "New T-Shirts",
+      path: "/stickers",
     },
   ],
   "follow us": [
     {
       image: "/assets/png/facebook.png",
+      path: "https://www.facebook.com",
     },
     {
       image: "/assets/png/instagram.png",
+      path: "https://www.instagram.com",
     },
   ],
 };
@@ -120,23 +130,26 @@ const Footer = () => {
                   {footer[key].map(j => {
                     if (key === "follow us") {
                       return (
-                        <Image
-                          key={j.image}
-                          src={j.image!}
-                          alt="social icons"
-                          height={getImageSize()}
-                          width={getImageSize()}
-                        />
+                        <Link key={j.image} href={j.path} target="_blank">
+                          <Image
+                            key={j.image}
+                            src={j.image!}
+                            alt="social icons"
+                            height={getImageSize()}
+                            width={getImageSize()}
+                          />
+                        </Link>
                       );
                     }
                     return (
-                      <Typography
-                        variant="body1"
-                        className="whitespace-nowrap"
-                        key={j.title}
-                      >
-                        {j.title}
-                      </Typography>
+                      <Link key={j.title} href={j.path}>
+                        <Typography
+                          variant="body1"
+                          className="whitespace-nowrap"
+                        >
+                          {j.title}
+                        </Typography>
+                      </Link>
                     );
                   })}
                 </div>

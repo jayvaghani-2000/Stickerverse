@@ -96,7 +96,7 @@ const Navbar = () => {
         <Link href="/profile" className="scale-90 md:scale-100">
           <Icon name="user" />
         </Link>
-        <Link href="/waitlist" className="scale-90 md:scale-100">
+        <Link href="/wishlist" className="scale-90 md:scale-100">
           <Icon name="heartBlack" />
         </Link>
         <Link href="/cart" className="scale-90 md:scale-100">

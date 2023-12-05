@@ -1,5 +1,5 @@
 import { useHomeStore } from "@/app/store/home";
-import { useLazyGetTrendingStickerQuery } from "@/app/store/home/api";
+import { useLazyGetTrendingStickerQuery } from "@/app/store/home";
 import React, { useEffect } from "react";
 import { MotionImage } from "../../MotionImage";
 import { motion } from "framer-motion";
@@ -90,7 +90,7 @@ const StickerTrend = () => {
                         variant="body1"
                         className="text-center md:mt-2"
                       >
-                        ₹ {i.price}
+                        ₹{i.price}
                       </Typography>
                     </div>
                   </motion.div>

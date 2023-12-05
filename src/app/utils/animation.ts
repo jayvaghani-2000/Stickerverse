@@ -2,16 +2,12 @@ import {
   AnimationProps,
   MotionProps,
   easeOut,
-  MotionValue,
-  MotionStyle,
-  easeIn,
-  useTransform,
   TargetAndTransition,
 } from "framer-motion";
 import { getPlatform } from "./getPlatform";
 import seedrandom from "seedrandom";
 
-const { isIOS } = getPlatform();
+const { isIOS, isMobile } = getPlatform();
 export const titleAnimation: AnimationProps = isIOS
   ? {}
   : {
@@ -86,9 +82,14 @@ export const productAnimation = (
 };
 export const productHoverEffect = (): AnimationProps & MotionProps => {
   return {
-    whileHover: { scale: 1.05, boxShadow: "3px 3px 0px 0px #000" },
-    animate: {
-      transition: { duration: 0.5 },
+    whileHover: {
+      scale: isMobile ? 1 : 1.05,
+      boxShadow: isMobile ? "none" : "3px 3px 0px 0px #000",
+      transition: { duration: 0.3 },
+    },
+    whileTap: {
+      scale: 0.9,
+      transition: { duration: 0.3 },
     },
   };
 };
