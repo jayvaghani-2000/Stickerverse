@@ -13,6 +13,7 @@ const nextConfig = {
   experimental: {
     webpackBuildWorker: true,
   },
+  output: "standalone",
   images: {
     remotePatterns: [
       {
