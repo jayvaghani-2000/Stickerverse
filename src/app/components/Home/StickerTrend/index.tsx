@@ -1,5 +1,5 @@
 import { useHomeStore } from "@/app/store/home";
-import { useLazyGetTrendingStickerQuery } from "@/app/store/home";
+import { useLazyGetTrendingStickerQuery } from "@/app/store/home/api";
 import React, { useEffect } from "react";
 import { MotionImage } from "../../MotionImage";
 import { motion } from "framer-motion";

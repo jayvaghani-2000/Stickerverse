@@ -4,7 +4,6 @@ import StickerTrend from "./StickerTrend";
 import Description from "./Description";
 import Quote from "./Quote";
 import Example from "./Examples";
-import Footer from "../Footer";
 
 const Home = () => {
   return (
@@ -14,7 +13,6 @@ const Home = () => {
       <Description />
       <Quote />
       <Example />
-      <Footer />
     </div>
   );
 };

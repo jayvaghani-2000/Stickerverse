@@ -1,3 +1,4 @@
+"use client";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import classNames from "classnames";

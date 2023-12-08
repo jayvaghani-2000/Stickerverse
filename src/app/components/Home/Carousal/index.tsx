@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { EffectFade, Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
 import Button from "../../Shared/Button";
-import { useMobileScreen } from "@/app/utils/useScreenSize";
+import { useMobileScreen, useWindowSize } from "@/app/utils/useScreenSize";
 
 const CarousalImages = [
   {
@@ -34,10 +34,11 @@ const Carousal = () => {
   const [position, setPosition] = useState(CarousalImages[0].position);
   const wrapper = useRef<HTMLDivElement>(null!);
   const isMobile = useMobileScreen();
+  const { height, width } = useWindowSize();
 
   useEffect(() => {
     setDimension([wrapper.current.offsetWidth, wrapper.current.offsetHeight]);
-  }, []);
+  }, [height, width]);
 
   const calcPercentage = (percent: number, percentOf: number) => {
     return (percentOf / 100) * percent;

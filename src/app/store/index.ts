@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { combineReducers } from "redux";
-import home, { homeApi } from "./home";
+import { homeApi } from "./home/api";
+import home from "./home";
 
 const reducers = combineReducers({
   home,
