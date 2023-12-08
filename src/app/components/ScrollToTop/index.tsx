@@ -17,7 +17,7 @@ const ScrollToTop = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: "200%" }}
           className={
-            "sticky mb-[10px] block ml-auto bottom-[8px] sm:bottom-[16px] right-[8px] sm:right-[16px] h-[24px] sm:h-[36px] md:h-[50px] w-[24px] sm:w-[36px] md:w-[50px]  z-10"
+            "sticky mb-[10px] block ml-auto bottom-[8px] sm:bottom-[16px] right-[16px] sm:right-[16px] h-[24px] sm:h-[36px] md:h-[50px] w-[24px] sm:w-[36px] md:w-[50px]  z-10"
           }
           onClick={() => {
             handleScrollToTop();

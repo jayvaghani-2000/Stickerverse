@@ -5,9 +5,6 @@ import classNames from "classnames";
 import ThemeProvider from "./theme/themeProvider";
 import "./globals.scss";
 import "./variables.scss";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,14 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider>
-      <html lang="en">
-        <body className={classNames(inter.className, "bg-primary")}>
-          <Navbar />
-          {children}
-          <Footer />
-        </body>
-      </html>
+    <ThemeProvider className={classNames(inter.className, "bg-primary")}>
+      {children}
     </ThemeProvider>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { HTMLProps, useEffect, useRef, useState } from "react";
 import {
   StyledEngineProvider,
   ThemeProvider as MuiThemeProvider,
@@ -7,29 +7,64 @@ import {
 import theme from "./index";
 import { Provider } from "react-redux";
 import store from "../store";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import ScrollToTop from "../components/ScrollToTop";
 
-const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+const ThemeProvider = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className: HTMLProps<HTMLElement>["className"];
+}) => {
+  const ref = useRef<HTMLBodyElement>(null!);
+  const scrollRef = useRef(false);
+  const [active, setActive] = useState(false);
+
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+    const screen = window.innerHeight;
+    if (scrollY > screen && !scrollRef.current) {
+      setActive(true);
+      scrollRef.current = true;
+    } else if (scrollY < screen && scrollRef.current) {
+      setActive(false);
+      scrollRef.current = false;
+    }
+  };
+
   useEffect(() => {
-    // Disable pinch-to-zoom on touch devices
-    const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches.length > 1) {
-        e.preventDefault();
-      }
-    };
-
-    // Add touch move event listener to the document
-    document.addEventListener("touchmove", handleTouchMove, { passive: false });
-
-    // Cleanup the event listener when the component is unmounted
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      document.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      behavior: "smooth",
+      left: 0,
+      top: 0,
+    });
+  };
 
   return (
     <StyledEngineProvider injectFirst>
       <Provider store={store}>
-        <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
+        <MuiThemeProvider theme={theme}>
+          <html lang="en">
+            <body className={className} ref={ref}>
+              <Navbar />
+              {children}
+              <ScrollToTop
+                handleScrollToTop={handleScrollToTop}
+                active={active}
+              />
+              <Footer />
+            </body>
+          </html>
+        </MuiThemeProvider>
       </Provider>
     </StyledEngineProvider>
   );
