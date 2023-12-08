@@ -1,0 +1,17 @@
+name: SimplePipeline
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  pipeline:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependencies
+        run: |
+          echo "Running installing dependencies"
+          npm install
+        env:
+          CI: true
