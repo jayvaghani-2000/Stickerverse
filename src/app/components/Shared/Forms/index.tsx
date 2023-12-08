@@ -17,7 +17,7 @@ const Forms = (props: propType) => {
       initialValues: initialValue,
       validationSchema: validate,
       onSubmit: async values => {
-        onSubmit(values);
+        await onSubmit(values);
       },
       validateOnChange: false,
       validateOnBlur: true,

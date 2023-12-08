@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import React from "react";
 import classNames from "classnames";
 import ThemeProvider from "./theme/themeProvider";
 import "./globals.scss";
 import "./variables.scss";
-const inter = Inter({ subsets: ["latin"] });
+
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Sticker Verse",
@@ -20,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider className={classNames(inter.className, "bg-primary")}>
+    <ThemeProvider className={classNames(poppins.className, "bg-primary")}>
       {children}
     </ThemeProvider>
   );

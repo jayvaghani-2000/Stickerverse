@@ -24,6 +24,7 @@ const config: Config = {
         maroon: "#CF0000",
         darkYellow: "#FF9400",
         gray: "#e2dfda",
+        placeholder: "#6c6c6c",
       },
       boxShadow: {
         primaryShadow: "3px 3px 0px 0px #000",
