@@ -50,7 +50,7 @@ const Navbar = () => {
 
       <div className="flex items-center gap-[8px]">
         <Link href="/" className="h-[42px] w-[42px] ">
-          <Icon name="logo" className="scale-[0.3] origin-top-left" />
+          <Icon name="logo" className="h-[42px]" />
         </Link>
         <Typography variant="subtitle1" className="uppercase">
           Sticker verse
@@ -58,9 +58,9 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center justify-between gap-[15px] md:gap-[20px]">
-        <Icon name="search" className="scale-90 md:scale-100" />
+        <Icon name="search" className="h-[20px]" />
         <Link href="/cart" className="scale-90 md:scale-100">
-          <Icon name="cart" />
+          <Icon name="cart" className="h-[20px]" />
         </Link>
       </div>
     </nav>
@@ -71,8 +71,8 @@ const Navbar = () => {
         paddingSpacing
       )}
     >
-      <Link href="/" className="h-fit w-fit scale-75 md:scale-100">
-        <Icon name="logo" />
+      <Link href="/" className="h-fit w-fit">
+        <Icon name="logo" className="h-[115px] md:h-[140px]" />
       </Link>
 
       <div className="flex items-center justify-between gap-[40px]">
@@ -92,15 +92,15 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center justify-between gap-[15px] md:gap-[20px]">
-        <Icon name="search" className="scale-90 md:scale-100" />
-        <Link href="/profile" className="scale-90 md:scale-100">
-          <Icon name="user" />
+        <Icon name="search" className="w-[22px] md:w-[25px]" />
+        <Link href="/profile">
+          <Icon name="user" className="w-[22px] md:w-[25px]" />
         </Link>
-        <Link href="/wishlist" className="scale-90 md:scale-100">
-          <Icon name="heartBlack" />
+        <Link href="/wishlist">
+          <Icon name="heartBlack" className="w-[22px] md:w-[25px]" />
         </Link>
-        <Link href="/cart" className="scale-90 md:scale-100">
-          <Icon name="cart" />
+        <Link href="/cart">
+          <Icon name="cart" className="w-[22px] md:w-[25px]" />
         </Link>
       </div>
     </nav>

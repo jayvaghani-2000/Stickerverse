@@ -1,0 +1,21 @@
+@import "@/app/variables.scss";
+
+.quillWrapper {
+  .quill {
+    background-color: $white;
+    .ql-toolbar {
+      border: 2px solid $black;
+    }
+    .ql-container {
+      border: 2px solid $black;
+    }
+    .ql-editor {
+        &::before {
+            color : $placeholder;
+            font-weight: 600;
+            font-style: normal;
+            font-size: 14px;
+        }
+    }
+  }
+}

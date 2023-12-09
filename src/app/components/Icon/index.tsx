@@ -1,21 +1,20 @@
 import classNames from "classnames";
-import Images, { imagesList } from "./svg/import";
 import { HTMLProps } from "react";
+import SVG from "react-inlinesvg";
 
 type propType = {
-  name: imagesList;
+  name: string;
   className?: HTMLProps<HTMLElement>["className"];
 };
 
 const Icon = (props: propType) => {
   const { name, className = "" } = props;
 
-  const Image = Images[name];
-
   return (
-    <div className={classNames("h-fit w-fit", { [className]: !!className })}>
-      <Image />
-    </div>
+    <SVG
+      src={`/assets/svg/${name}.svg`}
+      className={classNames({ [className]: !!className })}
+    />
   );
 };
 

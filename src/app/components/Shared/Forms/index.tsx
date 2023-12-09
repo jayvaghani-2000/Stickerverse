@@ -12,21 +12,32 @@ type propType = {
 const Forms = (props: propType) => {
   const { initialValue, validate, onSubmit, children } = props;
 
-  const { values, handleChange, handleSubmit, isSubmitting, errors } =
-    useFormik({
-      initialValues: initialValue,
-      validationSchema: validate,
-      onSubmit: async values => {
-        await onSubmit(values);
-      },
-      validateOnChange: false,
-      validateOnBlur: true,
-    });
+  const {
+    values,
+    handleChange,
+    handleSubmit,
+    isSubmitting,
+    errors,
+    setFieldValue,
+  } = useFormik({
+    initialValues: initialValue,
+    validationSchema: validate,
+    onSubmit: async values => {
+      await onSubmit(values);
+    },
+    validateOnChange: true,
+  });
 
   return (
     <form noValidate onSubmit={handleSubmit}>
       {Children.map(children, child =>
-        cloneElement(child, { handleChange, values, isSubmitting, errors })
+        cloneElement(child, {
+          handleChange,
+          values,
+          isSubmitting,
+          errors,
+          setFieldValue,
+        })
       )}
     </form>
   );

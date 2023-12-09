@@ -43,8 +43,8 @@ export default function Drawer(props: propType) {
           height={160}
           alt="nav"
         />
-        <div className="h-[105px] w-[105px] absolute top-[90px] left-4">
-          <Icon name="logo" className="scale-[0.75] origin-top-left" />
+        <div className="absolute top-[90px] left-4">
+          <Icon name="logo" className="h-[105px] origin-top-left" />
         </div>
 
         <div className="px-4 pt-[58px] pb-[38px] flex-1 flex flex-col justify-between">
@@ -61,7 +61,7 @@ export default function Drawer(props: propType) {
                 <Typography variant="subtitle1" className="pl-5 uppercase">
                   {i.title}
                 </Typography>
-                <Icon name="ChevronRight" />
+                <Icon name="chevronRight" className="h-[14px]" />
               </Link>
             ))}
           </div>
@@ -70,7 +70,7 @@ export default function Drawer(props: propType) {
             <Typography variant="subtitle1" className="uppercase">
               Sign In
             </Typography>
-            <Icon name="signIn" />
+            <Icon name="signIn" className="h-[18px]" />
           </button>
         </div>
       </div>
