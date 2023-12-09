@@ -27,7 +27,7 @@ export function MotionImage(props: ImageProps & { staticImg?: boolean }) {
         {...rest}
         alt={rest.alt ?? ""}
         placeholder={isIOS && !staticImg ? "blur" : "empty"}
-        onLoadingComplete={() => setIsLoaded(true)}
+        onLoad={() => setIsLoaded(true)}
       />
     </div>
   );

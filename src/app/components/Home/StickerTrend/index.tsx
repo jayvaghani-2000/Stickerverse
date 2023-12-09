@@ -1,4 +1,4 @@
-import { useHomeStore } from "@/app/store/home";
+import { setTrendingSticker, useHomeStore } from "@/app/store/home";
 import { useLazyGetTrendingStickerQuery } from "@/app/store/home/api";
 import React, { useEffect } from "react";
 import { MotionImage } from "../../MotionImage";
@@ -14,6 +14,8 @@ import {
   productAnimation,
   productHoverEffect,
 } from "@/app/utils/animation";
+import { useAppDispatch } from "@/app/store";
+import { trendingStickerType } from "../../../../../pages/api/types";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
@@ -23,10 +25,16 @@ const StickerTrend = () => {
   const [getStickers] = useLazyGetTrendingStickerQuery({});
   const isTab = useTabScreen();
   const isMobile = useMobileScreen();
+  const dispatch = useAppDispatch();
+
+  const handleGetTrendingStickers = async () => {
+    const stickers = await getStickers({});
+    dispatch(setTrendingSticker(stickers.data as trendingStickerType));
+  };
 
   useEffect(() => {
     if (trendingSticker.length !== 0) return;
-    getStickers({});
+    handleGetTrendingStickers();
   }, []);
 
   const getImageSize = () => {
