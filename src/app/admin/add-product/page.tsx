@@ -124,14 +124,9 @@ const AddProductForm = (props: FormPropType) => {
           onChange={files}
           multiple
           name="image"
-          className="opacity-0 absolute top-screen left-screen -z-50"
+          className="opacity-0 absolute top-screen left-screen cursor-pointer h-24 w-24 inline-block z-10"
         />
-        <button
-          className="bg-white h-24 w-24 border-2 border-black"
-          onClick={() => {
-            ref.current.click();
-          }}
-        >
+        <button className="bg-white h-24 w-24 border-2 border-black">
           Add Image
         </button>
         {imagesStr.map((i, index) => (
