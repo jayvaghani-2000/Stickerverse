@@ -7,4 +7,5 @@ export const AddProductSchema = z.object({
   description: z.string(),
   offer: z.number(),
   categoryId: z.number(),
+  trending: z.boolean(),
 });

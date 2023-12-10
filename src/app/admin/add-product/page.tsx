@@ -9,6 +9,10 @@ import Text from "@/app/components/Shared/Input/Text/index";
 import { Typography } from "@mui/material";
 import Image from "next/image";
 import { cloneDeep } from "lodash";
+import Icon from "@/app/components/Icon";
+import Checkbox from "@/app/components/Shared/Checkbox";
+import { FormikValues } from "formik";
+import Button from "@/app/components/Shared/Button";
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Please enter sticker name"),
@@ -34,7 +38,7 @@ type productType = {
   price: string;
   description: string;
   offer: string;
-  image: File;
+  image: File[];
 };
 
 const AddProductForm = (props: FormPropType) => {
@@ -44,6 +48,8 @@ const AddProductForm = (props: FormPropType) => {
     { name: string; base64: string }[]
   >([]);
   const newImages = useRef<number>(0);
+
+  console.log(errors);
 
   const files = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -131,8 +137,11 @@ const AddProductForm = (props: FormPropType) => {
         {imagesStr.map((i, index) => (
           <div
             key={`${i.base64.split(",")[0]}${index}`}
-            className="flex flex-col"
+            className="flex flex-col relative"
           >
+            <button className="absolute right-[-5px] top-[-5px] h-5 w-5 bg-white rounded-full border-2 border-black px-[3px]">
+              <Icon name="cross" />
+            </button>
             <Image
               alt={i.base64.split(",")[0]}
               src={i.base64}
@@ -144,20 +153,41 @@ const AddProductForm = (props: FormPropType) => {
           </div>
         ))}
       </div>
+
+      <div>
+        <Checkbox
+          label={<Typography variant="subtitle2">Trending</Typography>}
+          name="trending"
+          onChange={handleChange}
+          value={values.trending}
+        />
+      </div>
+
+      <div className="col-span-2 text-center">
+        <Button
+          variant="rounded-shadow"
+          className="bg-primeGreen hover:bg-primeGreen"
+          type="submit"
+        >
+          Add Product
+        </Button>
+      </div>
     </div>
   );
 };
 
 const AddProduct = () => {
-  const [product, setProduct] = useState<productType>({} as productType);
-
-  const handleCreateProduct = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleCreateProduct = async (values: FormikValues) => {
     const formData = new FormData();
-    Object.keys(product).forEach(e => {
-      const key = e as keyof typeof product;
-      formData.append(e, product[key]);
+    Object.keys(values).forEach(e => {
+      const key = e as keyof typeof values;
+      if (key === "images") {
+        values[key].forEach((i: File) => {
+          formData.append(key, i);
+        });
+      } else {
+        formData.append(e, values[key]);
+      }
     });
     await axios.post("/api/sticker", formData, {
       headers: {
@@ -174,10 +204,12 @@ const AddProduct = () => {
         price: "",
         description: "",
         images: [],
+        trending: false,
+        categoryId: 2,
       }}
       validate={validationSchema}
       onSubmit={values => {
-        console.log(values);
+        handleCreateProduct(values);
       }}
     >
       <AddProductForm {...({} as FormPropType)} />

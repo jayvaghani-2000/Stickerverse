@@ -3,19 +3,22 @@ import fs from "fs";
 import { parse } from "../formData";
 import { post } from "../../models/sticker";
 import { createMedia } from "../upload/uploadImage";
-import { preparePayload } from "../utils/converter";
+import {
+  prepareNumberPayload,
+  prepareBooleanPayload,
+} from "../utils/converter";
 import { postStickerImage } from "../../models/image";
 
 export const handlePostProduct = async (req: IncomingMessage) => {
   try {
     const form = await parse(req);
-    const image = form.image ?? [];
+    const image = form.images.flat() ?? [];
+    delete form.images;
 
-    delete form.image;
+    prepareNumberPayload(form, ["price", "offer", "categoryId"]);
+    prepareBooleanPayload(form, ["trending"]);
 
-    preparePayload(form, ["price", "offer", "categoryId"]);
-
-    const sticker = await post({ ...form, categoryId: 2 });
+    const sticker = await post({ ...form });
 
     const images = await Promise.all(
       image.map(async (i: any) => {
@@ -30,6 +33,7 @@ export const handlePostProduct = async (req: IncomingMessage) => {
       })
     );
   } catch (err) {
+    console.log(err);
     throw new Error("something went wrong");
   }
 };

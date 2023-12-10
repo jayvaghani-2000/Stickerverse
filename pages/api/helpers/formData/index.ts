@@ -12,7 +12,11 @@ export async function parse(req: IncomingMessage) {
     }, {});
 
     Object.keys(files).forEach(i => {
-      values[i] = files[i];
+      if (Object.keys(values).includes(i)) {
+        values[i].push(files[i]);
+      } else {
+        values[i] = [files[i]];
+      }
     });
 
     return values;

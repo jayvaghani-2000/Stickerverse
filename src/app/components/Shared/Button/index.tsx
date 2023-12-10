@@ -1,4 +1,5 @@
 import {
+  ButtonProps,
   Button as MUIButton,
   Typography,
   TypographyProps,
@@ -23,6 +24,7 @@ type propType = {
   className?: React.HTMLProps<HTMLElement>["className"];
   variant?: keyof typeof variants;
   typography?: TypographyProps["variant"];
+  type?: ButtonProps["type"];
 };
 
 const Button = (props: propType) => {
@@ -32,10 +34,11 @@ const Button = (props: propType) => {
     className = "",
     variant = "rounded-shadow",
     typography = "button",
+    type = "button",
   } = props;
 
   return (
-    <MUIButton className={classNames(variants[variant], className)}>
+    <MUIButton className={classNames(variants[variant], className)} type={type}>
       <Typography variant={typography} className={childClassName}>
         {children}
       </Typography>
