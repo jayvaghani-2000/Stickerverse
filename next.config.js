@@ -2,6 +2,8 @@
 
 // Configuration options for Next.js
 const nextConfig = {
+  basePath: "",
+  assetPrefix: "",
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -13,6 +15,7 @@ const nextConfig = {
   experimental: {
     webpackBuildWorker: true,
   },
+
   output: "standalone",
   images: {
     remotePatterns: [
