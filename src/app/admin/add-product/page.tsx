@@ -13,11 +13,14 @@ import Icon from "@/app/components/Icon";
 import Checkbox from "@/app/components/Shared/Checkbox";
 import { FormikValues } from "formik";
 import Button from "@/app/components/Shared/Button";
+import { useGetStickerCategoryQuery } from "@/app/store/category/api";
+import CreateSelect from "@/app/components/Shared/CreateSelect";
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Please enter sticker name"),
   offer: Yup.string().required("Please enter offer percentage"),
   price: Yup.string().required("Please enter sticker price"),
+  categoryId: Yup.number().required("Please select category"),
   description: Yup.string()
     .required("Please enter sticker description")
     .test("emptyDescription", "Please enter sticker description", value => {
@@ -33,14 +36,6 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-type productType = {
-  name: string;
-  price: string;
-  description: string;
-  offer: string;
-  image: File[];
-};
-
 const AddProductForm = (props: FormPropType) => {
   const { handleChange, values, isSubmitting, errors, setFieldValue } = props;
   const ref = useRef<HTMLInputElement>(null!);
@@ -48,8 +43,13 @@ const AddProductForm = (props: FormPropType) => {
     { name: string; base64: string }[]
   >([]);
   const newImages = useRef<number>(0);
+  const { refetch, data } = useGetStickerCategoryQuery({});
 
-  console.log(errors);
+  const categories =
+    data?.map(i => ({
+      value: i.id,
+      label: i.categoryName,
+    })) || [];
 
   const files = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -80,6 +80,21 @@ const AddProductForm = (props: FormPropType) => {
     }
   }, [values.images]);
 
+  const handleCreateCategory = async (option: string) => {
+    const formData = new FormData();
+    formData.append("categoryName", option);
+
+    const response = await axios.post("/api/category/sticker", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    setFieldValue("categoryId", response.data.category);
+
+    refetch();
+  };
+
   return (
     <div className="m-auto grid sm:grid-cols-2 p-4 sm:p-12 md:p-24 gap-4 md:max-w-[50dvw]">
       <Typography variant="h3" className="col-span-2 text-center">
@@ -107,6 +122,12 @@ const AddProductForm = (props: FormPropType) => {
         onChange={handleChange}
         value={values.offer}
       />
+      <CreateSelect
+        options={categories}
+        createOption={handleCreateCategory}
+        value={categories.find(i => i.value === values.categoryId)}
+      />
+
       <div className="col-span-2">
         <TextEditor
           onChange={(value: string) => {
@@ -199,8 +220,8 @@ const AddProduct = () => {
         price: "",
         description: "",
         images: [],
-        trending: false,
-        categoryId: 2,
+        trending: true,
+        categoryId: undefined,
       }}
       validate={validationSchema}
       onSubmit={values => {

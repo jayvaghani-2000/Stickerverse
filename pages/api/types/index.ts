@@ -1,3 +1,4 @@
+import { getStickerCategory } from "../models/category/sticker";
 import { post as postSticker, trendingSticker } from "../models/sticker";
 
 export type addStickerType = NonNullable<
@@ -5,4 +6,7 @@ export type addStickerType = NonNullable<
 >;
 export type trendingStickerType = NonNullable<
   Awaited<ReturnType<typeof trendingSticker>>
+>;
+export type stickerCategoryType = NonNullable<
+  Awaited<ReturnType<typeof getStickerCategory>>
 >;

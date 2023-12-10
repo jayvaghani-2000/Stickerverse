@@ -3,10 +3,14 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { combineReducers } from "redux";
 import { homeApi } from "./home/api";
 import home from "./home";
+import category from "./category";
+import { categoryApi } from "./category/api";
 
 const reducers = combineReducers({
   home,
+  category,
   [homeApi.reducerPath]: homeApi.reducer,
+  [categoryApi.reducerPath]: categoryApi.reducer,
 });
 
 const store = configureStore({
@@ -15,7 +19,7 @@ const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: false,
       serializableCheck: false,
-    }).concat(homeApi.middleware),
+    }).concat(homeApi.middleware, categoryApi.middleware),
 });
 
 export type RootState = ReturnType<typeof reducers>;
