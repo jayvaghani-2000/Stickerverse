@@ -122,11 +122,6 @@ const AddProductForm = (props: FormPropType) => {
         onChange={handleChange}
         value={values.offer}
       />
-      <CreateSelect
-        options={categories}
-        createOption={handleCreateCategory}
-        value={categories.find(i => i.value === values.categoryId)}
-      />
 
       <div className="col-span-2">
         <TextEditor
@@ -178,7 +173,13 @@ const AddProductForm = (props: FormPropType) => {
           value={values.trending}
         />
       </div>
-
+      <div className="col-span-2">
+        <CreateSelect
+          options={categories}
+          createOption={handleCreateCategory}
+          value={categories.find(i => i.value === values.categoryId)}
+        />
+      </div>
       <div className="col-span-2 text-center">
         <Button
           variant="rounded-shadow"

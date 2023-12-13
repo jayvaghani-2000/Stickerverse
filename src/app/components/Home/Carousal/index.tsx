@@ -13,7 +13,7 @@ import { useMobileScreen, useWindowSize } from "@/app/utils/useScreenSize";
 
 const CarousalImages = [
   {
-    path: "/assets/png/carousal2.png",
+    path: "/assets/png/carousal1.png",
     alt: "main",
     position: { x: 20, y: 65, mx: 10 },
   },
