@@ -96,7 +96,7 @@ const AddProductForm = (props: FormPropType) => {
   };
 
   return (
-    <div className="m-auto grid sm:grid-cols-2 p-4 sm:p-12 md:p-24 gap-4 md:max-w-[50dvw]">
+    <div className="m-auto grid grid-cols-2 p-4 sm:p-12 md:p-24 gap-4 md:max-w-[50dvw]">
       <Typography variant="h3" className="col-span-2 text-center">
         Add Product
       </Typography>
@@ -178,6 +178,8 @@ const AddProductForm = (props: FormPropType) => {
           options={categories}
           createOption={handleCreateCategory}
           value={categories.find(i => i.value === values.categoryId)}
+          id="category"
+          placeholder="Category"
         />
       </div>
       <div className="col-span-2 text-center">

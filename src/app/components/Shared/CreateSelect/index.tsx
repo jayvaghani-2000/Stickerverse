@@ -30,12 +30,14 @@ type propsType = {
   options: { value: number; label: string }[];
   createOption: (option: string) => void;
   value?: { value: number; label: string };
+  id: string;
+  placeholder: string;
 };
 
 const CreateSelect = (props: propsType) => {
   const isMobile = useMobileScreen();
   const isTab = useTabScreen();
-  const { options, createOption, value } = props;
+  const { options, createOption, value, id, placeholder } = props;
 
   const getSelectSize = () => {
     if (isMobile) {
@@ -61,7 +63,8 @@ const CreateSelect = (props: propsType) => {
       onCreateOption={option => {
         createOption(option);
       }}
-      instanceId={"Category"}
+      placeholder={placeholder}
+      instanceId={id}
       styles={{
         control: (provided, state) => ({
           ...provided,
@@ -92,7 +95,14 @@ const CreateSelect = (props: propsType) => {
           ...provided,
           padding: getPaddingSize(),
           margin: 0,
+
           color: state.isDisabled ? "#ccc" : "black",
+        }),
+        input: (provided, state) => ({
+          ...provided,
+          margin: "0px",
+          paddingBottom: "0px",
+          paddingTop: "0px",
         }),
         placeholder: (provided, state) => ({
           ...provided,
