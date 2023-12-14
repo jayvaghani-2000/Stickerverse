@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Icon from "../Icon";
+import Icon from "../../Icon";
 import { Typography } from "@mui/material";
 
 const ItemCount = () => {
@@ -11,8 +11,9 @@ const ItemCount = () => {
         onClick={() => {
           setQuantity(prev => (prev === 0 ? 0 : prev - 1));
         }}
+        className="border-[1px] border-black bg-white px-[6px] h-[17px] sm:h-[24px] md:h-[30px]"
       >
-        <Icon name="minus" className="h-[17px] sm:h-[24px] md:h-[30px]" />
+        <Icon name="minus" className="h-[6px] sm:h-[10px]" />
       </button>
       <Typography
         variant="subtitle2"
@@ -24,8 +25,9 @@ const ItemCount = () => {
         onClick={() => {
           setQuantity(prev => (prev === 99 ? 99 : prev + 1));
         }}
+        className="border-[1px] border-black bg-white px-[6px] h-[17px] sm:h-[24px] md:h-[30px]"
       >
-        <Icon name="plus" className="h-[17px] sm:h-6 md:h-[30px]" />
+        <Icon name="plus" className="h-[6px] sm:h-[10px]" />
       </button>
     </div>
   );

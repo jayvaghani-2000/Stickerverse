@@ -16,7 +16,9 @@ import {
 } from "@/app/utils/animation";
 import { useAppDispatch } from "@/app/store";
 import { trendingStickerType } from "../../../../../pages/api/types";
-import ItemCount from "../../ItemCount";
+import ItemCount from "../../Shared/ItemCount";
+import Rating from "../../Shared/Rating";
+import Icon from "../../Icon";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
@@ -91,16 +93,25 @@ const StickerTrend = () => {
                         />
                       </div>
                     </div>
-                    <div className="flex-1 border-t-2 border-black rounded-b-2xl py-[10px] md:py-[20px] bg-lightBlue">
+                    <div className="flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
                       <Typography variant="subtitle2" className="text-center">
                         {i.productName}
                       </Typography>
-                      <Typography
-                        variant="body1"
-                        className="text-center md:mt-1"
-                      >
-                        ₹{i.price}
-                      </Typography>
+                      <div className="flex justify-center">
+                        <Rating />
+                      </div>
+                      <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
+                        <Icon
+                          name="rupee"
+                          className="h-[8px] sm:h-[14px] md:h-[16px]"
+                        />
+                        <Typography
+                          variant="body1"
+                          className="text-start leading-none	"
+                        >
+                          {i.price}
+                        </Typography>
+                      </div>
                       <ItemCount />
                     </div>
                   </motion.div>
@@ -117,7 +128,7 @@ const StickerTrend = () => {
                       <Skeleton />
                     </div>
 
-                    <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 border-t-2 border-black rounded-b-2xl py-[10px] md:py-[20px] bg-lightBlue">
+                    <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
                       <div className="text-center h-[18px] md:h-[24px]">
                         <Skeleton />
                       </div>

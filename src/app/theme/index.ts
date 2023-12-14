@@ -18,6 +18,8 @@ export enum ThemeColor {
   DARK_YELLOW = "#FF9400",
   LIGHT_BLUE = "#A2CDFF",
   PLACEHOLDER = "#6c6c6c",
+  YELLOW = "#FFE248",
+  GRAY_STAR = "#e4e4e4",
 }
 
 const theme = createTheme({
