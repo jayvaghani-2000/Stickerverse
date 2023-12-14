@@ -32,12 +32,13 @@ type propsType = {
   value?: { value: number; label: string };
   id: string;
   placeholder: string;
+  onChange: (value: number) => void;
 };
 
 const CreateSelect = (props: propsType) => {
   const isMobile = useMobileScreen();
   const isTab = useTabScreen();
-  const { options, createOption, value, id, placeholder } = props;
+  const { options, createOption, value, id, placeholder, onChange } = props;
 
   const getSelectSize = () => {
     if (isMobile) {
@@ -114,6 +115,9 @@ const CreateSelect = (props: propsType) => {
           ...provided,
           display: "none",
         }),
+      }}
+      onChange={option => {
+        onChange(option!.value as propsType["options"][0]["value"]);
       }}
       components={{
         DropdownIndicator,

@@ -45,6 +45,8 @@ const AddProductForm = (props: FormPropType) => {
   const newImages = useRef<number>(0);
   const { refetch, data } = useGetStickerCategoryQuery({});
 
+  console.log(errors);
+
   const categories =
     data?.map(i => ({
       value: i.id,
@@ -179,6 +181,10 @@ const AddProductForm = (props: FormPropType) => {
           createOption={handleCreateCategory}
           value={categories.find(i => i.value === values.categoryId)}
           id="category"
+          onChange={value => {
+            console.log(value);
+            setFieldValue("categoryId", value);
+          }}
           placeholder="Category"
         />
       </div>

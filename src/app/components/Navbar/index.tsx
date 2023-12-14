@@ -16,10 +16,19 @@ const TABS = [
   { title: "Category", path: "/categories" },
 ];
 
+const ADMIN_TABS = [
+  {
+    title: "Product",
+    path: "/admin/add-product",
+  },
+];
+
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
   const path = usePathname();
   const isMobile = useMobileScreen();
+
+  const isAdmin = path?.startsWith("/admin");
 
   const toggleDrawer = (open: boolean) => {
     setOpenNav(open);
@@ -76,19 +85,33 @@ const Navbar = () => {
       </Link>
 
       <div className="flex items-center justify-between gap-[40px]">
-        {TABS.map(i => (
-          <Link
-            href={i.path}
-            key={i.title}
-            className={classNames({
-              [styles.active]: activeRoute(i.path, path!, true),
-            })}
-          >
-            <Typography variant="subtitle1" className="uppercase">
-              {i.title}
-            </Typography>
-          </Link>
-        ))}
+        {isAdmin
+          ? ADMIN_TABS.map(i => (
+              <Link
+                href={i.path}
+                key={i.title}
+                className={classNames({
+                  [styles.active]: activeRoute(i.path, path!, true),
+                })}
+              >
+                <Typography variant="subtitle1" className="uppercase">
+                  {i.title}
+                </Typography>
+              </Link>
+            ))
+          : TABS.map(i => (
+              <Link
+                href={i.path}
+                key={i.title}
+                className={classNames({
+                  [styles.active]: activeRoute(i.path, path!, true),
+                })}
+              >
+                <Typography variant="subtitle1" className="uppercase">
+                  {i.title}
+                </Typography>
+              </Link>
+            ))}
       </div>
 
       <div className="flex items-center justify-between gap-[15px] md:gap-[20px]">

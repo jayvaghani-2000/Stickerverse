@@ -1,6 +1,6 @@
 import { FormControlLabel, Checkbox as MuiCheckbox } from "@mui/material";
 import React from "react";
-import Icon from "../../Icon";
+import CheckboxIcon from "./checkbox";
 
 type propsType = {
   label: React.ReactNode;
@@ -19,8 +19,8 @@ const Checkbox = (props: propsType) => {
       control={
         <MuiCheckbox
           color="default"
-          icon={<Icon name="unchecked" className="h-3 sm:h-4 md:h-5" />}
-          checkedIcon={<Icon name="checked" className="h-3 sm:h-4 md:h-5" />}
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxIcon selected />}
           size="small"
           classes={{
             root: " p-0 inline-block w-fit h-fit",

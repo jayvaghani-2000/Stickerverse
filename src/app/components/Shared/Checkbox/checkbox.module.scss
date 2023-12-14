@@ -1,0 +1,9 @@
+@import "@/app/variables.scss";
+.wrapper {
+  rect {
+    fill: $white;
+  }
+  path {
+    display: none;
+  }
+}
