@@ -16,6 +16,7 @@ import {
 } from "@/app/utils/animation";
 import { useAppDispatch } from "@/app/store";
 import { trendingStickerType } from "../../../../../pages/api/types";
+import ItemCount from "../../ItemCount";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
@@ -96,10 +97,11 @@ const StickerTrend = () => {
                       </Typography>
                       <Typography
                         variant="body1"
-                        className="text-center md:mt-2"
+                        className="text-center md:mt-1"
                       >
                         ₹{i.price}
                       </Typography>
+                      <ItemCount />
                     </div>
                   </motion.div>
                 </motion.figure>

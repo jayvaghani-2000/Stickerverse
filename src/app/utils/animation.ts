@@ -83,7 +83,6 @@ export const productAnimation = (
 export const productHoverEffect = (): AnimationProps & MotionProps => {
   return {
     whileHover: {
-      scale: isMobile ? 1 : 1.05,
       boxShadow: isMobile ? "none" : "3px 3px 0px 0px #000",
       transition: { duration: 0.3 },
     },
