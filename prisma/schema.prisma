@@ -52,6 +52,7 @@ model sticker {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   trending     Boolean        @default(false)
+  totalSell    Int            @default(0)
   image        image[]
   orderItem    orderItem[]
   cartItem     cartItem[]

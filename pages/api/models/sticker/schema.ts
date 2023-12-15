@@ -15,4 +15,7 @@ export type GetProduct = z.infer<typeof GetProductSchema>;
 export const GetProductSchema = z.object({
   page: z.number(),
   pageSize: z.number(),
+  category: z.number().array(),
+  price: z.number().array(),
+  sortBy: z.string(),
 });

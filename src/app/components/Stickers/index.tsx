@@ -1,15 +1,19 @@
 "use client";
-import {
-  setCurrentPage,
-  setSticker,
-  useStickerStore,
-} from "@/app/store/stickers";
+import { setStickerData, useStickerStore } from "@/app/store/stickers";
 import { motion } from "framer-motion";
 import { useLazyGetStickerQuery } from "@/app/store/stickers/api";
 import React, { useEffect } from "react";
 import { stickersType } from "../../../../pages/api/types";
 import { useAppDispatch } from "@/app/store";
-import { Pagination, Typography } from "@mui/material";
+import {
+  Checkbox,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Pagination,
+  Select,
+  Typography,
+} from "@mui/material";
 import {
   delayAnimation,
   productAnimation,
@@ -21,19 +25,51 @@ import Icon from "../Icon";
 import ItemCount from "../Shared/ItemCount";
 import { Skeleton } from "../Skeleton";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
+import { useGetStickerCategoryQuery } from "@/app/store/category/api";
+import { SORT_BY } from "@/app/utils/enum";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const Stickers = () => {
-  const { page, pageSize, sticker } = useStickerStore();
+  const { page, pageSize, sticker, totalPage, filter } = useStickerStore();
+
+  const { category } = filter;
+  const { data } = useGetStickerCategoryQuery({});
   const [getStickers] = useLazyGetStickerQuery();
   const dispatch = useAppDispatch();
   const isTab = useTabScreen();
   const isMobile = useMobileScreen();
 
+  const categories =
+    data?.map(i => ({
+      value: i.id,
+      label: i.categoryName,
+    })) || [];
+
   const handleGetSticker = async (currentPage: number) => {
-    const res = await getStickers({ page: currentPage, pageSize });
+    const res = await getStickers({
+      page: currentPage,
+      pageSize,
+      totalPage,
+      category: JSON.stringify(category),
+      price: JSON.stringify([]),
+      sortBy: SORT_BY.TRENDING,
+    });
     if (!res.error) {
-      const data: stickersType = res.data!;
-      dispatch(setSticker(data));
+      const data = res.data! as stickersType;
+      dispatch(setStickerData({ page }));
+      dispatch(setStickerData({ pageSize: data.pageSize }));
+      dispatch(setStickerData({ sticker: data.sticker }));
+      dispatch(setStickerData({ totalPage: data.totalPage }));
     }
   };
 
@@ -52,6 +88,31 @@ const Stickers = () => {
 
   return (
     <div className="mt-32">
+      <Select
+        labelId="demo-multiple-checkbox-label"
+        id="demo-multiple-checkbox"
+        multiple
+        value={category}
+        onChange={e => {
+          dispatch(
+            setStickerData({ filter: { category: e.target.value as number[] } })
+          );
+        }}
+        onClose={e => {
+          handleGetSticker(1);
+        }}
+        input={<OutlinedInput label="Category" />}
+        renderValue={selected => selected.join(", ")}
+        MenuProps={MenuProps}
+      >
+        {categories.map(item => (
+          <MenuItem key={item.value} value={item.value}>
+            <Checkbox checked={category.indexOf(item.value) > -1} />
+            <ListItemText primary={item.label} />
+          </MenuItem>
+        ))}
+      </Select>
+
       <div className="flex gap-10">
         {sticker.length !== 0
           ? sticker.map((i, index) => {
@@ -132,7 +193,6 @@ const Stickers = () => {
       </div>
       <Pagination
         onChange={(_, page) => {
-          dispatch(setCurrentPage(page));
           handleGetSticker(page);
         }}
         count={10}

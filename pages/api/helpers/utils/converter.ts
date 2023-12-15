@@ -7,6 +7,17 @@ export const prepareNumberPayload = (obj: any, convert: string[]) => {
 
   return obj;
 };
+
+export const prepareQueryNumberArrayPayload = (obj: any, convert: string[]) => {
+  Object.keys(obj).forEach(i => {
+    if (convert.includes(i)) {
+      obj[i] = JSON.parse(obj[i]).map((j: string) => Number(j));
+    }
+  });
+
+  return obj;
+};
+
 export const prepareBooleanPayload = (obj: any, convert: string[]) => {
   Object.keys(obj).forEach(i => {
     if (convert.includes(i)) {

@@ -9,12 +9,12 @@ import { stickerApi } from "./api";
 
 export type StickerData = {
   loading: boolean;
-  sticker: stickersType;
-  page: number;
-  pageSize: number;
-  totalPage: number;
+  sticker: stickersType["sticker"];
+  page: stickersType["page"];
+  pageSize: stickersType["pageSize"];
+  totalPage: stickersType["totalPage"];
   filter: {
-    category?: string[];
+    category: number[];
     price?: [number, number];
     sortBy?: SORT_BY;
   };
@@ -22,22 +22,23 @@ export type StickerData = {
 
 export const initialState = {
   loading: false,
-  sticker: [] as stickersType,
+  sticker: [] as stickersType["sticker"],
   page: 1,
-  pageSize: 2,
+  pageSize: 4,
   totalPage: 0,
-  filter: {},
+  filter: { category: [] },
 } as StickerData;
 
 export const stickerSlice = createSlice({
   name: "stickers",
   initialState,
   reducers: {
-    setSticker: (state, action: { payload: stickersType }) => {
-      state["sticker"] = action.payload;
+    setStickerData: (state, action: { payload: Partial<StickerData> }) => {
+      Object.assign(state, action.payload);
     },
-    setCurrentPage: (state, action: { payload: number }) => {
-      state["page"] = action.payload;
+
+    resetStickerData: (state, action: { payload: number }) => {
+      state = initialState;
     },
   },
   extraReducers: builder => {
@@ -68,5 +69,5 @@ export const useStickerStore = () => {
   return useMemo(() => sticker, [sticker]);
 };
 
-export const { setSticker, setCurrentPage } = stickerSlice.actions;
+export const { setStickerData } = stickerSlice.actions;
 export default stickerSlice.reducer;

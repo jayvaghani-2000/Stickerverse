@@ -14,4 +14,9 @@ export type trendingStickerType = NonNullable<
 export type stickerCategoryType = NonNullable<
   Awaited<ReturnType<typeof getStickerCategory>>
 >;
-export type stickersType = NonNullable<Awaited<ReturnType<typeof getStickers>>>;
+export type stickersType = {
+  sticker: NonNullable<Awaited<ReturnType<typeof getStickers>>>;
+  page: number;
+  totalPage: number;
+  pageSize: number;
+};
