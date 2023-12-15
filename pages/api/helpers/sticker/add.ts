@@ -1,13 +1,15 @@
 import { IncomingMessage } from "http";
 import fs from "fs";
 import { parse } from "../formData";
-import { post } from "../../models/sticker";
+import { getStickersSlug, post } from "../../models/sticker";
 import { createMedia } from "../upload/uploadImage";
 import {
   prepareNumberPayload,
   prepareBooleanPayload,
 } from "../utils/converter";
 import { postStickerImage } from "../../models/image";
+import { IMAGE_FOLDER } from "../../utils/constant";
+import { convertToSlug, createSlug } from "../../utils/generateSlug";
 
 export const handlePostProduct = async (req: IncomingMessage) => {
   try {
@@ -18,12 +20,19 @@ export const handlePostProduct = async (req: IncomingMessage) => {
     prepareNumberPayload(form, ["price", "offer", "categoryId"]);
     prepareBooleanPayload(form, ["trending"]);
 
-    const sticker = await post({ ...form });
+    const slug = convertToSlug(form.productName);
+    const stickerSlug = await getStickersSlug(slug);
+    const finalSlug = createSlug(slug, stickerSlug);
+
+    const sticker = await post({ ...form, slug: finalSlug });
 
     const images = await Promise.all(
       image.map(async (i: any) => {
         const imageFile = fs.readFileSync(i.filepath);
-        return await createMedia(Buffer.from(imageFile));
+        return await createMedia(
+          Buffer.from(imageFile),
+          `${IMAGE_FOLDER.STICKER}/${finalSlug}`
+        );
       })
     );
 

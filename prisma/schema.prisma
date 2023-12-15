@@ -57,6 +57,7 @@ model sticker {
   cartItem     cartItem[]
   rating       rating[]
   wistlistItem wistlistItem[]
+  slug         String         @unique
 }
 
 model image {

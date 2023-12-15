@@ -64,9 +64,7 @@ const StickerTrend = () => {
       <div className=" flex flex-wrap justify-around sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 scrollbar-hide ">
         {trendingSticker.length !== 0
           ? trendingSticker.map((i, index) => {
-              const aspectRatio =
-                trendingSticker[index].image[0].width /
-                trendingSticker[index].image[0].height;
+              const aspectRatio = i.image[0].width / i.image[0].height;
               return (
                 <motion.figure
                   key={i.id}
@@ -83,11 +81,11 @@ const StickerTrend = () => {
                         style={{ aspectRatio: aspectRatio }}
                       >
                         <MotionImage
-                          src={trendingSticker[index].image[0].url}
+                          src={i.image[0].url}
                           alt=""
                           fill
                           placeholder="blur"
-                          blurDataURL={trendingSticker[index].image[0].blurUrl}
+                          blurDataURL={i.image[0].blurUrl}
                           style={{ objectFit: "cover" }}
                           sizes={getImageSize()}
                         />

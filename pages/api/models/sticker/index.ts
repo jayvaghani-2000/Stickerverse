@@ -12,6 +12,19 @@ export async function post(data: unknown) {
   });
 }
 
+export async function getStickersSlug(slug: string) {
+  return await prisma.sticker.findMany({
+    where: {
+      slug: {
+        startsWith: slug,
+      },
+    },
+    select: {
+      slug: true,
+    },
+  });
+}
+
 export async function trendingSticker() {
   const stickers = await prisma.sticker.findMany({
     where: {
