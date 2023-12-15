@@ -6,6 +6,7 @@ import home from "./home";
 import category from "./category";
 import { categoryApi } from "./category/api";
 import stickers from "./stickers";
+import { stickerApi } from "./stickers/api";
 
 const reducers = combineReducers({
   home,
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   stickers,
   [homeApi.reducerPath]: homeApi.reducer,
   [categoryApi.reducerPath]: categoryApi.reducer,
+  [stickerApi.reducerPath]: stickerApi.reducer,
 });
 
 const store = configureStore({
@@ -21,7 +23,11 @@ const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: false,
       serializableCheck: false,
-    }).concat(homeApi.middleware, categoryApi.middleware),
+    }).concat(
+      homeApi.middleware,
+      categoryApi.middleware,
+      stickerApi.middleware
+    ),
 });
 
 export type RootState = ReturnType<typeof reducers>;

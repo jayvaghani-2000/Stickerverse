@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { stickersType } from "../../../../pages/api/types";
 import { SORT_BY } from "@/app/utils/enum";
+import { stickerApi } from "./api";
 
 export type StickerData = {
   loading: boolean;
@@ -35,6 +36,26 @@ export const stickerSlice = createSlice({
     setSticker: (state, action: { payload: stickersType }) => {
       state["sticker"] = action.payload;
     },
+  },
+  extraReducers: builder => {
+    builder.addMatcher(stickerApi.endpoints.getSticker.matchPending, state => {
+      if (!state.loading) {
+        state.loading = true;
+      }
+    });
+    builder.addMatcher(
+      stickerApi.endpoints.getSticker.matchFulfilled,
+      state => {
+        if (state.loading) {
+          state.loading = false;
+        }
+      }
+    );
+    builder.addMatcher(stickerApi.endpoints.getSticker.matchRejected, state => {
+      if (state.loading) {
+        state.loading = false;
+      }
+    });
   },
 });
 

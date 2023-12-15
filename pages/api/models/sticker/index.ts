@@ -47,6 +47,9 @@ export async function getStickers(data: unknown) {
   const posts = await prisma.sticker.findMany({
     skip: skip,
     take: pageSize,
+    include: {
+      image: true,
+    },
   });
 
   return posts;
