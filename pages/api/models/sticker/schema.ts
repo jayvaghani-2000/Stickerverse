@@ -10,3 +10,9 @@ export const AddProductSchema = z.object({
   trending: z.boolean(),
   slug: z.string(),
 });
+
+export type GetProduct = z.infer<typeof GetProductSchema>;
+export const GetProductSchema = z.object({
+  page: z.number(),
+  pageSize: z.number(),
+});

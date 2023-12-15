@@ -45,8 +45,6 @@ const AddProductForm = (props: FormPropType) => {
   const newImages = useRef<number>(0);
   const { refetch, data } = useGetStickerCategoryQuery({});
 
-  console.log(errors);
-
   const categories =
     data?.map(i => ({
       value: i.id,

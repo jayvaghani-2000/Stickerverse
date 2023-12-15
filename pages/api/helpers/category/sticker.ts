@@ -8,7 +8,6 @@ export const handlePostStickerCategory = async (req: IncomingMessage) => {
     const category = await post({ ...form });
     return category.id;
   } catch (err) {
-    console.log(err);
-    throw new Error("something went wrong");
+    throw err;
   }
 };

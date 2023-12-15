@@ -42,7 +42,6 @@ export const handlePostProduct = async (req: IncomingMessage) => {
       })
     );
   } catch (err) {
-    console.log(err);
-    throw new Error("something went wrong");
+    throw err;
   }
 };

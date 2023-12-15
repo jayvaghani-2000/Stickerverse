@@ -1,4 +1,4 @@
-import { AddProductSchema } from "./schema";
+import { AddProductSchema, GetProductSchema } from "./schema";
 import prisma from "../../../../prisma";
 
 export async function post(data: unknown) {
@@ -35,12 +35,19 @@ export async function trendingSticker() {
     },
   });
   return stickers;
-  // const stickerId = stickers.map(i => i.id);
-  // const rating = await prisma.rating.findMany({
-  //   where: {
-  //     stickerId: {
-  //       in: stickerId,
-  //     },
-  //   },
-  // });
+}
+
+export async function getStickers(data: unknown) {
+  const payload = GetProductSchema.parse(data);
+
+  const { page, pageSize } = payload;
+
+  const skip = (page - 1) * pageSize;
+
+  const posts = await prisma.sticker.findMany({
+    skip: skip,
+    take: pageSize,
+  });
+
+  return posts;
 }

@@ -5,10 +5,12 @@ import { homeApi } from "./home/api";
 import home from "./home";
 import category from "./category";
 import { categoryApi } from "./category/api";
+import stickers from "./stickers";
 
 const reducers = combineReducers({
   home,
   category,
+  stickers,
   [homeApi.reducerPath]: homeApi.reducer,
   [categoryApi.reducerPath]: categoryApi.reducer,
 });
