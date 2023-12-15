@@ -1,7 +1,8 @@
 import React from "react";
+import Stickers from "../components/Stickers";
 
-const Stickers = () => {
-  return <div>Stickers</div>;
+const StickerPage = () => {
+  return <Stickers />;
 };
 
-export default Stickers;
+export default StickerPage;

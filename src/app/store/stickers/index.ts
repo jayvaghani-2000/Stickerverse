@@ -12,7 +12,7 @@ export type StickerData = {
   sticker: stickersType;
   page: number;
   pageSize: number;
-  seenAll: boolean;
+  totalPage: number;
   filter: {
     category?: string[];
     price?: [number, number];
@@ -24,8 +24,8 @@ export const initialState = {
   loading: false,
   sticker: [] as stickersType,
   page: 1,
-  pageSize: 20,
-  seenAll: false,
+  pageSize: 2,
+  totalPage: 0,
   filter: {},
 } as StickerData;
 
@@ -35,6 +35,9 @@ export const stickerSlice = createSlice({
   reducers: {
     setSticker: (state, action: { payload: stickersType }) => {
       state["sticker"] = action.payload;
+    },
+    setCurrentPage: (state, action: { payload: number }) => {
+      state["page"] = action.payload;
     },
   },
   extraReducers: builder => {
@@ -65,5 +68,5 @@ export const useStickerStore = () => {
   return useMemo(() => sticker, [sticker]);
 };
 
-export const { setSticker } = stickerSlice.actions;
+export const { setSticker, setCurrentPage } = stickerSlice.actions;
 export default stickerSlice.reducer;
