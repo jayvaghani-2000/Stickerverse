@@ -3,7 +3,7 @@ import MuiRadio, { RadioProps } from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import RadioIcon from "./radio";
-import { FormControl, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 function BpRadio(props: RadioProps) {
   return (
@@ -22,19 +22,22 @@ function BpRadio(props: RadioProps) {
 type propType<T> = {
   group: { label: string; value: T }[];
   name: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+  value?: T;
 };
 
 export default function Radio<T extends number | string>(props: propType<T>) {
-  const { group, name } = props;
+  const { group, name, onChange, value } = props;
 
   return (
     <RadioGroup
-      defaultValue={undefined}
       aria-labelledby="demo-customized-radios"
+      value={value || ""}
       name={name}
       classes={{
         root: "gap-1 sm:gap-2",
       }}
+      onChange={onChange}
     >
       {group.map(i => (
         <FormControlLabel
