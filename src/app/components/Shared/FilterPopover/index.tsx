@@ -28,7 +28,7 @@ export default function FilterPopover(props: propType) {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <div>
+    <>
       <Button
         aria-describedby={id}
         variant="outlined"
@@ -41,12 +41,9 @@ export default function FilterPopover(props: propType) {
         <motion.div
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ duration: 0.3 }}
-          className="h-[15px] sm:h-[18px] md:h-[22px]"
+          className="h-[15px] sm:h-[18px] md:h-[22px] w-[15px] sm:w-[18px] md:w-[22px]"
         >
-          <Icon
-            name="dropChevron"
-            className="h-[15px] sm:h-[18px] md:h-[22px]"
-          />
+          <Icon name="dropChevron" className="h-full w-full" />
         </motion.div>
       </Button>
       <Popover
@@ -59,8 +56,8 @@ export default function FilterPopover(props: propType) {
           horizontal: "right",
         }}
         transformOrigin={{
-          horizontal: "right",
           vertical: "top",
+          horizontal: "right",
         }}
         classes={{
           paper: "rounded-none border-2 border-black mt-1",
@@ -68,6 +65,6 @@ export default function FilterPopover(props: propType) {
       >
         <div>{popover}</div>
       </Popover>
-    </div>
+    </>
   );
 }

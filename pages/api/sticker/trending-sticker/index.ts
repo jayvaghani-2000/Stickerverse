@@ -1,4 +1,4 @@
-import { trendingSticker } from "../models/sticker";
+import { trendingSticker } from "../../models/sticker";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handleGetTrendingStickers = async (

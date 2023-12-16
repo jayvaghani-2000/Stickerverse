@@ -45,12 +45,9 @@ export default function FilterDrawer(props: propType) {
         <motion.div
           animate={{ rotate: openNav ? 180 : 0 }}
           transition={{ duration: 0.3 }}
-          className="h-[15px] sm:h-[18px] md:h-[22px]"
+          className="h-[15px] sm:h-[18px] md:h-[22px] w-[15px] sm:w-[18px] md:w-[22px]"
         >
-          <Icon
-            name="slideChevron"
-            className="h-[15px] sm:h-[18px] md:h-[22px]"
-          />
+          <Icon name="slideChevron" className="h-full w-full" />
         </motion.div>
       </Button>
       <Drawer anchor={"left"} open={openNav} onClose={toggleDrawer(false)}>

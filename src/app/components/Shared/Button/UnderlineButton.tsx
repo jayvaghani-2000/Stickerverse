@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import classNames from "classnames";
 import React from "react";
 
 type propType = {
@@ -8,10 +9,15 @@ type propType = {
   onClick?: () => void;
 };
 const UnderlineButton = (props: propType) => {
-  const { children, onClick } = props;
+  const { children, onClick, className = "" } = props;
 
   return (
-    <button onClick={onClick} className="border-b-[1px] border-black py-0 flex">
+    <button
+      onClick={onClick}
+      className={classNames("border-b-[1px] border-black py-0 flex", {
+        [className]: !!className,
+      })}
+    >
       <Typography variant="body2" className="leading-none">
         {children}
       </Typography>

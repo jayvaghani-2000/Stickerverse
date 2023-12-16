@@ -1,4 +1,8 @@
-import { getStickerPageCount, getStickers } from "../../models/sticker";
+import {
+  getStickerCount,
+  getStickerPageCount,
+  getStickers,
+} from "../../models/sticker";
 import {
   prepareNumberPayload,
   prepareQueryNumberArrayPayload,
@@ -30,6 +34,18 @@ export const handleGetProduct = async (query: NextApiRequest["query"]) => {
         pageSize: query.pageSize,
       };
     }
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const handleGetProductCount = async (query: NextApiRequest["query"]) => {
+  try {
+    prepareNumberPayload(query, ["page", "pageSize", "totalPage"]);
+    prepareQueryNumberArrayPayload(query, ["category", "price"]);
+
+    const sticker = await getStickerCount({ ...query });
+    return sticker;
   } catch (err) {
     throw err;
   }

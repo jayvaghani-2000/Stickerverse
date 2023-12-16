@@ -75,6 +75,19 @@ export async function getStickerPageCount(data: unknown) {
   return totalPages;
 }
 
+export async function getStickerCount(data: unknown) {
+  const payload = GetProductSchema.parse(data);
+  const { category, price, sortBy } = payload;
+
+  const [filter] = getStickerFilter(category, price, sortBy);
+
+  const totalStickers = await prisma.sticker.count({
+    where: filter,
+  });
+
+  return { count: totalStickers };
+}
+
 const getStickerFilter = (
   category: number[],
   price: number[],

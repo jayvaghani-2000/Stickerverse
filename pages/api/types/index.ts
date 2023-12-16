@@ -1,5 +1,6 @@
 import { getStickerCategory } from "../models/category/sticker";
 import {
+  getStickerCount,
   getStickers,
   post as postSticker,
   trendingSticker,
@@ -20,3 +21,6 @@ export type stickersType = {
   totalPage: number;
   pageSize: number;
 };
+export type stickersCountType = NonNullable<
+  Awaited<ReturnType<typeof getStickerCount>>
+>;
