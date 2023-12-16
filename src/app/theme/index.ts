@@ -117,7 +117,7 @@ const theme = createTheme({
       fontSize: "16px",
       lineHeight: "1.5",
       "@media (max-width:900px)": {
-        fontSize: "18px",
+        fontSize: "14px",
       },
       "@media (max-width:600px)": {
         fontSize: "12px",
@@ -177,6 +177,17 @@ const theme = createTheme({
       },
       "@media (max-width:600px)": {
         fontSize: "12px",
+      },
+    },
+    body2: {
+      fontWeight: "normal",
+      fontSize: "14px",
+      lineHeight: "1.5",
+      "@media (max-width:900px)": {
+        fontSize: "12px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "10px",
       },
     },
   },

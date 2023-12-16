@@ -3,13 +3,13 @@ import Icon from "../../Icon";
 import { Typography } from "@mui/material";
 
 const ItemCount = () => {
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   return (
     <div className="flex justify-center items-center mt-1">
       <button
         onClick={() => {
-          setQuantity(prev => (prev === 0 ? 0 : prev - 1));
+          setQuantity(prev => (prev === 1 ? 1 : prev - 1));
         }}
         className="border-[1px] border-black bg-white px-[6px] h-[17px] sm:h-[24px] md:h-[30px]"
       >

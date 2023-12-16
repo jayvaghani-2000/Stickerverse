@@ -119,3 +119,5 @@ export const galleryThumbnailAnimation: AnimationProps & MotionProps = isIOS
         scale: 1.05,
       },
     };
+
+export const chevronAnimation: AnimationProps & MotionProps = isIOS ? {} : {};

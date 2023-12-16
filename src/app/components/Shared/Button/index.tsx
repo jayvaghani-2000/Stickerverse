@@ -12,10 +12,13 @@ const roundedShadow: className =
   "border-solid	px-4 sm:px-5 md:px-6 py-2 border-2 border-black rounded-full shadow-primaryShadow ";
 const roundedShadowFlat: className =
   "border-solid	px-3 sm:px-4 md:px-5 py-1 border-2 border-black rounded-full shadow-primaryShadow ";
+const borderBottom: className =
+  "border-solid	px-0 py-0 border-2 border-black rounded-full shadow-primaryShadow ";
 
 const variants = {
   "rounded-shadow": roundedShadow,
   "rounded-shadow-flat": roundedShadowFlat,
+  "border-bottom": borderBottom,
 };
 
 type propType = {

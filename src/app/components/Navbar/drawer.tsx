@@ -1,11 +1,10 @@
 import * as React from "react";
-import MuiDrawer from "@mui/material/Drawer";
 import Image from "next/image";
 import Icon from "../Icon";
 import Link from "next/link";
 import classNames from "classnames";
 import styles from "./navbar.module.scss";
-import { Typography } from "@mui/material";
+import { SwipeableDrawer, Typography } from "@mui/material";
 
 type propType = {
   open: boolean;
@@ -20,6 +19,9 @@ const UN_AUTH_TABS = [
 
 export default function Drawer(props: propType) {
   const { open, toggleNav } = props;
+  const iOS =
+    typeof navigator !== "undefined" &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -35,7 +37,15 @@ export default function Drawer(props: propType) {
     };
 
   return (
-    <MuiDrawer anchor={"left"} open={open} onClose={toggleDrawer(false)}>
+    <SwipeableDrawer
+      swipeAreaWidth={16}
+      anchor={"left"}
+      open={open}
+      onClose={toggleDrawer(false)}
+      onOpen={toggleDrawer(true)}
+      disableBackdropTransition={!iOS}
+      disableDiscovery={iOS}
+    >
       <div className="w-[300px] flex flex-col relative min-h-full overflow-auto max-w-[100vw] bg-cream">
         <Image
           src="/assets/png/navSticker.png"
@@ -74,6 +84,6 @@ export default function Drawer(props: propType) {
           </button>
         </div>
       </div>
-    </MuiDrawer>
+    </SwipeableDrawer>
   );
 }
