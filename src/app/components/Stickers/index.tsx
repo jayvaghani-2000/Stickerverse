@@ -32,6 +32,7 @@ import { paddingSpacing } from "@/app/utils/styles";
 import Category from "./Category";
 import FilterDrawer from "../Shared/FilterDrawer";
 import Range from "./Range";
+import Sort from "./Sort";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -101,7 +102,7 @@ const Stickers = () => {
             popover={<Category categories={categories} />}
           />
         </div>
-        <FilterPopover label="Sort" popover={<></>} />
+        <FilterPopover label="Sort" popover={<Sort />} />
       </div>
     </div>
   );

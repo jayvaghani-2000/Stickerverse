@@ -39,7 +39,7 @@ export default function FilterPopover(props: propType) {
           {label}
         </Typography>
         <motion.div
-          animate={{ rotateX: open ? 180 : 0 }}
+          animate={{ rotate: open ? 180 : 0 }}
           transition={{ duration: 0.3 }}
           className="h-[15px] sm:h-[18px] md:h-[22px]"
         >
@@ -66,7 +66,7 @@ export default function FilterPopover(props: propType) {
           paper: "rounded-none border-2 border-black mt-1",
         }}
       >
-        {popover}
+        <div>{popover}</div>
       </Popover>
     </div>
   );

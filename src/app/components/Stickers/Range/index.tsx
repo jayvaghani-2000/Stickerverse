@@ -31,19 +31,22 @@ const Range = () => {
   };
 
   return (
-    <div className="sm:min-w-[300px] ">
-      <Typography variant="h6" className="px-[15px] pt-[10px]">
-        Price
-      </Typography>
-      <div className="px-[15px] py-[10px] border-b-2 border-black">
-        <div className="flex justify-between items-center">
-          <Typography variant="body2">250 results</Typography>
-          <div className="flex gap-2">
-            <UnderlineButton>Clear</UnderlineButton>
+    <div className="max-w-[80dvw] w-[300px] ">
+      <div className="bg-white z-10 sticky top-0">
+        <Typography variant="h6" className="px-[15px] pt-[10px]">
+          Price
+        </Typography>
+        <div className="px-[15px] py-[10px] border-b-2 border-black">
+          <div className="flex justify-between items-center">
+            <Typography variant="body2">250 results</Typography>
+            <div className="flex gap-2">
+              <UnderlineButton>Clear</UnderlineButton>
+              <UnderlineButton className="sm:hidden">Apply</UnderlineButton>
+            </div>
           </div>
         </div>
       </div>
-      <div className="px-[15px] py-[20px] flex flex-col gap-3 sm:gap-4 md:gap-5">
+      <div className="px-[50px] sm:px-[15px] py-[20px] flex flex-col gap-1 sm:gap-3 md:gap-5">
         <div className="flex gap-3">
           <div className="flex justify-center items-start gap-[2px] sm:gap-1 flex-1 border-2 border-black px-[15px] py-2">
             <Icon name="rupee" className="h-[8px] sm:h-[14px] md:h-[16px]" />

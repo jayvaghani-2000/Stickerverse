@@ -46,7 +46,7 @@ export default function Drawer(props: propType) {
       disableBackdropTransition={!iOS}
       disableDiscovery={iOS}
     >
-      <div className="w-[300px] flex flex-col relative min-h-full overflow-auto max-w-[100vw] bg-cream">
+      <div className="w-[300px] flex flex-col relative min-h-full overflow-auto max-w-[80dvw] bg-cream">
         <Image
           src="/assets/png/navSticker.png"
           width={300}

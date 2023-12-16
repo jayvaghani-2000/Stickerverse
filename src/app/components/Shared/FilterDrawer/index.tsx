@@ -43,12 +43,12 @@ export default function FilterDrawer(props: propType) {
           {label}
         </Typography>
         <motion.div
-          animate={{ rotateX: openNav ? 180 : 0 }}
+          animate={{ rotate: openNav ? 180 : 0 }}
           transition={{ duration: 0.3 }}
           className="h-[15px] sm:h-[18px] md:h-[22px]"
         >
           <Icon
-            name="dropChevron"
+            name="slideChevron"
             className="h-[15px] sm:h-[18px] md:h-[22px]"
           />
         </motion.div>
