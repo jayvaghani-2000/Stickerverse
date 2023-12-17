@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Checkbox from "../../Shared/Checkbox";
 import { Typography } from "@mui/material";
 import UnderlineButton from "../../Shared/Button/UnderlineButton";
@@ -15,7 +15,7 @@ type propType = {
 const Category = (props: propType) => {
   const { categories } = props;
   const dispatch = useAppDispatch();
-  const { filter, pageSize } = useStickerStore();
+  const { filter, pageSize, result } = useStickerStore();
   const { category, price } = filter;
   const [selectedCategory, setSelectedCategory] = useState(category);
   const ref = useRef(category);
@@ -36,14 +36,19 @@ const Category = (props: propType) => {
           filter: { ...filter, category: ref.current },
         })
       );
+    }, 600),
+    []
+  );
+
+  useEffect(() => {
+    if (data && !isFetching) {
       dispatch(
         setStickerData({
           result: data?.count ?? 0,
         })
       );
-    }, 600),
-    []
-  );
+    }
+  }, [data]);
 
   const handleChange = (id: number, checked: boolean) => {
     if (checked) {
@@ -54,6 +59,16 @@ const Category = (props: propType) => {
       ref.current = ref.current.filter(i => i !== id);
     }
     handleDelayedChange();
+  };
+
+  const handleClearThemeFilter = () => {
+    setSelectedCategory([]);
+    ref.current = [];
+    dispatch(
+      setStickerData({
+        filter: { ...filter, category: [] },
+      })
+    );
   };
 
   return (
@@ -68,8 +83,9 @@ const Category = (props: propType) => {
               {isFetching ? <InlineSpinner /> : data?.count ?? 0} results
             </Typography>
             <div className="flex gap-2">
-              <UnderlineButton>Clear</UnderlineButton>
-              <UnderlineButton className="sm:hidden">Apply</UnderlineButton>
+              <UnderlineButton onClick={handleClearThemeFilter}>
+                Clear
+              </UnderlineButton>
             </div>
           </div>
         </div>

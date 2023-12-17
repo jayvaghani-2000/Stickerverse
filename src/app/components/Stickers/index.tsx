@@ -73,9 +73,7 @@ const Stickers = () => {
       dispatch(setStickerData({ pageSize: data.pageSize }));
       dispatch(setStickerData({ sticker: data.sticker }));
       dispatch(setStickerData({ totalPage: data.totalPage }));
-      if (!resultCount) {
-        dispatch(setStickerData({ result: data.result }));
-      }
+      dispatch(setStickerData({ result: data.result }));
     }
   };
 
@@ -179,7 +177,7 @@ const Stickers = () => {
                   </AnimatePresence>
                 );
               })
-            : Array.from(Array(stickerOnPage).keys()).map(i => {
+            : Array.from(Array(stickerOnPage || pageSize).keys()).map(i => {
                 return (
                   <motion.figure key={i} {...delayAnimation(i)}>
                     <div className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col">

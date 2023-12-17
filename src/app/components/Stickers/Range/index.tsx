@@ -6,7 +6,7 @@ import { setStickerData, useStickerStore } from "@/app/store/stickers";
 import { useGetStickerCountQuery } from "@/app/store/stickers/api";
 import InlineSpinner from "../../Shared/InlineSpinner";
 import { debounce } from "lodash";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const PrettoSlider = styled(Slider)({
   color: "#000",
@@ -66,11 +66,6 @@ const Range = () => {
           })
         );
       }
-      dispatch(
-        setStickerData({
-          result: data?.count ?? 0,
-        })
-      );
     }, 300),
     []
   );
@@ -85,7 +80,25 @@ const Range = () => {
     handleDelayedChange();
   };
 
-  const value = price ? price : DefaultRange;
+  useEffect(() => {
+    if (data && !isFetching) {
+      dispatch(
+        setStickerData({
+          result: data?.count ?? 0,
+        })
+      );
+    }
+  }, [data]);
+
+  const handleClearRangeFilter = () => {
+    setRange(DefaultRange);
+    ref.current = DefaultRange;
+    dispatch(
+      setStickerData({
+        filter: { ...filter, price: undefined },
+      })
+    );
+  };
 
   return (
     <div className="max-w-[80dvw] w-[300px] ">
@@ -99,8 +112,9 @@ const Range = () => {
               {isFetching ? <InlineSpinner /> : data?.count ?? 0} results
             </Typography>
             <div className="flex gap-2">
-              <UnderlineButton>Clear</UnderlineButton>
-              <UnderlineButton className="sm:hidden">Apply</UnderlineButton>
+              <UnderlineButton onClick={handleClearRangeFilter}>
+                Clear
+              </UnderlineButton>
             </div>
           </div>
         </div>
