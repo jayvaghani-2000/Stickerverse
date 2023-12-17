@@ -25,7 +25,7 @@ export const initialState = {
   loading: false,
   sticker: [] as stickersType["sticker"],
   page: 1,
-  pageSize: 4,
+  pageSize: 20,
   totalPage: 0,
   result: 0,
   filter: { category: [] },

@@ -92,6 +92,7 @@ const Stickers = () => {
       return;
     }
     handleGetSticker(1);
+    router.replace(`/stickers?p=1`);
   }, [filter]);
 
   const getImageSize = () => {
@@ -222,7 +223,7 @@ const Stickers = () => {
           onChange={(_, page) => {
             router.push(`/stickers?p=${page}`);
           }}
-          defaultPage={currentPage}
+          page={currentPage}
           classes={{
             ul: "justify-center",
           }}
