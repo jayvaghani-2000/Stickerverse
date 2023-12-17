@@ -23,6 +23,7 @@ import Button from "@/app/components/Shared/Button";
 import { useGetStickerCategoryQuery } from "@/app/store/category/api";
 import CreateSelect from "@/app/components/Shared/CreateSelect";
 import InlineSpinner from "@/app/components/Shared/InlineSpinner";
+import Toast from "@/app/components/Shared/Toast";
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Please enter sticker name"),
@@ -239,7 +240,7 @@ const AddProductForm = forwardRef((props: FormPropType & {}, parentRef) => {
         <CreateSelect
           options={categories}
           createOption={handleCreateCategory}
-          value={categories.find(i => i.value === values.categoryId)}
+          value={categories.find(i => i.value === values.categoryId) ?? null}
           id="category"
           onChange={value => {
             setFieldValue("categoryId", value);
@@ -319,11 +320,11 @@ const AddProduct = () => {
       }
     });
     try {
-      // await axios.post("/api/sticker", formData, {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // });
+      await axios.post("/api/sticker", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       ref.current.reset();
     } catch (err) {}
   };

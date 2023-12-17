@@ -29,7 +29,7 @@ const DropdownIndicator = (props: any) => {
 type propsType<T> = {
   options: { value: T; label: string }[];
   createOption: (option: string) => void;
-  value?: { value: T; label: string };
+  value?: { value: T; label: string } | null;
   id: string;
   placeholder: string;
   onChange: (value: T) => void;
