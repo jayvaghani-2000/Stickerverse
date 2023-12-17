@@ -168,6 +168,7 @@ const Stickers = () => {
                             childClassName="normal-case"
                             typography="subtitle2"
                             className="bg-primeGreen hover:bg-primeGreen w-fit mt-1 sm:mt-2 md:mt-3 px-1 sm:px-2 md:px-2  pt-1 pb-1"
+                            icon="cart"
                           >
                             Add to Cart
                           </Button>

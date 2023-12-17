@@ -26,16 +26,16 @@ const DropdownIndicator = (props: any) => {
   );
 };
 
-type propsType = {
-  options: { value: number; label: string }[];
+type propsType<T> = {
+  options: { value: T; label: string }[];
   createOption: (option: string) => void;
-  value?: { value: number; label: string };
+  value?: { value: T; label: string };
   id: string;
   placeholder: string;
-  onChange: (value: number) => void;
+  onChange: (value: T) => void;
 };
 
-const CreateSelect = (props: propsType) => {
+function CreateSelect<T extends number | string>(props: propsType<T>) {
   const isMobile = useMobileScreen();
   const isTab = useTabScreen();
   const { options, createOption, value, id, placeholder, onChange } = props;
@@ -117,7 +117,7 @@ const CreateSelect = (props: propsType) => {
         }),
       }}
       onChange={option => {
-        onChange(option!.value as propsType["options"][0]["value"]);
+        onChange(option!.value as T);
       }}
       components={{
         DropdownIndicator,
@@ -125,6 +125,6 @@ const CreateSelect = (props: propsType) => {
       value={value}
     />
   );
-};
+}
 
 export default CreateSelect;

@@ -28,9 +28,8 @@ type propType = {
   className?: React.HTMLProps<HTMLElement>["className"];
   variant?: keyof typeof variants;
   typography?: TypographyProps["variant"];
-  type?: ButtonProps["type"];
   icon?: string;
-};
+} & Omit<ButtonProps, "className" | "children" | "variant">;
 
 const Button = (props: propType) => {
   const {
@@ -40,17 +39,22 @@ const Button = (props: propType) => {
     variant = "rounded-shadow",
     typography = "button",
     type = "button",
-    icon = "cart",
+    icon = "",
+    ...rest
   } = props;
 
   return (
-    <MUIButton className={classNames(variants[variant], className)} type={type}>
+    <MUIButton
+      className={classNames(variants[variant], className)}
+      type={type}
+      {...rest}
+    >
       <Typography variant={typography} className={childClassName}>
         {children}
       </Typography>
       {icon && (
         <div className="h-[15px] sm:h-[18px] md:h-[21px] w-[15px] sm:w-[18px] md:w-[21px]">
-          <Icon name="cart" className="h-full w-full" />
+          <Icon name={icon} className="h-full w-full" />
         </div>
       )}
     </MUIButton>

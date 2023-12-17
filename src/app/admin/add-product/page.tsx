@@ -1,5 +1,12 @@
 "use client";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import axios from "axios";
 import TextEditor from "../components/TextEditor/index";
 import * as Yup from "yup";
@@ -15,6 +22,7 @@ import { FormikValues } from "formik";
 import Button from "@/app/components/Shared/Button";
 import { useGetStickerCategoryQuery } from "@/app/store/category/api";
 import CreateSelect from "@/app/components/Shared/CreateSelect";
+import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Please enter sticker name"),
@@ -36,14 +44,46 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-const AddProductForm = (props: FormPropType) => {
-  const { handleChange, values, isSubmitting, errors, setFieldValue } = props;
+const AddProductForm = forwardRef((props: FormPropType & {}, parentRef) => {
+  const {
+    handleChange,
+    values,
+    isSubmitting,
+    errors,
+    setFieldValue,
+    initialValues,
+  } = props;
   const ref = useRef<HTMLInputElement>(null!);
   const [imagesStr, setImagesStr] = useState<
     { name: string; base64: string }[]
   >([]);
   const newImages = useRef<number>(0);
   const { refetch, data } = useGetStickerCategoryQuery({});
+  const [resetFields, setResetFields] = useState<string[]>([
+    "productName",
+    "images",
+    "categoryId",
+  ]);
+
+  console.log(values, initialValues);
+
+  const handleResetForm = () => {
+    resetFields.forEach(i => {
+      if (i === "images") {
+        setImagesStr([]);
+      }
+      console.log(i, initialValues[i]);
+      setFieldValue(i, initialValues[i]);
+    });
+  };
+
+  useImperativeHandle(
+    parentRef,
+    () => {
+      return { reset: handleResetForm };
+    },
+    [resetFields]
+  );
 
   const categories =
     data?.map(i => ({
@@ -93,6 +133,23 @@ const AddProductForm = (props: FormPropType) => {
     setFieldValue("categoryId", response.data.category);
 
     refetch();
+  };
+
+  const handleRemoveImage = (index: number, name: string) => {
+    setFieldValue(
+      "images",
+      values.images.filter((i: File) => i.name !== name)
+    );
+
+    setImagesStr(prev => prev.filter(i => i.name !== name));
+  };
+
+  const handleChangeResetFiled = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+
+    setResetFields(prev =>
+      checked ? [...prev, name] : prev.filter(i => i !== name)
+    );
   };
 
   return (
@@ -150,17 +207,22 @@ const AddProductForm = (props: FormPropType) => {
             key={`${i.base64.split(",")[0]}${index}`}
             className="flex flex-col relative"
           >
-            <button className="absolute right-[-5px] top-[-5px] h-5 w-5 bg-white rounded-full border-2 border-black px-[3px]">
+            <button
+              className="absolute right-[-5px] top-[-5px] h-5 w-5 bg-white rounded-full border-2 border-black px-[3px] z-10"
+              onClick={() => {
+                handleRemoveImage(index, i.name);
+              }}
+            >
               <Icon name="cross" />
             </button>
             <Image
               alt={i.base64.split(",")[0]}
               src={i.base64}
-              className="bg-white border-2 border-black"
-              height={96}
+              className="bg-white border-2 h-24 w-24 border-black object-contain"
               width={96}
+              height={96}
             />
-            <p className="text-sm">{i.name}</p>
+            <p className="text-sm truncate w-24">{i.name}</p>
           </div>
         ))}
       </div>
@@ -180,7 +242,6 @@ const AddProductForm = (props: FormPropType) => {
           value={categories.find(i => i.value === values.categoryId)}
           id="category"
           onChange={value => {
-            console.log(value);
             setFieldValue("categoryId", value);
           }}
           placeholder="Category"
@@ -189,17 +250,62 @@ const AddProductForm = (props: FormPropType) => {
       <div className="col-span-2 text-center">
         <Button
           variant="rounded-shadow"
+          disabled={isSubmitting}
           className="bg-primeGreen hover:bg-primeGreen"
           type="submit"
         >
-          Add Product
+          Add Product {isSubmitting && <InlineSpinner />}
         </Button>
+      </div>
+
+      <div className="col-span-2">
+        <Typography variant="subtitle2">Reset Fields on Submit</Typography>
+        <div className="flex flex-col mt-1 gap-1">
+          <Checkbox
+            label={<Typography variant="subtitle2">Title</Typography>}
+            name="productName"
+            onChange={handleChangeResetFiled}
+            value={resetFields.includes("productName")}
+          />
+          <Checkbox
+            label={<Typography variant="subtitle2">Price</Typography>}
+            name="price"
+            onChange={handleChangeResetFiled}
+            value={resetFields.includes("price")}
+          />
+          <Checkbox
+            label={<Typography variant="subtitle2">Offer</Typography>}
+            name="offer"
+            onChange={handleChangeResetFiled}
+            value={resetFields.includes("offer")}
+          />
+          <Checkbox
+            label={<Typography variant="subtitle2">Description</Typography>}
+            name="description"
+            onChange={handleChangeResetFiled}
+            value={resetFields.includes("description")}
+          />
+          <Checkbox
+            label={<Typography variant="subtitle2">Image</Typography>}
+            name="images"
+            onChange={handleChangeResetFiled}
+            value={resetFields.includes("images")}
+          />
+          <Checkbox
+            label={<Typography variant="subtitle2">Category</Typography>}
+            name="categoryId"
+            onChange={handleChangeResetFiled}
+            value={resetFields.includes("categoryId")}
+          />
+        </div>
       </div>
     </div>
   );
-};
+});
 
 const AddProduct = () => {
+  const ref = useRef<{ reset: () => void }>(null!);
+
   const handleCreateProduct = async (values: FormikValues) => {
     const formData = new FormData();
     Object.keys(values).forEach(e => {
@@ -212,11 +318,14 @@ const AddProduct = () => {
         formData.append(e, values[key]);
       }
     });
-    await axios.post("/api/sticker", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    try {
+      // await axios.post("/api/sticker", formData, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
+      ref.current.reset();
+    } catch (err) {}
   };
 
   return (
@@ -225,17 +334,17 @@ const AddProduct = () => {
         productName: "",
         offer: "",
         price: "",
-        description: "",
+        description: "<p><br></p>",
         images: [],
         trending: true,
-        categoryId: undefined,
+        categoryId: "",
       }}
       validate={validationSchema}
       onSubmit={values => {
         handleCreateProduct(values);
       }}
     >
-      <AddProductForm {...({} as FormPropType)} />
+      <AddProductForm ref={ref} {...({} as FormPropType)} />
     </Forms>
   );
 };

@@ -19,6 +19,7 @@ const Forms = (props: propType) => {
     isSubmitting,
     errors,
     setFieldValue,
+    initialValues,
   } = useFormik({
     initialValues: initialValue,
     validationSchema: validate,
@@ -37,6 +38,7 @@ const Forms = (props: propType) => {
           isSubmitting,
           errors,
           setFieldValue,
+          initialValues,
         })
       )}
     </form>
