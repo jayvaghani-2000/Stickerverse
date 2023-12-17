@@ -66,14 +66,11 @@ const AddProductForm = forwardRef((props: FormPropType & {}, parentRef) => {
     "categoryId",
   ]);
 
-  console.log(values, initialValues);
-
   const handleResetForm = () => {
     resetFields.forEach(i => {
       if (i === "images") {
         setImagesStr([]);
       }
-      console.log(i, initialValues[i]);
       setFieldValue(i, initialValues[i]);
     });
   };
@@ -341,8 +338,8 @@ const AddProduct = () => {
         categoryId: "",
       }}
       validate={validationSchema}
-      onSubmit={values => {
-        handleCreateProduct(values);
+      onSubmit={async values => {
+        await handleCreateProduct(values);
       }}
     >
       <AddProductForm ref={ref} {...({} as FormPropType)} />
