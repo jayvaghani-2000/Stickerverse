@@ -1,9 +1,6 @@
 "use client";
 import { setStickerData, useStickerStore } from "@/app/store/stickers";
-import {
-  useGetStickerCountQuery,
-  useLazyGetStickerQuery,
-} from "@/app/store/stickers/api";
+import { useLazyGetStickerQuery } from "@/app/store/stickers/api";
 import { useEffect, useRef } from "react";
 import { stickersType } from "../../../../pages/api/types";
 import { useAppDispatch } from "@/app/store";
@@ -28,11 +25,14 @@ import { Skeleton } from "../Skeleton";
 import ItemCount from "../Shared/ItemCount";
 import classNames from "classnames";
 import Button from "../Shared/Button";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
 
 const Stickers = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const {
     page,
     pageSize,
@@ -41,6 +41,11 @@ const Stickers = () => {
     filter,
     result: resultCount,
   } = useStickerStore();
+
+  const currentPage = searchParams!.has("p")
+    ? Number(searchParams!.get("p"))
+    : 1;
+
   const rendered = useRef(false);
   const { category, price, sortBy } = filter;
   const { data } = useGetStickerCategoryQuery({});
@@ -50,7 +55,7 @@ const Stickers = () => {
   const isMobile = useMobileScreen();
 
   const stickerOnPage =
-    resultCount / page > pageSize ? pageSize : resultCount % pageSize;
+    resultCount / currentPage > pageSize ? pageSize : resultCount % pageSize;
 
   const categories =
     data?.map(i => ({
@@ -69,7 +74,7 @@ const Stickers = () => {
     });
     if (!res.error) {
       const data = res.data! as stickersType;
-      dispatch(setStickerData({ page }));
+      dispatch(setStickerData({ page: currentPage }));
       dispatch(setStickerData({ pageSize: data.pageSize }));
       dispatch(setStickerData({ sticker: data.sticker }));
       dispatch(setStickerData({ totalPage: data.totalPage }));
@@ -78,8 +83,8 @@ const Stickers = () => {
   };
 
   useEffect(() => {
-    handleGetSticker(page);
-  }, [page]);
+    handleGetSticker(currentPage);
+  }, [currentPage]);
 
   useEffect(() => {
     if (!rendered.current) {
@@ -215,8 +220,9 @@ const Stickers = () => {
         <Pagination
           className="my-2"
           onChange={(_, page) => {
-            dispatch(setStickerData({ page }));
+            router.push(`/stickers?p=${page}`);
           }}
+          defaultPage={currentPage}
           classes={{
             ul: "justify-center",
           }}
