@@ -99,15 +99,11 @@ const StickerTrend = () => {
                         <Rating />
                       </div>
                       <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
-                        <Icon
-                          name="rupee"
-                          className="h-[8px] sm:h-[14px] md:h-[16px]"
-                        />
                         <Typography
                           variant="body1"
                           className="text-start leading-none	"
                         >
-                          {i.price}
+                          {i.price - 0.01} ₹
                         </Typography>
                       </div>
                       <ItemCount />

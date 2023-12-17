@@ -47,7 +47,7 @@ export default function FilterDrawer(props: propType) {
           transition={{ duration: 0.3 }}
           className="h-[15px] sm:h-[18px] md:h-[22px] w-[15px] sm:w-[18px] md:w-[22px]"
         >
-          <Icon name="slideChevron" className="h-full w-full" />
+          <Icon name="dropChevron" className="h-full w-full" />
         </motion.div>
       </Button>
       <Drawer anchor={"left"} open={openNav} onClose={toggleDrawer(false)}>

@@ -148,7 +148,7 @@ const Stickers = () => {
                             />
                           </div>
                         </motion.div>
-                        <div className="flex-1 flex flex-col items-center pt-[5px] md:pt-[10px]">
+                        <div className="flex-1 flex flex-col items-center py-[5px] md:py-[10px]">
                           <Typography
                             variant="subtitle2"
                             className="text-center"
@@ -157,15 +157,17 @@ const Stickers = () => {
                           </Typography>
 
                           <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
-                            <Icon
-                              name="rupee"
-                              className="h-[8px] sm:h-[14px] md:h-[16px]"
-                            />
                             <Typography
                               variant="body1"
-                              className="text-start leading-none	"
+                              className="text-start leading-none	font-semibold"
                             >
-                              {i.price}
+                              MRP.
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              className="text-start leading-none	font-semibold text-lightRed"
+                            >
+                              ₹{i.price - 0.01}
                             </Typography>
                           </div>
                           <ItemCount />
@@ -194,7 +196,7 @@ const Stickers = () => {
                         <Skeleton />
                       </div>
 
-                      <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 flex flex-col items-center pt-[5px] md:pt-[10px]">
+                      <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 flex flex-col items-center py-[5px] md:py-[10px]">
                         <div className="text-center h-[15px] sm:h-[18px] md:h-[22.5px] w-full">
                           <Skeleton />
                         </div>

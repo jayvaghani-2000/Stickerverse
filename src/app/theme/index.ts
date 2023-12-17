@@ -80,7 +80,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["Poppins", "sans-serif"].join(","),
+    fontFamily: "inherit",
     h1: {
       fontWeight: "700",
       fontSize: "50px",
@@ -146,7 +146,7 @@ const theme = createTheme({
       },
     },
     subtitle2: {
-      fontWeight: "bold",
+      fontWeight: "600",
       lineHeight: "1.5",
       fontSize: "15px",
       "@media (max-width:900px)": {
@@ -180,7 +180,7 @@ const theme = createTheme({
       },
     },
     body2: {
-      fontWeight: "normal",
+      fontWeight: "500",
       fontSize: "14px",
       lineHeight: "1.5",
       "@media (max-width:900px)": {

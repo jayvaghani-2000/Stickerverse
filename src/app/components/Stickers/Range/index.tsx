@@ -25,6 +25,9 @@ const PrettoSlider = styled(Slider)({
     "&:before": {
       display: "none",
     },
+    "&:after": {
+      display: "none",
+    },
   },
 });
 
