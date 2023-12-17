@@ -6,14 +6,15 @@ import {
 } from "@mui/material";
 import classNames from "classnames";
 import React from "react";
+import Icon from "../../Icon";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const roundedShadow: className =
-  "border-solid	px-4 sm:px-5 md:px-6 py-2 border-2 border-black rounded-full shadow-primaryShadow ";
+  "gap-1 items-center border-solid	normal-case px-4 sm:px-5 md:px-6 py-2 border-2 border-black rounded-full shadow-primaryShadow ";
 const roundedShadowFlat: className =
-  "border-solid	px-3 sm:px-4 md:px-5 py-1 border-2 border-black rounded-full shadow-primaryShadow ";
+  "gap-1 items-center border-solid	normal-case px-3 sm:px-4 md:px-5 py-1 border-2 border-black rounded-full shadow-primaryShadow ";
 const borderBottom: className =
-  "border-solid	px-0 py-0 border-2 border-black rounded-full shadow-primaryShadow ";
+  "gap-1 items-center border-solid	normal-case px-0 py-0 border-2 border-black rounded-full shadow-primaryShadow ";
 
 const variants = {
   "rounded-shadow": roundedShadow,
@@ -28,6 +29,7 @@ type propType = {
   variant?: keyof typeof variants;
   typography?: TypographyProps["variant"];
   type?: ButtonProps["type"];
+  icon?: string;
 };
 
 const Button = (props: propType) => {
@@ -38,6 +40,7 @@ const Button = (props: propType) => {
     variant = "rounded-shadow",
     typography = "button",
     type = "button",
+    icon = "cart",
   } = props;
 
   return (
@@ -45,6 +48,11 @@ const Button = (props: propType) => {
       <Typography variant={typography} className={childClassName}>
         {children}
       </Typography>
+      {icon && (
+        <div className="h-[15px] sm:h-[18px] md:h-[21px] w-[15px] sm:w-[18px] md:w-[21px]">
+          <Icon name="cart" className="h-full w-full" />
+        </div>
+      )}
     </MUIButton>
   );
 };

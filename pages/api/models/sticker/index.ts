@@ -72,7 +72,7 @@ export async function getStickerPageCount(data: unknown) {
 
   const totalPages = Math.ceil(totalStickers / pageSize);
 
-  return totalPages;
+  return [totalPages, totalStickers];
 }
 
 export async function getStickerCount(data: unknown) {

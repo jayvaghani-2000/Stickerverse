@@ -13,6 +13,7 @@ export type StickerData = {
   page: stickersType["page"];
   pageSize: stickersType["pageSize"];
   totalPage: stickersType["totalPage"];
+  result: number;
   filter: {
     category: number[];
     price?: [number, number];
@@ -26,6 +27,7 @@ export const initialState = {
   page: 1,
   pageSize: 4,
   totalPage: 0,
+  result: 0,
   filter: { category: [] },
 } as StickerData;
 

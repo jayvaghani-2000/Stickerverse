@@ -15,14 +15,15 @@ export const handleGetProduct = async (query: NextApiRequest["query"]) => {
     prepareQueryNumberArrayPayload(query, ["category", "price"]);
 
     if (Number(query.page) === 1) {
-      const [count, sticker] = await Promise.all([
+      const [[totalPage, result], sticker] = await Promise.all([
         await getStickerPageCount({ ...query }),
         await getStickers({ ...query }),
       ]);
       return {
         sticker,
         page: query.page,
-        totalPage: count,
+        totalPage,
+        result,
         pageSize: query.pageSize,
       };
     } else {

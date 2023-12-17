@@ -66,6 +66,11 @@ const Range = () => {
           })
         );
       }
+      dispatch(
+        setStickerData({
+          result: data?.count ?? 0,
+        })
+      );
     }, 300),
     []
   );

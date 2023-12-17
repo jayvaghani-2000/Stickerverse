@@ -20,6 +20,7 @@ export type stickersType = {
   page: number;
   totalPage: number;
   pageSize: number;
+  result: number;
 };
 export type stickersCountType = NonNullable<
   Awaited<ReturnType<typeof getStickerCount>>

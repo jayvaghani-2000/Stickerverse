@@ -1,6 +1,9 @@
 "use client";
 import { setStickerData, useStickerStore } from "@/app/store/stickers";
-import { useLazyGetStickerQuery } from "@/app/store/stickers/api";
+import {
+  useGetStickerCountQuery,
+  useLazyGetStickerQuery,
+} from "@/app/store/stickers/api";
 import { useEffect, useRef } from "react";
 import { stickersType } from "../../../../pages/api/types";
 import { useAppDispatch } from "@/app/store";
@@ -12,7 +15,7 @@ import Category from "./Category";
 import FilterDrawer from "../Shared/FilterDrawer";
 import Range from "./Range";
 import Sort from "./Sort";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   delayAnimation,
   productAnimation,
@@ -20,31 +23,34 @@ import {
 } from "@/app/utils/animation";
 import { MotionImage } from "../MotionImage";
 import { Pagination, Typography } from "@mui/material";
-import Rating from "../Shared/Rating";
 import Icon from "../Icon";
 import { Skeleton } from "../Skeleton";
 import ItemCount from "../Shared/ItemCount";
+import classNames from "classnames";
+import Button from "../Shared/Button";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+type className = React.HTMLProps<HTMLElement>["className"];
+const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
 
 const Stickers = () => {
-  const { page, pageSize, sticker, totalPage, filter } = useStickerStore();
+  const {
+    page,
+    pageSize,
+    sticker,
+    totalPage,
+    filter,
+    result: resultCount,
+  } = useStickerStore();
   const rendered = useRef(false);
   const { category, price, sortBy } = filter;
   const { data } = useGetStickerCategoryQuery({});
-  const [getStickers] = useLazyGetStickerQuery();
+  const [getStickers, { isFetching }] = useLazyGetStickerQuery();
   const dispatch = useAppDispatch();
   const isTab = useTabScreen();
   const isMobile = useMobileScreen();
+
+  const stickerOnPage =
+    resultCount / page > pageSize ? pageSize : resultCount % pageSize;
 
   const categories =
     data?.map(i => ({
@@ -67,12 +73,15 @@ const Stickers = () => {
       dispatch(setStickerData({ pageSize: data.pageSize }));
       dispatch(setStickerData({ sticker: data.sticker }));
       dispatch(setStickerData({ totalPage: data.totalPage }));
+      if (!resultCount) {
+        dispatch(setStickerData({ result: data.result }));
+      }
     }
   };
 
   useEffect(() => {
     handleGetSticker(page);
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     if (!rendered.current) {
@@ -104,73 +113,83 @@ const Stickers = () => {
         <FilterPopover label="Sort" popover={<Sort />} />
       </div>
 
-      <div className="mt-32">
-        <div className="flex gap-10">
-          {sticker.length !== 0
+      <div className="mt-[20px] sm:mt-[32px] md:mt-[40px]">
+        <div className="flex flex-wrap justify-around sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 scrollbar-hide">
+          {sticker.length !== 0 && !isFetching
             ? sticker.map((i, index) => {
                 const aspectRatio = i.image[0].width / i.image[0].height;
                 return (
-                  <motion.figure
-                    key={i.id}
-                    {...productAnimation(i.id.toString())}
-                  >
-                    <motion.div
-                      key={i.id}
-                      className="w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col "
-                      {...productHoverEffect()}
-                    >
-                      <div className="py-[10px] sm:py-[15px] md:py-[20px]">
-                        <div
-                          className={`h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden rounded-[30px] bg-white flex justify-center items-center`}
-                          style={{ aspectRatio: aspectRatio }}
+                  <AnimatePresence key={i.id}>
+                    <motion.figure {...productAnimation(i.id.toString())}>
+                      <motion.div
+                        key={i.id}
+                        className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col "
+                      >
+                        <motion.div
+                          className="py-[10px] sm:py-[15px] md:py-[20px] bg-white border-2 border-black "
+                          {...productHoverEffect()}
                         >
-                          <MotionImage
-                            src={i.image[0].url}
-                            alt=""
-                            fill
-                            placeholder="blur"
-                            blurDataURL={i.image[0].blurUrl}
-                            style={{ objectFit: "cover" }}
-                            sizes={getImageSize()}
-                          />
-                        </div>
-                      </div>
-                      <div className="flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
-                        <Typography variant="subtitle2" className="text-center">
-                          {i.productName}
-                        </Typography>
-                        <div className="flex justify-center">
-                          <Rating />
-                        </div>
-                        <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
-                          <Icon
-                            name="rupee"
-                            className="h-[8px] sm:h-[14px] md:h-[16px]"
-                          />
-                          <Typography
-                            variant="body1"
-                            className="text-start leading-none	"
+                          <div
+                            className={`h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden  bg-white flex justify-center items-center`}
+                            style={{ aspectRatio: aspectRatio }}
                           >
-                            {i.price}
+                            <MotionImage
+                              src={i.image[0].url}
+                              alt=""
+                              fill
+                              placeholder="blur"
+                              blurDataURL={i.image[0].blurUrl}
+                              style={{ objectFit: "cover" }}
+                              sizes={getImageSize()}
+                            />
+                          </div>
+                        </motion.div>
+                        <div className="flex-1 flex flex-col items-center pt-[5px] md:pt-[10px] ">
+                          <Typography
+                            variant="subtitle2"
+                            className="text-center"
+                          >
+                            {i.productName}
                           </Typography>
+
+                          <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
+                            <Icon
+                              name="rupee"
+                              className="h-[8px] sm:h-[14px] md:h-[16px]"
+                            />
+                            <Typography
+                              variant="body1"
+                              className="text-start leading-none	"
+                            >
+                              {i.price}
+                            </Typography>
+                          </div>
+                          <ItemCount />
+
+                          <Button
+                            childClassName="normal-case"
+                            typography="subtitle2"
+                            className="bg-primeGreen hover:bg-primeGreen w-fit mt-1 sm:mt-2 md:mt-3 px-1 sm:px-2 md:px-2  pt-1 pb-1"
+                          >
+                            Add to Cart
+                          </Button>
                         </div>
-                        <ItemCount />
-                      </div>
-                    </motion.div>
-                  </motion.figure>
+                      </motion.div>
+                    </motion.figure>
+                  </AnimatePresence>
                 );
               })
-            : [0, 1, 2].map(i => {
+            : Array.from(Array(stickerOnPage).keys()).map(i => {
                 return (
                   <motion.figure key={i} {...delayAnimation(i)}>
-                    <div className="w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col">
+                    <div className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col">
                       <div
-                        className={`w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto rounded-t-2xl overflow-hidden`}
+                        className={`w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto bg-white border-2 border-black overflow-hidden`}
                       >
                         <Skeleton />
                       </div>
 
-                      <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
+                      <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1  py-[10px] md:py-[20px]">
                         <div className="text-center h-[18px] md:h-[24px]">
                           <Skeleton />
                         </div>
@@ -182,10 +201,15 @@ const Stickers = () => {
                   </motion.figure>
                 );
               })}
+          <div className={dummySticker} />
+          <div className={dummySticker} />
+          <div className={classNames(dummySticker, "hidden sm:block")} />
+          <div className={classNames(dummySticker, "hidden sm:block")} />
+          <div className={classNames(dummySticker, "hidden sm:block")} />
         </div>
         <Pagination
           onChange={(_, page) => {
-            handleGetSticker(page);
+            dispatch(setStickerData({ page }));
           }}
           count={totalPage}
           color="primary"

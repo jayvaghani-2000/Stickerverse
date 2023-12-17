@@ -47,4 +47,5 @@ export const {
   useGetStickerQuery,
   useLazyGetStickerQuery,
   useGetStickerCountQuery,
+  useLazyGetStickerCountQuery,
 } = stickerApi;

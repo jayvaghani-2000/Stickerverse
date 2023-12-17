@@ -36,6 +36,11 @@ const Category = (props: propType) => {
           filter: { ...filter, category: ref.current },
         })
       );
+      dispatch(
+        setStickerData({
+          result: data?.count ?? 0,
+        })
+      );
     }, 600),
     []
   );
