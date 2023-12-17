@@ -112,7 +112,7 @@ const Stickers = () => {
       </div>
 
       <div className="mt-[20px] sm:mt-[32px] md:mt-[40px]">
-        <div className="flex flex-wrap justify-around sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 scrollbar-hide">
+        <div className="flex flex-wrap justify-around gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 scrollbar-hide">
           {sticker.length !== 0 && !isFetching
             ? sticker.map((i, index) => {
                 const aspectRatio = i.image[0].width / i.image[0].height;
@@ -142,7 +142,7 @@ const Stickers = () => {
                             />
                           </div>
                         </motion.div>
-                        <div className="flex-1 flex flex-col items-center pt-[5px] md:pt-[10px] ">
+                        <div className="flex-1 flex flex-col items-center pt-[5px] md:pt-[10px]">
                           <Typography
                             variant="subtitle2"
                             className="text-center"
@@ -167,7 +167,7 @@ const Stickers = () => {
                           <Button
                             childClassName="normal-case"
                             typography="subtitle2"
-                            className="bg-primeGreen hover:bg-primeGreen w-fit mt-1 sm:mt-2 md:mt-3 px-1 sm:px-2 md:px-2  pt-1 pb-1"
+                            className="bg-primeGreen hover:bg-primeGreen w-fit mt-1 sm:mt-2 md:mt-3 pl-1 sm:pl-2 md:pl-2  pr-1 sm:pr-2 md:pr-2 pt-1 pb-1"
                             icon="cart"
                           >
                             Add to Cart
@@ -188,11 +188,17 @@ const Stickers = () => {
                         <Skeleton />
                       </div>
 
-                      <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1  py-[10px] md:py-[20px]">
-                        <div className="text-center h-[18px] md:h-[24px]">
+                      <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 flex flex-col items-center pt-[5px] md:pt-[10px]">
+                        <div className="text-center h-[15px] sm:h-[18px] md:h-[22.5px] w-full">
                           <Skeleton />
                         </div>
-                        <div className="text-center mt-1 md:mt-2 h-[21px] md:h-[27px]">
+                        <div className="text-center mt-1 h-[10px] sm:h-[14px] md:h-[18px] w-full">
+                          <Skeleton />
+                        </div>
+                        <div className="text-center mt-1 h-[17px] sm:h-[24px] md:h-[30px] w-full">
+                          <Skeleton />
+                        </div>
+                        <div className="text-center mt-1 sm:mt-2 md:mt-3 h-[27px] sm:h-[30px] md:h-[34.5px] w-full">
                           <Skeleton />
                         </div>
                       </div>
@@ -207,8 +213,12 @@ const Stickers = () => {
           <div className={classNames(dummySticker, "hidden sm:block")} />
         </div>
         <Pagination
+          className="my-2"
           onChange={(_, page) => {
             dispatch(setStickerData({ page }));
+          }}
+          classes={{
+            ul: "justify-center",
           }}
           count={totalPage}
           color="primary"
