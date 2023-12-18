@@ -13,11 +13,7 @@ import FilterDrawer from "../Shared/FilterDrawer";
 import Range from "./Range";
 import Sort from "./Sort";
 import { motion, animate } from "framer-motion";
-import {
-  delayAnimation,
-  productAnimation,
-  productHoverEffect,
-} from "@/app/utils/animation";
+import { productAnimation, productClickEffect } from "@/app/utils/animation";
 import { MotionImage } from "../MotionImage";
 import { Pagination, Typography } from "@mui/material";
 import { Skeleton } from "../Skeleton";
@@ -144,17 +140,19 @@ const Stickers = () => {
                         [
                           `.${imageClass}`,
                           {
-                            boxShadow: "0px 0px 0px 0px #000",
+                            boxShadow: "-1px -1px 0px 0px #fff",
                             transitionDuration: 300,
                           },
                         ],
                       ]);
                     }}
                   >
-                    <motion.div className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col ">
+                    <motion.div
+                      className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col "
+                      {...productClickEffect()}
+                    >
                       <motion.div
                         className={`${imageClass} py-[10px] sm:py-[15px] md:py-[20px] bg-white border-2 border-black `}
-                        {...productHoverEffect()}
                       >
                         <div
                           className={`h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden  bg-white flex justify-center items-center`}
@@ -171,7 +169,7 @@ const Stickers = () => {
                           />
                         </div>
                       </motion.div>
-                      <div className="flex-1 flex flex-col items-center py-[5px] md:py-[10px]">
+                      <div className="flex-1 flex flex-col items-center pt-[5px] md:pt-[10px]  pb-[30px] sm:pb-[40px] md:pb-[80px]">
                         <Typography variant="subtitle2" className="text-center">
                           {i.productName}
                         </Typography>
@@ -207,7 +205,7 @@ const Stickers = () => {
               })
             : Array.from(Array(stickerOnPage || pageSize).keys()).map(i => {
                 return (
-                  <motion.figure key={i} {...delayAnimation(i)}>
+                  <motion.figure key={i}>
                     <div className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col">
                       <div
                         className={`w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto bg-white border-2 border-black overflow-hidden`}
@@ -215,7 +213,7 @@ const Stickers = () => {
                         <Skeleton />
                       </div>
 
-                      <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 flex flex-col items-center py-[5px] md:py-[10px]">
+                      <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 flex flex-col items-center  pt-[5px] md:pt-[10px]  pb-[30px] sm:pb-[40px] md:pb-[80px]">
                         <div className="text-center h-[15px] sm:h-[18px] md:h-[22.5px] w-full">
                           <Skeleton />
                         </div>

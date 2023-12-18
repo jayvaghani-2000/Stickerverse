@@ -92,6 +92,14 @@ export const productHoverEffect = (): AnimationProps & MotionProps => {
     },
   };
 };
+export const productClickEffect = (): AnimationProps & MotionProps => {
+  return {
+    whileTap: {
+      scale: 0.9,
+      transition: { duration: 0.3 },
+    },
+  };
+};
 
 export const galleryAnimation = (i: number): AnimationProps => {
   const rng = seedrandom("seed" + i);

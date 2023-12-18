@@ -9,16 +9,11 @@ import classNames from "classnames";
 import { paddingSpacing } from "@/app/utils/styles";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Skeleton } from "../../Skeleton";
-import {
-  delayAnimation,
-  productAnimation,
-  productHoverEffect,
-} from "@/app/utils/animation";
+import { productAnimation, productHoverEffect } from "@/app/utils/animation";
 import { useAppDispatch } from "@/app/store";
 import { trendingStickerType } from "../../../../../pages/api/types";
 import ItemCount from "../../Shared/ItemCount";
 import Rating from "../../Shared/Rating";
-import Icon from "../../Icon";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
@@ -114,7 +109,7 @@ const StickerTrend = () => {
             })
           : [0, 1, 2].map(i => {
               return (
-                <motion.figure key={i} {...delayAnimation(i)}>
+                <motion.figure key={i}>
                   <div className="w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col">
                     <div
                       className={`w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto rounded-t-2xl overflow-hidden`}
