@@ -1,6 +1,5 @@
 "use client";
 import React, {
-  ChangeEvent,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -23,7 +22,8 @@ import Button from "@/app/components/Shared/Button";
 import { useGetStickerCategoryQuery } from "@/app/store/category/api";
 import CreateSelect from "@/app/components/Shared/CreateSelect";
 import InlineSpinner from "@/app/components/Shared/InlineSpinner";
-import Toast from "@/app/components/Shared/Toast";
+
+const allowFileType = ["image/png", "image/jpg", "image/jpeg", "image/webp"];
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Please enter sticker name"),
@@ -87,13 +87,23 @@ const AddProductForm = forwardRef((props: FormPropType & {}, parentRef) => {
     data?.map(i => ({
       value: i.id,
       label: i.categoryName,
-    })) || [];
+    })) ?? [];
 
   const files = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const files = e.target.files as FileList;
-      newImages.current = files.length;
-      setFieldValue("images", [...values.images, ...Array.from(files)]);
+      const files = e.target.files;
+
+      const filterImage = [] as File[];
+
+      for (let i of Array.from(files)) {
+        if (allowFileType.includes(i.type)) {
+          filterImage.push(i);
+        }
+      }
+
+      newImages.current = filterImage.length;
+      setFieldValue("images", [...values.images, ...Array.from(filterImage)]);
+      ref.current.value = "";
     }
   };
 
@@ -102,9 +112,9 @@ const AddProductForm = forwardRef((props: FormPropType & {}, parentRef) => {
       const newImagesObject = cloneDeep(values.images).splice(
         -newImages.current
       );
-      for (let i = 0; i < newImagesObject.length; i++) {
-        const file = newImagesObject[i];
-        const { name } = file;
+
+      for (let i of newImagesObject) {
+        const { name } = i;
         const reader = new FileReader();
 
         reader.onloadend = function () {
@@ -112,8 +122,9 @@ const AddProductForm = forwardRef((props: FormPropType & {}, parentRef) => {
           const base64String = result;
           setImagesStr(prev => [...prev, { base64: base64String, name }]);
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(i);
       }
+
       newImages.current = 0;
     }
   }, [values.images]);
@@ -191,7 +202,7 @@ const AddProductForm = forwardRef((props: FormPropType & {}, parentRef) => {
         <input
           type="file"
           ref={ref}
-          accept="image/*"
+          accept="image/png, image/webp, image/jpg, image/jpeg"
           onChange={files}
           multiple
           name="image"

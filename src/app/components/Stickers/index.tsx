@@ -12,7 +12,7 @@ import Category from "./Category";
 import FilterDrawer from "../Shared/FilterDrawer";
 import Range from "./Range";
 import Sort from "./Sort";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion, animate } from "framer-motion";
 import {
   delayAnimation,
   productAnimation,
@@ -20,7 +20,6 @@ import {
 } from "@/app/utils/animation";
 import { MotionImage } from "../MotionImage";
 import { Pagination, Typography } from "@mui/material";
-import Icon from "../Icon";
 import { Skeleton } from "../Skeleton";
 import ItemCount from "../Shared/ItemCount";
 import classNames from "classnames";
@@ -61,7 +60,7 @@ const Stickers = () => {
     data?.map(i => ({
       value: i.id,
       label: i.categoryName,
-    })) || [];
+    })) ?? [];
 
   const handleGetSticker = async (currentPage: number) => {
     const res = await getStickers({
@@ -122,68 +121,88 @@ const Stickers = () => {
           {sticker.length !== 0 && !isFetching
             ? sticker.map((i, index) => {
                 const aspectRatio = i.image[0].width / i.image[0].height;
+
+                const imageClass = `image-${i.id}`;
+
                 return (
-                  <AnimatePresence key={i.id}>
-                    <motion.figure {...productAnimation(i.id.toString())}>
+                  <motion.figure
+                    key={i.id}
+                    {...productAnimation(i.id.toString())}
+                    onHoverStart={() => {
+                      animate([
+                        [
+                          `.${imageClass}`,
+                          {
+                            boxShadow: "3px 3px 0px 0px #000",
+                            transitionDuration: 300,
+                          },
+                        ],
+                      ]);
+                    }}
+                    onHoverEnd={() => {
+                      animate([
+                        [
+                          `.${imageClass}`,
+                          {
+                            boxShadow: "0px 0px 0px 0px #000",
+                            transitionDuration: 300,
+                          },
+                        ],
+                      ]);
+                    }}
+                  >
+                    <motion.div className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col ">
                       <motion.div
-                        key={i.id}
-                        className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col "
+                        className={`${imageClass} py-[10px] sm:py-[15px] md:py-[20px] bg-white border-2 border-black `}
+                        {...productHoverEffect()}
                       >
-                        <motion.div
-                          className="py-[10px] sm:py-[15px] md:py-[20px] bg-white border-2 border-black "
-                          {...productHoverEffect()}
+                        <div
+                          className={`h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden  bg-white flex justify-center items-center`}
+                          style={{ aspectRatio: aspectRatio }}
                         >
-                          <div
-                            className={`h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden  bg-white flex justify-center items-center`}
-                            style={{ aspectRatio: aspectRatio }}
-                          >
-                            <MotionImage
-                              src={i.image[0].url}
-                              alt=""
-                              fill
-                              placeholder="blur"
-                              blurDataURL={i.image[0].blurUrl}
-                              style={{ objectFit: "cover" }}
-                              sizes={getImageSize()}
-                            />
-                          </div>
-                        </motion.div>
-                        <div className="flex-1 flex flex-col items-center py-[5px] md:py-[10px]">
-                          <Typography
-                            variant="subtitle2"
-                            className="text-center"
-                          >
-                            {i.productName}
-                          </Typography>
-
-                          <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
-                            <Typography
-                              variant="body1"
-                              className="text-start leading-none	font-semibold"
-                            >
-                              MRP.
-                            </Typography>
-                            <Typography
-                              variant="body1"
-                              className="text-start leading-none	font-semibold text-lightRed"
-                            >
-                              ₹{i.price - 0.01}
-                            </Typography>
-                          </div>
-                          <ItemCount />
-
-                          <Button
-                            childClassName="normal-case"
-                            typography="subtitle2"
-                            className="bg-primeGreen hover:bg-primeGreen w-fit mt-1 sm:mt-2 md:mt-3 pl-1 sm:pl-2 md:pl-2  pr-1 sm:pr-2 md:pr-2 pt-1 pb-1"
-                            icon="cart"
-                          >
-                            Add to Cart
-                          </Button>
+                          <MotionImage
+                            src={i.image[0].url}
+                            alt=""
+                            fill
+                            placeholder="blur"
+                            blurDataURL={i.image[0].blurUrl}
+                            style={{ objectFit: "cover" }}
+                            sizes={getImageSize()}
+                          />
                         </div>
                       </motion.div>
-                    </motion.figure>
-                  </AnimatePresence>
+                      <div className="flex-1 flex flex-col items-center py-[5px] md:py-[10px]">
+                        <Typography variant="subtitle2" className="text-center">
+                          {i.productName}
+                        </Typography>
+
+                        <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
+                          <Typography
+                            variant="body1"
+                            className="text-start leading-none	font-semibold"
+                          >
+                            MRP.
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            className="text-start leading-none	font-semibold text-lightRed"
+                          >
+                            ₹{i.price - 0.01}
+                          </Typography>
+                        </div>
+                        <ItemCount />
+
+                        <Button
+                          childClassName="normal-case"
+                          typography="subtitle2"
+                          className="bg-primeGreen hover:bg-primeGreen w-fit mt-1 sm:mt-2 md:mt-3 pl-1 sm:pl-2 md:pl-2  pr-1 sm:pr-2 md:pr-2 pt-1 pb-1"
+                          icon="cart"
+                        >
+                          Add to Cart
+                        </Button>
+                      </div>
+                    </motion.div>
+                  </motion.figure>
                 );
               })
             : Array.from(Array(stickerOnPage || pageSize).keys()).map(i => {
