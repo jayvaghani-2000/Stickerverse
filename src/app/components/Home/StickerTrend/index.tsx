@@ -14,6 +14,7 @@ import { useAppDispatch } from "@/app/store";
 import { trendingStickerType } from "../../../../../pages/api/types";
 import ItemCount from "../../Shared/ItemCount";
 import Rating from "../../Shared/Rating";
+import { randomColor } from "@/app/utils/skeleton";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
@@ -108,21 +109,22 @@ const StickerTrend = () => {
               );
             })
           : [0, 1, 2].map(i => {
+              const color = randomColor();
               return (
                 <motion.figure key={i}>
                   <div className="w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col">
                     <div
                       className={`w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto rounded-t-2xl overflow-hidden`}
                     >
-                      <Skeleton />
+                      <Skeleton color={color} />
                     </div>
 
                     <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
                       <div className="text-center h-[18px] md:h-[24px]">
-                        <Skeleton />
+                        <Skeleton color={color} />
                       </div>
                       <div className="text-center mt-1 md:mt-2 h-[21px] md:h-[27px]">
-                        <Skeleton />
+                        <Skeleton color={color} />
                       </div>
                     </div>
                   </div>
