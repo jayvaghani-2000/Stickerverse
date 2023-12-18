@@ -15,6 +15,7 @@ import { trendingStickerType } from "../../../../../pages/api/types";
 import ItemCount from "../../Shared/ItemCount";
 import Rating from "../../Shared/Rating";
 import { randomColor } from "@/app/utils/skeleton";
+import { placeholder } from "@/app/utils/constant";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
@@ -57,7 +58,7 @@ const StickerTrend = () => {
           See All
         </Button>
       </div>
-      <div className=" flex flex-wrap justify-around sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 scrollbar-hide ">
+      <div className=" flex flex-wrap justify-around sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 sm:gap-y-8 md:gap-y-10 scrollbar-hide ">
         {trendingSticker.length !== 0
           ? trendingSticker.map((i, index) => {
               const aspectRatio = i.image[0].width / i.image[0].height;
@@ -114,8 +115,24 @@ const StickerTrend = () => {
                 <motion.figure key={i}>
                   <div className="w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col">
                     <div
-                      className={`w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto rounded-t-2xl overflow-hidden`}
+                      className={`relative w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto flex items-center rounded-t-2xl overflow-hidden`}
                     >
+                      <div
+                        className={`absolute w-full  z-10 h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden flex justify-center items-center`}
+                        style={{
+                          aspectRatio: placeholder.width / placeholder.height,
+                        }}
+                      >
+                        <MotionImage
+                          src={placeholder.url}
+                          alt=""
+                          fill
+                          placeholder="blur"
+                          blurDataURL={placeholder.baseUrl}
+                          style={{ objectFit: "cover" }}
+                          sizes={getImageSize()}
+                        />
+                      </div>
                       <Skeleton color={color} />
                     </div>
 

@@ -6,7 +6,6 @@ import { stickersType } from "../../../../pages/api/types";
 import { useAppDispatch } from "@/app/store";
 import { useGetStickerCategoryQuery } from "@/app/store/category/api";
 import FilterPopover from "../Shared/FilterPopover";
-import { paddingSpacing } from "@/app/utils/styles";
 import Category from "./Category";
 import FilterDrawer from "../Shared/FilterDrawer";
 import Range from "./Range";
@@ -18,11 +17,16 @@ import classNames from "classnames";
 import { useRouter, useSearchParams } from "next/navigation";
 import Sticker from "./Sticker";
 import { randomColor } from "@/app/utils/skeleton";
+import { placeholder } from "@/app/utils/constant";
+import { MotionImage } from "../MotionImage";
+import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
 
 const Stickers = () => {
+  const isTab = useTabScreen();
+  const isMobile = useMobileScreen();
   const searchParams = useSearchParams();
   const router = useRouter();
   const {
@@ -85,9 +89,18 @@ const Stickers = () => {
     router.replace(`/stickers?p=1`);
   }, [filter]);
 
+  const getImageSize = () => {
+    if (isMobile) {
+      return "100px";
+    } else if (isTab) {
+      return "150px";
+    }
+    return "200px";
+  };
+
   return (
-    <div className={paddingSpacing}>
-      <div className="mt-10 flex justify-between">
+    <div>
+      <div className="mt-4 sm:mt-6 md:mt-8 flex justify-between">
         <div className="flex gap-1 sm:gap-2">
           <FilterDrawer label="Price" popover={<Range />} />
           <FilterDrawer
@@ -110,8 +123,24 @@ const Stickers = () => {
                   <motion.figure key={i}>
                     <div className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col">
                       <div
-                        className={`w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto bg-white border-2 border-black overflow-hidden`}
+                        className={`w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto bg-white border-2 border-black overflow-hidden relative flex items-center`}
                       >
+                        <div
+                          className={`absolute w-full  z-10 h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden flex justify-center items-center`}
+                          style={{
+                            aspectRatio: placeholder.width / placeholder.height,
+                          }}
+                        >
+                          <MotionImage
+                            src={placeholder.url}
+                            alt=""
+                            fill
+                            placeholder="blur"
+                            blurDataURL={placeholder.baseUrl}
+                            style={{ objectFit: "cover" }}
+                            sizes={getImageSize()}
+                          />
+                        </div>
                         <Skeleton color={color} />
                       </div>
 
