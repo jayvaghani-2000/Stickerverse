@@ -60,7 +60,7 @@ const StickerTrend = () => {
       </div>
       <div className=" flex flex-wrap justify-around sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 sm:gap-y-8 md:gap-y-10 scrollbar-hide ">
         {trendingSticker.length !== 0
-          ? trendingSticker.map((i, index) => {
+          ? trendingSticker.slice(0, 6).map((i, index) => {
               const aspectRatio = i.image[0].width / i.image[0].height;
               return (
                 <motion.figure
@@ -109,7 +109,7 @@ const StickerTrend = () => {
                 </motion.figure>
               );
             })
-          : [0, 1, 2].map(i => {
+          : [0, 1, 2, 3, 4, 5].map(i => {
               const color = randomColor();
               return (
                 <motion.figure key={i}>

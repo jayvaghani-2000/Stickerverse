@@ -155,13 +155,13 @@ const Stickers = () => {
                         <div className="text-center h-[15px] sm:h-[18px] md:h-[22.5px] w-full">
                           <Skeleton color={color} />
                         </div>
-                        <div className="text-center mt-1 h-[10px] sm:h-[14px] md:h-[18px] w-full">
+                        <div className="text-center mt-1 sm:mt-2 h-[10px] sm:h-[14px] md:h-[18px] w-full">
                           <Skeleton color={color} />
                         </div>
-                        <div className="text-center mt-1 h-[17px] sm:h-[24px] md:h-[30px] w-full">
+                        <div className="text-center  mt-1 sm:mt-2 md:mt-3 h-[24px] md:h-[30px] w-full">
                           <Skeleton color={color} />
                         </div>
-                        <div className="text-center mt-1 sm:mt-2 md:mt-3 h-[27px] sm:h-[30px] md:h-[34.5px] w-full">
+                        <div className="text-center mt-2 sm:mt-3 md:mt-4 h-[27px] sm:h-[30px] md:h-[34.5px] w-full">
                           <Skeleton color={color} />
                         </div>
                       </div>

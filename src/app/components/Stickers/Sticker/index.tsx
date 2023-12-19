@@ -107,7 +107,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
             </div>
           </div>
 
-          <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
+          <div className="flex justify-center items-start mt-1 sm:mt-2 gap-[2px] sm:gap-1 ">
             <Typography
               variant="body1"
               className="text-start leading-none	font-semibold"
@@ -126,7 +126,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
           <Button
             childClassName="normal-case"
             typography="subtitle2"
-            className="bg-primeGreen hover:bg-primeGreen w-fit mt-1 sm:mt-2 md:mt-3 pl-1 sm:pl-2 md:pl-2  pr-1 sm:pr-2 md:pr-2 pt-1 pb-1"
+            className="bg-primeGreen hover:bg-primeGreen w-fit mt-2 sm:mt-3 md:mt-4 pl-2 sm:pl-3 md:pl-4  pr-2 sm:pr-3 md:pr-3  pt-1 pb-1 sm:pt-[6px] sm:pb-[6px] md:pt-2 sm:pb-2"
             icon="cart"
           >
             Add to Cart
