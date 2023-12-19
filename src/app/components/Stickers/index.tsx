@@ -10,7 +10,7 @@ import Category from "./Category";
 import FilterDrawer from "../Shared/FilterDrawer";
 import Range from "./Range";
 import Sort from "./Sort";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Pagination } from "@mui/material";
 import { Skeleton } from "../Skeleton";
 import classNames from "classnames";
@@ -118,11 +118,13 @@ const Stickers = () => {
 
       <div className="mt-[20px] sm:mt-[32px] md:mt-[40px]">
         <div className="flex flex-wrap justify-around gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 scrollbar-hide">
-          {sticker.length !== 0 && !isFetching
-            ? sticker.map((i, index) => {
-                return <Sticker key={i.id} sticker={i} />;
-              })
-            : Array.from(Array(stickerOnPage || pageSize).keys()).map(i => {
+          {sticker.length !== 0 && !isFetching ? (
+            sticker.map((i, index) => {
+              return <Sticker key={i.id} sticker={i} />;
+            })
+          ) : (
+            <AnimatePresence>
+              {Array.from(Array(stickerOnPage || pageSize).keys()).map(i => {
                 const color = randomColor();
                 return (
                   <motion.figure key={i}>
@@ -167,6 +169,8 @@ const Stickers = () => {
                   </motion.figure>
                 );
               })}
+            </AnimatePresence>
+          )}
           <div className={dummySticker} />
           <div className={dummySticker} />
           <div className={classNames(dummySticker, "hidden sm:block")} />

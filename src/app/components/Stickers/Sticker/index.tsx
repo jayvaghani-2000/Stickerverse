@@ -8,19 +8,21 @@ import styles from "../stickers.module.scss";
 import { Typography } from "@mui/material";
 import ItemCount from "../../Shared/ItemCount";
 import Button from "../../Shared/Button";
+import { getPlatform } from "@/app/utils/getPlatform";
 
 const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const title = useRef<HTMLHeadingElement>(null!);
   const titleBackup = useRef<HTMLHeadingElement>(null!);
   const isTab = useTabScreen();
-  const isMobile = useMobileScreen();
+  const isMobileSize = useMobileScreen();
+  const { isMobile } = getPlatform();
   const aspectRatio = sticker.image[0].width / sticker.image[0].height;
   const imageClass = `image-${sticker.id}`;
 
   const i = sticker;
 
   const getImageSize = () => {
-    if (isMobile) {
+    if (isMobileSize) {
       return "100px";
     } else if (isTab) {
       return "150px";
@@ -45,6 +47,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
       key={i.id}
       {...productAnimation(i.id.toString())}
       onHoverStart={() => {
+        if (isMobile) return;
         animate([
           [
             `.${imageClass}`,
@@ -56,6 +59,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
         ]);
       }}
       onHoverEnd={() => {
+        if (isMobile) return;
         animate([
           [
             `.${imageClass}`,
