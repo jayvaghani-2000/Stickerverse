@@ -40,7 +40,7 @@ export const stickerSlice = createSlice({
     },
 
     resetStickerData: (state, action: { payload: number }) => {
-      state = initialState;
+      Object.assign(state, initialState);
     },
   },
   extraReducers: builder => {

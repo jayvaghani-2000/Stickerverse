@@ -68,11 +68,16 @@ const Stickers = () => {
     });
     if (!res.error) {
       const data = res.data! as stickersType;
-      dispatch(setStickerData({ page: currentPage }));
-      dispatch(setStickerData({ pageSize: data.pageSize }));
-      dispatch(setStickerData({ sticker: data.sticker }));
-      dispatch(setStickerData({ totalPage: data.totalPage }));
-      dispatch(setStickerData({ result: data.result }));
+
+      dispatch(
+        setStickerData({
+          page: currentPage,
+          pageSize: data.pageSize,
+          sticker: data.sticker,
+          totalPage: data.totalPage,
+          result: data.result,
+        })
+      );
     }
   };
 
