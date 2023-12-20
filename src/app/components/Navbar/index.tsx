@@ -10,6 +10,7 @@ import styles from "./navbar.module.scss";
 import { useMobileScreen } from "@/app/utils/useScreenSize";
 import Drawer from "./drawer";
 import { paddingSpacing } from "@/app/utils/styles";
+import Profile from "./Profile";
 
 const TABS = [
   { title: "Stickers", path: "/stickers" },
@@ -27,9 +28,8 @@ const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
   const path = usePathname();
   const isMobile = useMobileScreen();
-
-  const isAdmin = path?.startsWith("/admin");
-
+  const [profileEl, setProfileEl] = React.useState<HTMLElement | null>(null);
+  const isAdmin = path!.startsWith("/admin");
   const toggleDrawer = (open: boolean) => {
     setOpenNav(open);
   };
@@ -39,6 +39,16 @@ const Navbar = () => {
       toggleDrawer(false);
     }
   }, [path]);
+
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setProfileEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setProfileEl(null);
+  };
+
+  const open = Boolean(profileEl);
 
   return isMobile ? (
     <nav
@@ -116,9 +126,12 @@ const Navbar = () => {
 
       <div className="flex items-center justify-between gap-[15px] md:gap-[20px]">
         <Icon name="search" className="w-[22px] md:w-[25px]" />
-        <Link href="/profile">
+        <button
+          aria-describedby={"mouse-over-popover"}
+          onClick={handlePopoverOpen}
+        >
           <Icon name="user" className="w-[22px] md:w-[25px]" />
-        </Link>
+        </button>
         <Link href="/wishlist">
           <Icon name="heartBlack" className="w-[22px] md:w-[25px]" />
         </Link>
@@ -126,6 +139,11 @@ const Navbar = () => {
           <Icon name="cart" className="w-[22px] md:w-[25px]" />
         </Link>
       </div>
+      <Profile
+        handlePopoverClose={handlePopoverClose}
+        open={open}
+        profileEl={profileEl}
+      />
     </nav>
   );
 };

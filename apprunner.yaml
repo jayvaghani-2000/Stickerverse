@@ -1,0 +1,14 @@
+version: 1
+runtime: nodejs18
+build:
+  commands:
+    - yarn install
+    - yarn build
+
+start:
+  command: yarn start
+  runtime: nodejs18
+  port: 3000
+  listener:
+    port: 80
+    protocol: http
