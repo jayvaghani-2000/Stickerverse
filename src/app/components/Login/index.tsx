@@ -1,13 +1,15 @@
-import styles from "./login.module.scss";
 import Forms from "../Shared/Forms";
 import * as Yup from "yup";
 import { FormPropType } from "../Shared/Types/formPropsTypes";
 import classNames from "classnames";
-import { Josefin_Sans } from "next/font/google";
 import { useRouter } from "next/navigation";
 import Text from "../Shared/Input/Text/index";
-
-const josefin = Josefin_Sans({ subsets: ["latin"] });
+import { paddingSpacing } from "@/app/utils/styles";
+import { Typography } from "@mui/material";
+import Button from "../Shared/Button";
+import Icon from "../Icon";
+import Nova from "../Font/nova";
+import { supabase } from "../../../../supabase/init";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string().required("Please enter your password"),
@@ -18,9 +20,18 @@ const validationSchema = Yup.object().shape({
 
 const LoginForm = (props: FormPropType) => {
   const { handleChange, values, isSubmitting, errors } = props;
-  console.log(errors);
+
+  const handleLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/login`,
+      },
+    });
+  };
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col items-center gap-3 md:gap-4">
       <Text
         type="email"
         name="email"
@@ -36,13 +47,15 @@ const LoginForm = (props: FormPropType) => {
         value={values.password}
       />
 
-      <button
-        type="submit"
-        className="outline-none p-3 bg-purple"
-        disabled={isSubmitting}
+      <Button
+        prefixIcon="google"
+        className="w-fit pt-1 pb-1 pl-1 sm:pl-1 md:pl-1 pr-1 sm:pr-1 md:pr-1 bg-lemonGreen hover:bg-lemonGreen"
+        prefixWrapperClassName="h-[24px] w-[24px] md:h-[36px] md:w-[36px]  bg-white rounded-full"
+        childClassName="px-2 normal-case"
+        onClick={handleLogin}
       >
-        Submit
-      </button>
+        Google Account
+      </Button>
     </div>
   );
 };
@@ -53,33 +66,44 @@ const Login = () => {
   return (
     <main
       className={classNames(
-        styles.wrapper,
-        "flex gap-4 py-20 justify-center items-center"
+        "flex flex-col py-20 justify-center items-center",
+        paddingSpacing
       )}
     >
-      <div className="w-[400px] max-w-[100%]  px-4">
-        <div className="flex gap-2 justify-center mb-4">
-          <h1 className={classNames(josefin.className, "font-light text-4xl")}>
-            StickerVerse
-          </h1>
-          <h1
-            className={classNames(
-              josefin.className,
-              "font-bold text-4xl text-purple"
-            )}
-          >
-            S.V
-          </h1>
+      <div
+        className={classNames(
+          "w-[80dvw] sm:w-[420px] md:w-[550px]  flex items-end"
+        )}
+      >
+        <div className="flex-1 pb-4">
+          <Nova>Secure Login,</Nova>
+          <Nova>Boundless Opportunities.</Nova>
         </div>
-        <Forms
-          initialValue={{ email: "", password: "" }}
-          validate={validationSchema}
-          onSubmit={() => {
-            router.replace("/");
-          }}
-        >
-          <LoginForm {...({} as FormPropType)} />
-        </Forms>
+        <Icon
+          name="login"
+          className="h-[100px] w-[100px] sm:h-[156px] sm:w-[156px] md:h-[196px] md:w-[196px]"
+        />
+      </div>
+      <div className="flex flex-col gap-3 md:gap-4 py-20 justify-center items-center bg-coffee w-[80dvw] sm:w-[420px] md:w-[550px] p-[30px] sm:p-[44px] md:p-[55px]">
+        <div className="flex gap-2 justify-center ">
+          <Typography
+            variant="h3"
+            className="tracking-[6px] sm:tracking-[8px] md:tracking-[10px]	"
+          >
+            LOGIN
+          </Typography>
+        </div>
+        <div className="w-full">
+          <Forms
+            initialValue={{ email: "", password: "" }}
+            validate={validationSchema}
+            onSubmit={() => {
+              router.replace("/");
+            }}
+          >
+            <LoginForm {...({} as FormPropType)} />
+          </Forms>
+        </div>
       </div>
     </main>
   );

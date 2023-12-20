@@ -22,7 +22,7 @@ const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
 
 const StickerTrend = () => {
   const { trendingSticker } = useHomeStore();
-  const [getStickers] = useLazyGetTrendingStickerQuery({});
+  const [getStickers, { isError }] = useLazyGetTrendingStickerQuery({});
   const isTab = useTabScreen();
   const isMobile = useMobileScreen();
   const dispatch = useAppDispatch();
@@ -59,7 +59,7 @@ const StickerTrend = () => {
         </Button>
       </div>
       <div className=" flex flex-wrap justify-around sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 sm:gap-y-8 md:gap-y-10 scrollbar-hide ">
-        {trendingSticker.length !== 0
+        {!isError && trendingSticker.length !== 0
           ? trendingSticker.slice(0, 6).map((i, index) => {
               const aspectRatio = i.image[0].width / i.image[0].height;
               return (

@@ -14,6 +14,7 @@ const config: Config = {
         black: "#000",
         lightGray: "#A6A6A6",
         primeGreen: "#D8F055",
+        lemonGreen: "#EBE19C",
         purple: "#8870FF",
         lightBlue: "#A2CDFF",
         lightRed: "#F25B5C",
@@ -27,6 +28,7 @@ const config: Config = {
         placeholder: "#6c6c6c",
         yellow: "#FFE248",
         grayStar: "#e4e4e4",
+        coffee: "#f3efea",
       },
       boxShadow: {
         primaryShadow: "3px 3px 0px 0px #000",

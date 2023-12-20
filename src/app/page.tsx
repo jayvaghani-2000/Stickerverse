@@ -1,8 +1,9 @@
 "use client";
 
 // import { useEffect } from "react";
-// import { supabase } from "../../supabase/init";
+import { supabase } from "../../supabase/init";
 import Homepage from "@/app/components/Home";
+import { useEffect } from "react";
 
 function Home() {
   // const handleLogin = async () => {
@@ -14,13 +15,13 @@ function Home() {
   //   });
   // };
 
-  // useEffect(() => {
-  //   supabase.auth.getSession().then(data => {
-  //     if (data.data.session) {
-  //       console.log(data.data.session);
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    supabase.auth.getSession().then(data => {
+      if (data.data.session) {
+        console.log(data.data.session);
+      }
+    });
+  }, []);
 
   return <Homepage />;
 }

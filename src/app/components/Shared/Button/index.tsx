@@ -25,10 +25,12 @@ const variants = {
 type propType = {
   children: React.ReactNode;
   childClassName?: React.HTMLProps<HTMLElement>["className"];
+  prefixWrapperClassName?: React.HTMLProps<HTMLElement>["className"];
   className?: React.HTMLProps<HTMLElement>["className"];
   variant?: keyof typeof variants;
   typography?: TypographyProps["variant"];
   icon?: string;
+  prefixIcon?: string;
 } & Omit<ButtonProps, "className" | "children" | "variant">;
 
 const Button = (props: propType) => {
@@ -40,6 +42,8 @@ const Button = (props: propType) => {
     typography = "button",
     type = "button",
     icon = "",
+    prefixIcon = "",
+    prefixWrapperClassName = "",
     ...rest
   } = props;
 
@@ -49,6 +53,15 @@ const Button = (props: propType) => {
       type={type}
       {...rest}
     >
+      {prefixIcon && (
+        <div
+          className={classNames({
+            [prefixWrapperClassName]: prefixWrapperClassName,
+          })}
+        >
+          <Icon name={prefixIcon} className="h-full w-full" />
+        </div>
+      )}
       <Typography variant={typography} className={childClassName}>
         {children}
       </Typography>

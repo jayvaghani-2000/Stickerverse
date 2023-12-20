@@ -13,7 +13,10 @@ export const homeApi = createApi({
   endpoints: builder => ({
     getTrendingSticker: builder.query({
       query: () => `/api/sticker/trending-sticker`,
-      transformResponse: (response: { stickers: trendingStickerType }) => {
+      transformResponse: (response: {
+        stickers?: trendingStickerType;
+        error?: string;
+      }) => {
         if (response?.stickers) {
           return response.stickers;
         }
