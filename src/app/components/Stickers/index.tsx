@@ -1,25 +1,25 @@
 "use client";
-import { setStickerData, useStickerStore } from "@/app/store/stickers";
-import { useLazyGetStickerQuery } from "@/app/store/stickers/api";
-import { useEffect, useRef } from "react";
-import { stickersType } from "../../../../pages/api/types";
 import { useAppDispatch } from "@/app/store";
 import { useGetStickerCategoryQuery } from "@/app/store/category/api";
-import FilterPopover from "../Shared/FilterPopover";
-import Category from "./Category";
+import { setStickerData, useStickerStore } from "@/app/store/stickers";
+import { useLazyGetStickerQuery } from "@/app/store/stickers/api";
+import { placeholder } from "@/app/utils/constant";
+import { randomColor } from "@/app/utils/skeleton";
+import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
+import { Pagination } from "@mui/material";
+import classNames from "classnames";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
+import { stickersType } from "../../../../pages/api/types";
+import { MotionImage } from "../MotionImage";
 import FilterDrawer from "../Shared/FilterDrawer";
+import FilterPopover from "../Shared/FilterPopover";
+import { Skeleton } from "../Skeleton";
+import Category from "./Category";
 import Range from "./Range";
 import Sort from "./Sort";
-import { AnimatePresence, motion } from "framer-motion";
-import { Pagination } from "@mui/material";
-import { Skeleton } from "../Skeleton";
-import classNames from "classnames";
-import { useRouter, useSearchParams } from "next/navigation";
 import Sticker from "./Sticker";
-import { randomColor } from "@/app/utils/skeleton";
-import { placeholder } from "@/app/utils/constant";
-import { MotionImage } from "../MotionImage";
-import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
@@ -119,7 +119,7 @@ const Stickers = () => {
       <div className="mt-[20px] sm:mt-[32px] md:mt-[40px]">
         <div className="flex flex-wrap justify-around gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 scrollbar-hide">
           {sticker.length !== 0 && !isFetching ? (
-            sticker.map((i, index) => {
+            sticker.map(i => {
               return <Sticker key={i.id} sticker={i} />;
             })
           ) : (

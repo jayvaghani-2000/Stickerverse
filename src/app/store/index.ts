@@ -7,11 +7,13 @@ import category from "./category";
 import { categoryApi } from "./category/api";
 import stickers from "./stickers";
 import { stickerApi } from "./stickers/api";
+import global from "./global";
 
 const reducers = combineReducers({
   home,
   category,
   stickers,
+  global,
   [homeApi.reducerPath]: homeApi.reducer,
   [categoryApi.reducerPath]: categoryApi.reducer,
   [stickerApi.reducerPath]: stickerApi.reducer,

@@ -1,16 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { Typography } from "@mui/material";
-import { usePathname } from "next/navigation";
-import Icon from "../Icon";
-import classNames from "classnames";
 import { activeRoute } from "@/app/utils/activeRoute";
-import styles from "./navbar.module.scss";
-import { useMobileScreen } from "@/app/utils/useScreenSize";
-import Drawer from "./drawer";
 import { paddingSpacing } from "@/app/utils/styles";
+import { useMobileScreen } from "@/app/utils/useScreenSize";
+import { Typography } from "@mui/material";
+import classNames from "classnames";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import Icon from "../Icon";
 import Profile from "./Profile";
+import Drawer from "./drawer";
+import styles from "./navbar.module.scss";
 
 const TABS = [
   { title: "Stickers", path: "/stickers" },

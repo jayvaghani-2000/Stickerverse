@@ -1,7 +1,7 @@
 "use client";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Icon from "../Icon";
+import LoginModal from "../LoginModal";
 
 const ScrollToTop = ({
   active,
@@ -12,6 +12,7 @@ const ScrollToTop = ({
 }) => {
   return (
     <AnimatePresence>
+      <LoginModal />
       {active && (
         <motion.button
           initial={{ opacity: 0, y: "-100%" }}

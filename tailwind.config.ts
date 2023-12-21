@@ -20,6 +20,7 @@ const config: Config = {
         lightRed: "#F25B5C",
         lightOrange: "#FFB278",
         darkPink: "#FC9985",
+        lightPink: "#E3C1D4",
         lightGreen: "#BDDEBC",
         green: "#20BF55",
         maroon: "#CF0000",

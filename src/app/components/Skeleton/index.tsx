@@ -1,3 +1,4 @@
+"use client";
 import { Skeleton as MuiSkeleton } from "@mui/material";
 
 export const Skeleton = ({ color }: { color: number }) => {
