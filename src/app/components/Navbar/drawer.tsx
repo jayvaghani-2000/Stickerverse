@@ -1,5 +1,3 @@
-import { useAppDispatch } from "@/app/store";
-import { setGlobalData } from "@/app/store/global";
 import { SwipeableDrawer, Typography } from "@mui/material";
 import classNames from "classnames";
 import Image from "next/image";
@@ -24,15 +22,6 @@ export default function Drawer(props: propType) {
   const iOS =
     typeof navigator !== "undefined" &&
     /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const dispatch = useAppDispatch();
-
-  const handleOpenSignUp = () => {
-    dispatch(
-      setGlobalData({
-        showLogin: true,
-      })
-    );
-  };
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -87,18 +76,15 @@ export default function Drawer(props: propType) {
             ))}
           </div>
 
-          <button
+          <Link
             className="px-[10px] flex gap-2 items-center"
-            onClick={e => {
-              toggleDrawer(false)(e);
-              handleOpenSignUp();
-            }}
+            href="/auth/login"
           >
             <Typography variant="subtitle1" className="uppercase">
               Sign In
             </Typography>
             <Icon name="signIn" className="h-[18px]" />
-          </button>
+          </Link>
         </div>
       </div>
     </SwipeableDrawer>

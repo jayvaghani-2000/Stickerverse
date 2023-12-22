@@ -20,6 +20,7 @@ import Category from "./Category";
 import Range from "./Range";
 import Sort from "./Sort";
 import Sticker from "./Sticker";
+import AppliedFilter from "./AppliedFilter";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
@@ -30,7 +31,6 @@ const Stickers = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const {
-    page,
     pageSize,
     sticker,
     totalPage,
@@ -115,6 +115,7 @@ const Stickers = () => {
         </div>
         <FilterPopover label="Sort" popover={<Sort />} />
       </div>
+      <AppliedFilter categories={categories} />
 
       <div className="mt-[20px] sm:mt-[32px] md:mt-[40px]">
         <div className="flex flex-wrap justify-around gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 scrollbar-hide">

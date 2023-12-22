@@ -1,10 +1,10 @@
 "use client";
+import { SORT_BY } from "@/app/utils/enum";
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../index";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { stickersType } from "../../../../pages/api/types";
-import { SORT_BY } from "@/app/utils/enum";
+import { RootState } from "../index";
 import { stickerApi } from "./api";
 
 export type StickerData = {

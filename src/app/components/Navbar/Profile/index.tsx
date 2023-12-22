@@ -1,7 +1,5 @@
-import { useAppDispatch } from "@/app/store";
-import { setGlobalData } from "@/app/store/global";
 import { Popover, Typography } from "@mui/material";
-import React from "react";
+import Link from "next/link";
 
 type propType = {
   profileEl: HTMLElement | null;
@@ -10,15 +8,6 @@ type propType = {
 };
 
 const Profile = ({ profileEl, open, handlePopoverClose }: propType) => {
-  const dispatch = useAppDispatch();
-
-  const handleOpenSignUp = () => {
-    dispatch(
-      setGlobalData({
-        showLogin: true,
-      })
-    );
-  };
   return (
     <Popover
       id={"mouse-over-popover"}
@@ -41,9 +30,9 @@ const Profile = ({ profileEl, open, handlePopoverClose }: propType) => {
         <Typography variant="body2">Welcome!!</Typography>
       </div>
       <div className="border-dashed border-t-[2px] border-placeholder" />
-      <button className="px-4" onClick={handleOpenSignUp}>
+      <Link className="px-4" href="/auth/login">
         <Typography variant="body2">Sign In</Typography>
-      </button>
+      </Link>
     </Popover>
   );
 };

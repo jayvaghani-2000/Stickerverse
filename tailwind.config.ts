@@ -30,6 +30,7 @@ const config: Config = {
         yellow: "#FFE248",
         grayStar: "#e4e4e4",
         coffee: "#f3efea",
+        darkCream: "#E8DDD0",
       },
       boxShadow: {
         primaryShadow: "3px 3px 0px 0px #000",
