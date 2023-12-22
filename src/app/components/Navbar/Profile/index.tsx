@@ -30,7 +30,7 @@ const Profile = ({ profileEl, open, handlePopoverClose }: propType) => {
         <Typography variant="body2">Welcome!!</Typography>
       </div>
       <div className="border-dashed border-t-[2px] border-placeholder" />
-      <Link className="px-4" href="/auth/login">
+      <Link className="px-4" href="/auth/login" onClick={handlePopoverClose}>
         <Typography variant="body2">Sign In</Typography>
       </Link>
     </Popover>

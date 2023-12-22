@@ -16,18 +16,18 @@ enum parentCategory {
 }
 
 model user {
-  id       String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  username String?
-  email    String?
-  phone    String?
-  password String?
-  address  String?
-  orders   order[]
-  cart     cart[]
-  payment  payment[]
-  avatar   avatar[]
-  rating   rating[]
-  wistlist wistlist[]
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username    String?
+  email       String?       @unique
+  phone       String?       @unique
+  address     String?
+  orders      order[]
+  cart        cart[]
+  payment     payment[]
+  avatar      avatar[]
+  rating      rating[]
+  wistlist    wistlist[]
+  userAddress userAddress[]
 
   @@unique([email, phone])
 }
@@ -147,4 +147,15 @@ model wistlistItem {
   wistlistId Int
   sticker    sticker  @relation(fields: [stickerId], references: [id])
   stickerId  Int
+}
+
+model userAddress {
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user       user    @relation(fields: [userId], references: [id])
+  userId     String  @db.Uuid
+  city       String
+  address1   String
+  address2   String?
+  state      String
+  postalCode String
 }

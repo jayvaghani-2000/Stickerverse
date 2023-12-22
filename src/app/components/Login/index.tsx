@@ -22,12 +22,25 @@ const LoginForm = (props: FormPropType) => {
   const { handleChange, values, isSubmitting, errors } = props;
 
   const handleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
+    const res = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: `${window.location.origin}/auth/login`,
       },
     });
+  };
+
+  const handleLoginWithEmail = async () => {
+    // const { data, error } = await supabase.auth.signInWithPassword({
+    //   email: "jayvaghani2000@gmail.com",
+    //   password: "Geet@2000",
+    // });
+
+    const { data, error } = await supabase.auth.updateUser({
+      password: "Geet@2000",
+    });
+
+    console.log(data, error);
   };
 
   return (
@@ -50,7 +63,8 @@ const LoginForm = (props: FormPropType) => {
       <Button
         className="w-fit pt-1 pb-1 pl-1 sm:pl-1 md:pl-1 pr-1 sm:pr-1 md:pr-1 bg-lightPink hover:bg-lightPink"
         childClassName="px-2 normal-case"
-        onClick={handleLogin}
+        type="submit"
+        onClick={handleLoginWithEmail}
       >
         Continue
       </Button>

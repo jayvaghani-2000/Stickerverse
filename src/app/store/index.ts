@@ -1,19 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { combineReducers } from "redux";
-import { homeApi } from "./home/api";
-import home from "./home";
+import authentication from "./authentication";
 import category from "./category";
 import { categoryApi } from "./category/api";
+import global from "./global";
+import home from "./home";
+import { homeApi } from "./home/api";
 import stickers from "./stickers";
 import { stickerApi } from "./stickers/api";
-import global from "./global";
 
 const reducers = combineReducers({
   home,
   category,
   stickers,
   global,
+  authentication,
   [homeApi.reducerPath]: homeApi.reducer,
   [categoryApi.reducerPath]: categoryApi.reducer,
   [stickerApi.reducerPath]: stickerApi.reducer,
