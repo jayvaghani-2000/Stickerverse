@@ -42,7 +42,7 @@ function CreateSelect<T extends number | string>(props: propsType<T>) {
 
   const getSelectSize = () => {
     if (isMobile) {
-      return "28px";
+      return "32px";
     } else if (isTab) {
       return "38px";
     }
