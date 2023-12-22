@@ -9,7 +9,7 @@ import { paddingSpacing } from "@/app/utils/styles";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import classNames from "classnames";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect } from "react";
 import { trendingStickerType } from "../../../../../pages/api/types";
 import { MotionImage } from "../../MotionImage";
@@ -59,9 +59,9 @@ const StickerTrend = () => {
           See All
         </Button>
       </div>
-      <div className=" flex flex-wrap justify-around sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 sm:gap-y-8 md:gap-y-10 scrollbar-hide ">
+      <div className="relative flex flex-wrap justify-around sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 sm:gap-y-8 md:gap-y-10 scrollbar-hide ">
         {!isError && trendingSticker.length !== 0
-          ? trendingSticker.slice(0, 6).map((i, index) => {
+          ? trendingSticker.slice(0, 6).map(i => {
               const aspectRatio = i.image[0].width / i.image[0].height;
               return (
                 <motion.figure
@@ -110,45 +110,57 @@ const StickerTrend = () => {
                 </motion.figure>
               );
             })
-          : [0, 1, 2, 3, 4, 5].map(i => {
-              const color = randomColor();
-              return (
-                <motion.figure key={i}>
-                  <div className="w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col">
+          : null}
+
+        <AnimatePresence>
+          {[0, 1, 2, 3, 4, 5].map(i => {
+            const color = randomColor();
+            return (
+              <motion.figure key={i}>
+                <div
+                  className={classNames(
+                    "w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col",
+                    {
+                      ["absolute -z-10 opacity-0"]:
+                        !isError && trendingSticker.length !== 0,
+                    }
+                  )}
+                >
+                  <div
+                    className={`relative w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto flex items-center rounded-t-2xl overflow-hidden`}
+                  >
                     <div
-                      className={`relative w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto flex items-center rounded-t-2xl overflow-hidden`}
+                      className={`absolute w-full  z-10 h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden flex justify-center items-center`}
+                      style={{
+                        aspectRatio: placeholder.width / placeholder.height,
+                      }}
                     >
-                      <div
-                        className={`absolute w-full  z-10 h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden flex justify-center items-center`}
-                        style={{
-                          aspectRatio: placeholder.width / placeholder.height,
-                        }}
-                      >
-                        <MotionImage
-                          src={placeholder.url}
-                          alt=""
-                          fill
-                          placeholder="blur"
-                          blurDataURL={placeholder.baseUrl}
-                          style={{ objectFit: "cover" }}
-                          sizes={getImageSize()}
-                        />
-                      </div>
+                      <MotionImage
+                        src={placeholder.url}
+                        alt=""
+                        fill
+                        placeholder="blur"
+                        blurDataURL={placeholder.baseUrl}
+                        style={{ objectFit: "cover" }}
+                        sizes={getImageSize()}
+                      />
+                    </div>
+                    <Skeleton color={color} />
+                  </div>
+
+                  <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
+                    <div className="text-center h-[18px] md:h-[24px]">
                       <Skeleton color={color} />
                     </div>
-
-                    <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
-                      <div className="text-center h-[18px] md:h-[24px]">
-                        <Skeleton color={color} />
-                      </div>
-                      <div className="text-center mt-1 md:mt-2 h-[21px] md:h-[27px]">
-                        <Skeleton color={color} />
-                      </div>
+                    <div className="text-center mt-1 md:mt-2 h-[21px] md:h-[27px]">
+                      <Skeleton color={color} />
                     </div>
                   </div>
-                </motion.figure>
-              );
-            })}
+                </div>
+              </motion.figure>
+            );
+          })}
+        </AnimatePresence>
 
         <div className={dummySticker} />
         <div className={dummySticker} />

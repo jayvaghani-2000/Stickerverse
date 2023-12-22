@@ -1,14 +1,14 @@
-import { useLayoutEffect, useRef } from "react";
-import { motion, animate } from "framer-motion";
 import { productAnimation, productClickEffect } from "@/app/utils/animation";
+import { getPlatform } from "@/app/utils/getPlatform";
+import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
+import { Typography } from "@mui/material";
+import { animate, motion } from "framer-motion";
+import { useLayoutEffect, useRef } from "react";
 import { stickersType } from "../../../../../pages/api/types";
 import { MotionImage } from "../../MotionImage";
-import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
-import styles from "../stickers.module.scss";
-import { Typography } from "@mui/material";
-import ItemCount from "../../Shared/ItemCount";
 import Button from "../../Shared/Button";
-import { getPlatform } from "@/app/utils/getPlatform";
+import ItemCount from "../../Shared/ItemCount";
+import styles from "../stickers.module.scss";
 
 const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const title = useRef<HTMLHeadingElement>(null!);
@@ -44,7 +44,6 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
 
   return (
     <motion.figure
-      key={i.id}
       {...productAnimation(i.id.toString())}
       onHoverStart={() => {
         if (isMobile) return;
