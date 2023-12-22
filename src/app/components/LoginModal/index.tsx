@@ -10,7 +10,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   border: "2px solid #000",
   width: "fit-content",
-  boxShadow: 24,
+  boxShadow: "none",
 };
 
 const LoginModal = () => {

@@ -1,4 +1,18 @@
 "use client";
+import Icon from "@/app/components/Icon";
+import Button from "@/app/components/Shared/Button";
+import Checkbox from "@/app/components/Shared/Checkbox";
+import CreateSelect from "@/app/components/Shared/CreateSelect";
+import Forms from "@/app/components/Shared/Forms/index";
+import InlineSpinner from "@/app/components/Shared/InlineSpinner";
+import Text from "@/app/components/Shared/Input/Text/index";
+import { FormPropType } from "@/app/components/Shared/Types/formPropsTypes";
+import { useGetStickerCategoryQuery } from "@/app/store/category/api";
+import { Typography } from "@mui/material";
+import axios from "axios";
+import { FormikValues } from "formik";
+import { cloneDeep } from "lodash";
+import Image from "next/image";
 import React, {
   forwardRef,
   useEffect,
@@ -6,22 +20,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import axios from "axios";
-import TextEditor from "../components/TextEditor/index";
 import * as Yup from "yup";
-import Forms from "@/app/components/Shared/Forms/index";
-import { FormPropType } from "@/app/components/Shared/Types/formPropsTypes";
-import Text from "@/app/components/Shared/Input/Text/index";
-import { Typography } from "@mui/material";
-import Image from "next/image";
-import { cloneDeep } from "lodash";
-import Icon from "@/app/components/Icon";
-import Checkbox from "@/app/components/Shared/Checkbox";
-import { FormikValues } from "formik";
-import Button from "@/app/components/Shared/Button";
-import { useGetStickerCategoryQuery } from "@/app/store/category/api";
-import CreateSelect from "@/app/components/Shared/CreateSelect";
-import InlineSpinner from "@/app/components/Shared/InlineSpinner";
+import TextEditor from "../components/TextEditor/index";
 
 const allowFileType = ["image/png", "image/jpg", "image/jpeg", "image/webp"];
 

@@ -1,6 +1,6 @@
-import CreatableSelect from "react-select/creatable";
-import { components } from "react-select";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
+import { components } from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 const DropdownIndicator = (props: any) => {
   return (
@@ -89,7 +89,7 @@ function CreateSelect<T extends number | string>(props: propsType<T>) {
         singleValue: (provided, state) => ({
           ...provided,
           color: "black",
-          fontSize: "14px",
+          fontSize: "16px",
           fontWeight: "500",
         }),
         valueContainer: (provided, state) => ({
