@@ -89,8 +89,8 @@ export default function Drawer(props: propType) {
 
           <button
             className="px-[10px] flex gap-2 items-center"
-            onClick={() => {
-              toggleDrawer(false);
+            onClick={e => {
+              toggleDrawer(false)(e);
               handleOpenSignUp();
             }}
           >
