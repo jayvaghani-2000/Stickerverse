@@ -7,3 +7,17 @@ export async function getUserById(id: string) {
 
   return user;
 }
+
+export async function setUserPasswordById(id: string) {
+  const user = await prisma.user.update({
+    where: { id },
+    data: {
+      password: true,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  return user;
+}

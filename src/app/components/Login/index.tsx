@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import classNames from "classnames";
+import { FormikValues } from "formik";
 import { useRouter } from "next/navigation";
 import { LegacyRef, forwardRef } from "react";
 import * as Yup from "yup";
@@ -25,22 +26,13 @@ const LoginForm = (props: FormPropType) => {
     const res = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/password`,
+        redirectTo: `${window.location.origin}/auth/verify`,
       },
     });
 
     if (res.error) {
       console.log("Something went wrong, I guess!");
     }
-  };
-
-  const handleLoginWithEmail = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: values.email,
-      password: values.password,
-    });
-
-    console.log(data, error);
   };
 
   return (
@@ -64,7 +56,6 @@ const LoginForm = (props: FormPropType) => {
         className="w-fit pt-1 pb-1 pl-1 sm:pl-1 md:pl-1 pr-1 sm:pr-1 md:pr-1 bg-lightPink hover:bg-lightPink"
         childClassName="px-2 normal-case"
         type="submit"
-        onClick={handleLoginWithEmail}
       >
         Continue
       </Button>
@@ -91,6 +82,15 @@ const Login = (
 ) => {
   const { onModal = false } = props;
   const router = useRouter();
+
+  const handleLoginWithEmail = async (values: FormikValues) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: values.email,
+      password: values.password,
+    });
+
+    console.log(data, error);
+  };
 
   return (
     <div
@@ -129,8 +129,8 @@ const Login = (
           <Forms
             initialValue={{ email: "", password: "" }}
             validate={validationSchema}
-            onSubmit={() => {
-              router.replace("/");
+            onSubmit={value => {
+              handleLoginWithEmail(value);
             }}
           >
             <LoginForm {...({} as FormPropType)} />

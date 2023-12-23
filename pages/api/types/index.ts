@@ -5,7 +5,7 @@ import {
   post as postSticker,
   trendingSticker,
 } from "../models/sticker";
-import { getUserById } from "../models/user";
+import { getUserById, setUserPasswordById } from "../models/user";
 
 export type addStickerType = NonNullable<
   Awaited<ReturnType<typeof postSticker>>
@@ -28,3 +28,7 @@ export type stickersCountType = NonNullable<
 >;
 
 export type userByIdType = NonNullable<Awaited<ReturnType<typeof getUserById>>>;
+
+export type updateUserPasswordType = NonNullable<
+  Awaited<ReturnType<typeof setUserPasswordById>>
+>;

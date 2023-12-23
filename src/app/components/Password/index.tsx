@@ -1,6 +1,8 @@
 "use client";
+import { useUpdateUserPasswordMutation } from "@/app/store/authentication/api";
 import { Typography } from "@mui/material";
 import classNames from "classnames";
+import { FormikValues } from "formik";
 import { useRouter } from "next/navigation";
 import { LegacyRef, forwardRef } from "react";
 import * as Yup from "yup";
@@ -21,26 +23,6 @@ const validationSchema = Yup.object().shape({
 
 const PasswordForm = (props: FormPropType) => {
   const { handleChange, values, isSubmitting, errors } = props;
-
-  const handleLoginWithEmail = async () => {
-    // const { data, error } = await supabase.auth.signInWithPassword({
-    //   email: "jayvaghani2000@gmail.com",
-    //   password: "Geet@2000",
-    // });
-
-    // const { data, error } = await supabase.auth.resetPasswordForEmail(
-    //   "jayvaghani2000@gmail.com",
-    //   {
-    //     redirectTo: "https://example.com/update-password",
-    //   }
-    // );
-
-    const { data, error } = await supabase.auth.updateUser({
-      password: "Geet@2000",
-    });
-
-    console.log(data, error);
-  };
 
   return (
     <div className="flex flex-col items-center gap-3 md:gap-4">
@@ -63,7 +45,6 @@ const PasswordForm = (props: FormPropType) => {
         className="w-fit pt-1 pb-1 pl-1 sm:pl-1 md:pl-1 pr-1 sm:pr-1 md:pr-1 bg-lightPink hover:bg-lightPink"
         childClassName="px-2 normal-case"
         type="submit"
-        onClick={handleLoginWithEmail}
       >
         Continue
       </Button>
@@ -88,7 +69,22 @@ const Password = (
   ref: LegacyRef<HTMLDivElement>
 ) => {
   const { onModal = false } = props;
+  const [updateUser] = useUpdateUserPasswordMutation();
   const router = useRouter();
+
+  const handleSetPassword = async (values: FormikValues) => {
+    const { data, error } = await supabase.auth.updateUser({
+      password: values.password,
+    });
+
+    if (data && data.user) {
+      const res = await updateUser({ id: data.user.id });
+      if ("data" in res) {
+        return router.replace("/");
+      }
+    } else {
+    }
+  };
 
   return (
     <div
@@ -127,8 +123,8 @@ const Password = (
           <Forms
             initialValue={{ confirmPassword: "", password: "" }}
             validate={validationSchema}
-            onSubmit={() => {
-              router.replace("/");
+            onSubmit={values => {
+              handleSetPassword(values);
             }}
           >
             <PasswordForm {...({} as FormPropType)} />

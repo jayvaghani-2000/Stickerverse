@@ -1,12 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ZodError } from "zod";
-import { handleGetUserById } from "../helpers/user/getUserById";
+import {
+  handleGetUserById,
+  handleSetUserPassword,
+} from "../helpers/user/userById";
 import { handleErrorMsg } from "../helpers/utils/handleErrorMsg";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === "GET") {
       const user = await handleGetUserById(req.query.id! as string);
+      return res.status(200).json({ data: user });
+    }
+    if (req.method === "PUT") {
+      const user = await handleSetUserPassword(req.query.id! as string);
       return res.status(200).json({ data: user });
     }
 

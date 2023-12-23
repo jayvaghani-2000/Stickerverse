@@ -1,5 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { userByIdType } from "../../../../pages/api/types";
+import {
+  updateUserPasswordType,
+  userByIdType,
+} from "../../../../pages/api/types";
 import { prepareHeaders } from "./../../utils/tokenManager";
 
 export const authApi = createApi({
@@ -17,10 +20,23 @@ export const authApi = createApi({
         if (response?.data) {
           return response.data;
         }
-        return {};
+        return {} as userByIdType;
+      },
+    }),
+    updateUserPassword: builder.mutation({
+      query: ({ id }: { id: string }) => ({
+        url: `/api/user/${id}`,
+        method: "PUT",
+      }),
+      transformResponse: (response: { data: updateUserPasswordType }) => {
+        if (response?.data) {
+          return response.data;
+        }
+        return {} as updateUserPasswordType;
       },
     }),
   }),
 });
 
-export const { useLazyGetUserByIdQuery } = authApi;
+export const { useLazyGetUserByIdQuery, useUpdateUserPasswordMutation } =
+  authApi;

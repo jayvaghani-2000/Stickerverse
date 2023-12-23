@@ -26,6 +26,7 @@
     "@supabase/supabase-js": "^2.38.4",
     "axios": "^1.6.1",
     "classnames": "^2.3.2",
+    "date-fns": "^3.0.6",
     "formidable": "^3.5.1",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.4",
