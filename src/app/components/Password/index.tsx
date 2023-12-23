@@ -89,7 +89,7 @@ const Password = (
   return (
     <div
       className={classNames({
-        ["flex flex-col py-20 justify-center items-center"]: !onModal,
+        ["flex flex-col  py-5 sm:py-20 justify-center items-center"]: !onModal,
         paddingSpacing: !onModal,
       })}
       ref={ref}

@@ -61,7 +61,7 @@ const LoginForm = (props: FormPropType) => {
       </Button>
 
       <Typography variant="button" className="normal-case">
-        Or you can Login with
+        Or you can Login or Register with
       </Typography>
       <Button
         prefixIcon="google"
@@ -95,7 +95,7 @@ const Login = (
   return (
     <div
       className={classNames({
-        ["flex flex-col py-20 justify-center items-center"]: !onModal,
+        ["flex flex-col py-5 sm:py-20 justify-center items-center"]: !onModal,
         paddingSpacing: !onModal,
       })}
       ref={ref}
