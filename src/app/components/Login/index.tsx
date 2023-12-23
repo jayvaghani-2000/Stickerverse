@@ -36,6 +36,13 @@ const LoginForm = (props: FormPropType) => {
     //   password: "Geet@2000",
     // });
 
+    // const { data, error } = await supabase.auth.resetPasswordForEmail(
+    //   "jayvaghani2000@gmail.com",
+    //   {
+    //     redirectTo: "https://example.com/update-password",
+    //   }
+    // );
+
     const { data, error } = await supabase.auth.updateUser({
       password: "Geet@2000",
     });

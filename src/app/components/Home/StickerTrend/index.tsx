@@ -113,53 +113,68 @@ const StickerTrend = () => {
           : null}
 
         <AnimatePresence>
-          {[0, 1, 2, 3, 4, 5].map(i => {
-            const color = randomColor();
-            return (
-              <motion.figure key={i}>
+          <div
+            className={classNames(
+              "w-full flex flex-wrap justify-around  sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 sm:gap-y-8 md:gap-y-10",
+              {
+                ["absolute -z-10 opacity-0"]:
+                  !isError && trendingSticker.length !== 0,
+              }
+            )}
+          >
+            {[0, 1, 2, 3, 4, 5].map(i => {
+              const color = randomColor();
+              return (
                 <div
+                  key={i}
                   className={classNames(
-                    "w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col",
-                    {
-                      ["absolute -z-10 opacity-0"]:
-                        !isError && trendingSticker.length !== 0,
-                    }
+                    "w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col"
                   )}
                 >
-                  <div
-                    className={`relative w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto flex items-center rounded-t-2xl overflow-hidden`}
-                  >
+                  <motion.figure>
                     <div
-                      className={`absolute w-full  z-10 h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden flex justify-center items-center`}
-                      style={{
-                        aspectRatio: placeholder.width / placeholder.height,
-                      }}
+                      className={`relative w-full h-[150px] sm:h-[170px] md:h-[240px] m-auto flex items-center rounded-t-2xl overflow-hidden`}
                     >
-                      <MotionImage
-                        src={placeholder.url}
-                        alt=""
-                        fill
-                        placeholder="blur"
-                        blurDataURL={placeholder.baseUrl}
-                        style={{ objectFit: "cover" }}
-                        sizes={getImageSize()}
-                      />
+                      <div
+                        className={`absolute w-full  z-10 h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden flex justify-center items-center`}
+                        style={{
+                          aspectRatio: placeholder.width / placeholder.height,
+                        }}
+                      >
+                        <MotionImage
+                          src={placeholder.url}
+                          alt=""
+                          fill
+                          placeholder="blur"
+                          blurDataURL={placeholder.baseUrl}
+                          style={{ objectFit: "cover" }}
+                          sizes={getImageSize()}
+                        />
+                      </div>
+                      <Skeleton color={color} />
                     </div>
-                    <Skeleton color={color} />
-                  </div>
 
-                  <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
-                    <div className="text-center h-[18px] md:h-[24px]">
-                      <Skeleton color={color} />
+                    <div className="px-[4px] sm:px-[12px] md:px-[32px] flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
+                      <div className="text-center h-[18px] md:h-[24px]">
+                        <Skeleton color={color} />
+                      </div>
+                      <div className="text-center mt-1 md:mt-2 h-[21px] md:h-[27px]">
+                        <Skeleton color={color} />
+                      </div>
+                      <div className="text-center mt-1 md:mt-2 h-[21px] md:h-[27px]">
+                        <Skeleton color={color} />
+                      </div>
                     </div>
-                    <div className="text-center mt-1 md:mt-2 h-[21px] md:h-[27px]">
-                      <Skeleton color={color} />
-                    </div>
-                  </div>
+                  </motion.figure>
                 </div>
-              </motion.figure>
-            );
-          })}
+              );
+            })}
+            <div className={dummySticker} />
+            <div className={dummySticker} />
+            <div className={classNames(dummySticker, "hidden sm:block")} />
+            <div className={classNames(dummySticker, "hidden sm:block")} />
+            <div className={classNames(dummySticker, "hidden sm:block")} />
+          </div>
         </AnimatePresence>
 
         <div className={dummySticker} />

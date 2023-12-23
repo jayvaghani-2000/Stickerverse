@@ -182,6 +182,11 @@ const Stickers = () => {
                   );
                 }
               )}
+              <div className={dummySticker} />
+              <div className={dummySticker} />
+              <div className={classNames(dummySticker, "hidden sm:block")} />
+              <div className={classNames(dummySticker, "hidden sm:block")} />
+              <div className={classNames(dummySticker, "hidden sm:block")} />
             </div>
           </AnimatePresence>
           <div className={dummySticker} />
