@@ -60,9 +60,9 @@ const PasswordForm = (props: FormPropType) => {
         Or Skip to continue use Google sign-in later.
       </Typography>
       <Button
-        icon="chevronRight"
+        icon="slideChevron"
         className="w-fit pt-1 pb-1 pl-1 sm:pl-1 md:pl-1 pr-1 sm:pr-1 md:pr-1 bg-lemonGreen hover:bg-lemonGreen"
-        childClassName="px-2 normal-case"
+        childClassName="pl-2 normal-case"
         onClick={() => {
           router.replace(redirectTo);
         }}
@@ -145,8 +145,8 @@ const Password = (
           <Forms
             initialValue={{ confirmPassword: "", password: "" }}
             validate={validationSchema}
-            onSubmit={values => {
-              handleSetPassword(values);
+            onSubmit={async values => {
+              await handleSetPassword(values);
             }}
           >
             <PasswordForm {...({} as FormPropType)} />
