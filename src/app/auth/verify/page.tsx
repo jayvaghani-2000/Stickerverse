@@ -2,7 +2,7 @@
 import Nova from "@/app/components/Font/nova";
 import Loader from "@/app/components/Loader";
 import { useAppDispatch } from "@/app/store";
-import { useAuthStore } from "@/app/store/authentication";
+import { setAuthData, useAuthStore } from "@/app/store/authentication";
 import { useLazyGetUserByIdQuery } from "@/app/store/authentication/api";
 import { setGlobalData, useGlobalStore } from "@/app/store/global";
 import { getDifferenceInHours } from "@/app/utils/dates";
@@ -34,6 +34,12 @@ const Verify = () => {
     );
     const res = await supabase.auth.getUser();
     if (res.data.user) {
+      dispatch(
+        setAuthData({
+          profile: res.data.user,
+          authenticated: true,
+        })
+      );
       const createdBefore = getDifferenceInHours(res.data.user.created_at);
       if (createdBefore > 24) {
         handleCompleteVerify();

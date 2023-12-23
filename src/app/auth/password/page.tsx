@@ -1,13 +1,11 @@
-import HeaderBanner from "@/app/components/HeaderBanner";
+import WithHeader from "@/app/components/HOC/withHeader";
 import Password from "@/app/components/Password";
-import { paddingSpacing } from "@/app/utils/styles";
 
 const PasswordPage = () => {
   return (
-    <div className={paddingSpacing}>
-      <HeaderBanner />
+    <WithHeader>
       <Password />
-    </div>
+    </WithHeader>
   );
 };
 

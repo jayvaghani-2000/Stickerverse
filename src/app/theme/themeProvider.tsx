@@ -6,6 +6,7 @@ import {
 import React, { HTMLProps, useEffect, useRef, useState } from "react";
 import { Provider } from "react-redux";
 import Footer from "../components/Footer";
+import WithAuth from "../components/HOC/withAuth";
 import Navbar from "../components/Navbar";
 import ScrollToTop from "../components/ScrollToTop";
 import Toast from "../components/Shared/Toast";
@@ -62,14 +63,16 @@ const ThemeProvider = ({
               />
             </head>
             <body className={className} ref={ref}>
-              <Navbar />
-              {children}
-              <ScrollToTop
-                handleScrollToTop={handleScrollToTop}
-                active={active}
-              />
-              <Footer />
-              <Toast />
+              <WithAuth>
+                <Navbar />
+                {children}
+                <ScrollToTop
+                  handleScrollToTop={handleScrollToTop}
+                  active={active}
+                />
+                <Footer />
+                <Toast />
+              </WithAuth>
             </body>
           </html>
         </MuiThemeProvider>

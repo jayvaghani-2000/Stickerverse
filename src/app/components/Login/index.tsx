@@ -65,7 +65,7 @@ const LoginForm = (props: FormPropType) => {
         Continue {isSubmitting && <InlineSpinner />}
       </Button>
 
-      <Typography variant="button" className="normal-case">
+      <Typography variant="button" className="normal-case text-center">
         Or you can Login or Register with
       </Typography>
       <Button
@@ -110,6 +110,7 @@ const Login = async (
       dispatch(
         setAuthData({
           profile: data.user,
+          authenticated: true,
         })
       );
       router.replace(redirectTo);

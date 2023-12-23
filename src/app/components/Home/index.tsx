@@ -1,9 +1,9 @@
-import React from "react";
+"use client";
 import Carousal from "./Carousal";
-import StickerTrend from "./StickerTrend";
 import Description from "./Description";
-import Quote from "./Quote";
 import Example from "./Examples";
+import Quote from "./Quote";
+import StickerTrend from "./StickerTrend";
 
 const Home = () => {
   return (

@@ -1,14 +1,11 @@
-import React from "react";
+import WithHeader from "../components/HOC/withHeader";
 import Stickers from "../components/Stickers";
-import HeaderBanner from "../components/HeaderBanner";
-import { paddingSpacing } from "../utils/styles";
 
 const StickerPage = () => {
   return (
-    <div className={paddingSpacing}>
-      <HeaderBanner />
+    <WithHeader>
       <Stickers />
-    </div>
+    </WithHeader>
   );
 };
 
