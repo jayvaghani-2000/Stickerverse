@@ -3,6 +3,7 @@ import { OAuthResponse } from "@supabase/supabase-js";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../index";
+import { authApi } from "./api";
 
 export type AuthType = {
   loading: boolean;
@@ -29,6 +30,23 @@ export const authenticationSlice = createSlice({
     setAuthData: (state, action: { payload: Partial<AuthType> }) => {
       Object.assign(state, action.payload);
     },
+  },
+  extraReducers: builder => {
+    builder.addMatcher(authApi.endpoints.getUserById.matchPending, state => {
+      if (!state.loading) {
+        state.loading = true;
+      }
+    });
+    builder.addMatcher(authApi.endpoints.getUserById.matchFulfilled, state => {
+      if (state.loading) {
+        state.loading = false;
+      }
+    });
+    builder.addMatcher(authApi.endpoints.getUserById.matchRejected, state => {
+      if (state.loading) {
+        state.loading = false;
+      }
+    });
   },
 });
 

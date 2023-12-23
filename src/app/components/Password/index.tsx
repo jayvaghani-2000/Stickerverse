@@ -1,3 +1,4 @@
+"use client";
 import { Typography } from "@mui/material";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
@@ -8,36 +9,34 @@ import Nova from "../Font/nova";
 import Icon from "../Icon";
 import Button from "../Shared/Button";
 import Forms from "../Shared/Forms";
-import Text from "../Shared/Input/Text/index";
+import Text from "../Shared/Input/Text";
 import { FormPropType } from "../Shared/Types/formPropsTypes";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string().required("Please enter your password"),
-  email: Yup.string()
-    .email("Please enter a valid email address")
-    .required("Please enter your email"),
+  confirmPassword: Yup.string()
+    .required("Please confirm your password")
+    .oneOf([Yup.ref("password")], "Passwords must match"),
 });
 
-const LoginForm = (props: FormPropType) => {
+const PasswordForm = (props: FormPropType) => {
   const { handleChange, values, isSubmitting, errors } = props;
 
-  const handleLogin = async () => {
-    const res = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/password`,
-      },
-    });
-
-    if (res.error) {
-      console.log("Something went wrong, I guess!");
-    }
-  };
-
   const handleLoginWithEmail = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: values.email,
-      password: values.password,
+    // const { data, error } = await supabase.auth.signInWithPassword({
+    //   email: "jayvaghani2000@gmail.com",
+    //   password: "Geet@2000",
+    // });
+
+    // const { data, error } = await supabase.auth.resetPasswordForEmail(
+    //   "jayvaghani2000@gmail.com",
+    //   {
+    //     redirectTo: "https://example.com/update-password",
+    //   }
+    // );
+
+    const { data, error } = await supabase.auth.updateUser({
+      password: "Geet@2000",
     });
 
     console.log(data, error);
@@ -46,18 +45,18 @@ const LoginForm = (props: FormPropType) => {
   return (
     <div className="flex flex-col items-center gap-3 md:gap-4">
       <Text
-        type="email"
-        name="email"
-        placeholder="Email"
-        onChange={handleChange}
-        value={values.email}
-      />
-      <Text
         type="password"
         name="password"
         placeholder="Password"
         onChange={handleChange}
         value={values.password}
+      />
+      <Text
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirm It"
+        onChange={handleChange}
+        value={values.confirmPassword}
       />
 
       <Button
@@ -69,23 +68,22 @@ const LoginForm = (props: FormPropType) => {
         Continue
       </Button>
 
-      <Typography variant="button" className="normal-case">
-        Or you can Login with
+      <Typography variant="button" className="normal-case text-center">
+        Or Skip to continue use Google sign-in later.
       </Typography>
       <Button
-        prefixIcon="google"
+        icon="chevronRight"
         className="w-fit pt-1 pb-1 pl-1 sm:pl-1 md:pl-1 pr-1 sm:pr-1 md:pr-1 bg-lemonGreen hover:bg-lemonGreen"
-        prefixWrapperClassName="h-[24px] w-[24px] md:h-[36px] md:w-[36px]  bg-white rounded-full"
         childClassName="px-2 normal-case"
-        onClick={handleLogin}
+        onClick={() => {}}
       >
-        Google Account
+        Skip
       </Button>
     </div>
   );
 };
 
-const Login = (
+const Password = (
   props: { onModal?: boolean },
   ref: LegacyRef<HTMLDivElement>
 ) => {
@@ -107,8 +105,8 @@ const Login = (
           )}
         >
           <div className="flex-1 pb-4">
-            <Nova>Secure Login,</Nova>
-            <Nova>Boundless Opportunities.</Nova>
+            <Nova>Login Successful.</Nova>
+            <Nova>Password will be secure.</Nova>
           </div>
           <Icon
             name="login"
@@ -122,18 +120,18 @@ const Login = (
             variant="h3"
             className="tracking-[6px] sm:tracking-[8px] md:tracking-[10px]	"
           >
-            LOGIN
+            SET PASSWORD
           </Typography>
         </div>
         <div className="w-full">
           <Forms
-            initialValue={{ email: "", password: "" }}
+            initialValue={{ confirmPassword: "", password: "" }}
             validate={validationSchema}
             onSubmit={() => {
               router.replace("/");
             }}
           >
-            <LoginForm {...({} as FormPropType)} />
+            <PasswordForm {...({} as FormPropType)} />
           </Forms>
         </div>
       </div>
@@ -141,4 +139,4 @@ const Login = (
   );
 };
 
-export default forwardRef(Login);
+export default forwardRef(Password);

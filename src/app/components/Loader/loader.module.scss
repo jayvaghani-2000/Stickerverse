@@ -1,0 +1,34 @@
+@import "@/app/variables.scss";
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid;
+  background: $placeholder;
+  border-color: transparent $white $white transparent;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 1s ease-in-out infinite;
+}
+.loader::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 12px solid;
+  border-color: transparent $primeGreen $primeGreen transparent;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

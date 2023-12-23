@@ -5,6 +5,7 @@ import {
   post as postSticker,
   trendingSticker,
 } from "../models/sticker";
+import { getUserById } from "../models/user";
 
 export type addStickerType = NonNullable<
   Awaited<ReturnType<typeof postSticker>>
@@ -25,3 +26,5 @@ export type stickersType = {
 export type stickersCountType = NonNullable<
   Awaited<ReturnType<typeof getStickerCount>>
 >;
+
+export type userByIdType = NonNullable<Awaited<ReturnType<typeof getUserById>>>;

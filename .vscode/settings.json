@@ -27,9 +27,9 @@
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "workbench.colorCustomizations": {
-    "editorUnnecessaryCode.border": "#bc0c0c"
+    "editorUnnecessaryCode.border": "#fc9985"
   },
   "editor.guides.bracketPairs": "active",
   "eslint.validate": ["javascript", "typescript"],
-  "cSpell.words": ["swiper"]
+  "cSpell.words": ["supabase", "swiper"]
 }

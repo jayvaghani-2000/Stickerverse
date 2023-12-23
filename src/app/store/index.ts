@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { combineReducers } from "redux";
 import authentication from "./authentication";
+import { authApi } from "./authentication/api";
 import category from "./category";
 import { categoryApi } from "./category/api";
 import global from "./global";
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   [homeApi.reducerPath]: homeApi.reducer,
   [categoryApi.reducerPath]: categoryApi.reducer,
   [stickerApi.reducerPath]: stickerApi.reducer,
+  [authApi.reducerPath]: authApi.reducer,
 });
 
 const store = configureStore({
@@ -30,7 +32,8 @@ const store = configureStore({
     }).concat(
       homeApi.middleware,
       categoryApi.middleware,
-      stickerApi.middleware
+      stickerApi.middleware,
+      authApi.middleware
     ),
 });
 

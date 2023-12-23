@@ -21,6 +21,7 @@ model user {
   email       String?       @unique
   phone       String?       @unique
   address     String?
+  password    Boolean       @default(false)
   orders      order[]
   cart        cart[]
   payment     payment[]
