@@ -82,7 +82,7 @@ const LoginForm = (props: FormPropType) => {
   );
 };
 
-const Login = (
+const Login = async (
   props: { onModal?: boolean },
   ref: LegacyRef<HTMLDivElement>
 ) => {
@@ -163,8 +163,8 @@ const Login = (
           <Forms
             initialValue={{ email: "", password: "" }}
             validate={validationSchema}
-            onSubmit={value => {
-              handleLoginWithEmail(value);
+            onSubmit={async value => {
+              await handleLoginWithEmail(value);
             }}
           >
             <LoginForm {...({} as FormPropType)} />
