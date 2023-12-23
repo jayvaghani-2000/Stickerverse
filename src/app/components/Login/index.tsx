@@ -1,3 +1,6 @@
+import { useAppDispatch } from "@/app/store";
+import { setAuthData, useAuthStore } from "@/app/store/authentication";
+import { setGlobalData } from "@/app/store/global";
 import { Typography } from "@mui/material";
 import classNames from "classnames";
 import { FormikValues } from "formik";
@@ -9,6 +12,7 @@ import Nova from "../Font/nova";
 import Icon from "../Icon";
 import Button from "../Shared/Button";
 import Forms from "../Shared/Forms";
+import InlineSpinner from "../Shared/InlineSpinner";
 import Text from "../Shared/Input/Text/index";
 import { FormPropType } from "../Shared/Types/formPropsTypes";
 
@@ -56,8 +60,9 @@ const LoginForm = (props: FormPropType) => {
         className="w-fit pt-1 pb-1 pl-1 sm:pl-1 md:pl-1 pr-1 sm:pr-1 md:pr-1 bg-lightPink hover:bg-lightPink"
         childClassName="px-2 normal-case"
         type="submit"
+        disabled={isSubmitting}
       >
-        Continue
+        Continue {isSubmitting && <InlineSpinner />}
       </Button>
 
       <Typography variant="button" className="normal-case">
@@ -69,6 +74,7 @@ const LoginForm = (props: FormPropType) => {
         prefixWrapperClassName="h-[24px] w-[24px] md:h-[36px] md:w-[36px]  bg-white rounded-full"
         childClassName="px-2 normal-case"
         onClick={handleLogin}
+        disabled={isSubmitting}
       >
         Google Account
       </Button>
@@ -81,6 +87,8 @@ const Login = (
   ref: LegacyRef<HTMLDivElement>
 ) => {
   const { onModal = false } = props;
+  const { redirectTo } = useAuthStore();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const handleLoginWithEmail = async (values: FormikValues) => {
@@ -89,13 +97,39 @@ const Login = (
       password: values.password,
     });
 
-    console.log(data, error);
+    if (data.user) {
+      dispatch(
+        setGlobalData({
+          toast: {
+            show: true,
+            message: "Logged in successfully",
+            type: "success",
+          },
+        })
+      );
+      dispatch(
+        setAuthData({
+          profile: data.user,
+        })
+      );
+      router.replace(redirectTo);
+    } else {
+      dispatch(
+        setGlobalData({
+          toast: {
+            show: true,
+            message: error?.message ?? "",
+            type: "error",
+          },
+        })
+      );
+    }
   };
 
   return (
     <div
       className={classNames({
-        ["flex flex-col py-5 sm:py-20 justify-center items-center"]: !onModal,
+        ["flex flex-col py-5 justify-center items-center"]: !onModal,
         paddingSpacing: !onModal,
       })}
       ref={ref}
@@ -103,7 +137,7 @@ const Login = (
       {onModal ? null : (
         <div
           className={classNames(
-            "w-[80dvw] sm:w-[420px] md:w-[550px]  flex items-end"
+            "w-full sm:w-[420px] md:w-[550px]  flex items-end"
           )}
         >
           <div className="flex-1 pb-4">
@@ -116,7 +150,7 @@ const Login = (
           />
         </div>
       )}
-      <div className="flex flex-col gap-3 md:gap-4 py-20 justify-center items-center bg-coffee w-[80dvw] sm:w-[420px] md:w-[550px] p-[30px] sm:p-[44px] md:p-[55px]">
+      <div className="flex flex-col gap-3 md:gap-4 py-20 justify-center items-center bg-coffee w-full sm:w-[420px] md:w-[550px] p-[30px] sm:p-[44px] md:p-[55px]">
         <div className="flex gap-2 justify-center ">
           <Typography
             variant="h3"

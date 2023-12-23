@@ -1,9 +1,9 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
+"use client";
+import { useAppDispatch } from "@/app/store";
+import { setGlobalData, useGlobalStore } from "@/app/store/global";
+import { Alert, Typography } from "@mui/material";
 import Slide, { SlideProps } from "@mui/material/Slide";
+import Snackbar from "@mui/material/Snackbar";
 
 type TransitionProps = Omit<SlideProps, "direction">;
 
@@ -12,35 +12,33 @@ function TransitionUp(props: TransitionProps) {
 }
 
 export default function Toast() {
-  const [open, setOpen] = React.useState(false);
-  const [transition, setTransition] = React.useState<
-    React.ComponentType<TransitionProps> | undefined
-  >(undefined);
+  const { toast } = useGlobalStore();
+  const { message, show, type } = toast;
 
-  const handleClick =
-    (Transition: React.ComponentType<TransitionProps>) => () => {
-      setTransition(() => Transition);
-      setOpen(true);
-    };
+  const dispatch = useAppDispatch();
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(
+      setGlobalData({
+        toast: { ...toast, show: false },
+      })
+    );
   };
 
   return (
-    <Box sx={{ width: 300 }}>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Button onClick={handleClick(TransitionUp)}>Up</Button>
-      </Box>
-      <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        TransitionComponent={transition}
-        message="I love snacks"
-        key={transition ? transition.name : ""}
-      />
-    </Box>
+    <Snackbar
+      open={show}
+      autoHideDuration={2000}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      TransitionComponent={TransitionUp}
+      message={message}
+    >
+      <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
+        <Typography variant="subtitle2" className="normal-case text-center">
+          {message}
+        </Typography>
+      </Alert>
+    </Snackbar>
   );
 }

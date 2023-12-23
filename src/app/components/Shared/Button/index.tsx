@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/app/theme";
 import {
   ButtonProps,
   Button as MUIButton,
@@ -10,11 +11,11 @@ import Icon from "../../Icon";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const roundedShadow: className =
-  "gap-1 items-center border-solid	normal-case px-4 sm:px-5 md:px-6 py-2 border-2 border-black rounded-full shadow-primaryShadow ";
+  "gap-1 items-center border-solid	normal-case px-4 sm:px-5 md:px-6 py-2 border-2 border-black rounded-full shadow-primaryShadow disabled:opacity-100 disabled:cursor-not-allowed";
 const roundedShadowFlat: className =
-  "gap-1 items-center border-solid	normal-case px-3 sm:px-4 md:px-5 py-1 border-2 border-black rounded-full shadow-primaryShadow ";
+  "gap-1 items-center border-solid	normal-case px-3 sm:px-4 md:px-5 py-1 border-2 border-black rounded-full shadow-primaryShadow disabled:opacity-100 disabled:cursor-not-allowed ";
 const borderBottom: className =
-  "gap-1 items-center border-solid	normal-case px-0 py-0 border-2 border-black rounded-full shadow-primaryShadow ";
+  "gap-1 items-center border-solid	normal-case px-0 py-0 border-2 border-black rounded-full shadow-primaryShadow  disabled:opacity-100 disabled:cursor-not-allowed ";
 
 const variants = {
   "rounded-shadow": roundedShadow,
@@ -51,6 +52,12 @@ const Button = (props: propType) => {
     <MUIButton
       className={classNames(variants[variant], className)}
       type={type}
+      sx={{
+        "&.Mui-disabled": {
+          pointerEvents: "unset",
+          color: ThemeColor.HALF_BLACK,
+        },
+      }}
       {...rest}
     >
       {prefixIcon && (

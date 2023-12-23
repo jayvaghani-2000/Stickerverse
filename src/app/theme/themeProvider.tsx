@@ -1,15 +1,16 @@
 "use client";
-import React, { HTMLProps, useEffect, useRef, useState } from "react";
 import {
-  StyledEngineProvider,
   ThemeProvider as MuiThemeProvider,
+  StyledEngineProvider,
 } from "@mui/material";
-import theme from "./index";
+import React, { HTMLProps, useEffect, useRef, useState } from "react";
 import { Provider } from "react-redux";
-import store from "../store";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 import ScrollToTop from "../components/ScrollToTop";
+import Toast from "../components/Shared/Toast";
+import store from "../store";
+import theme from "./index";
 
 const ThemeProvider = ({
   children,
@@ -68,6 +69,7 @@ const ThemeProvider = ({
                 active={active}
               />
               <Footer />
+              <Toast />
             </body>
           </html>
         </MuiThemeProvider>

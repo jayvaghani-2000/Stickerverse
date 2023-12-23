@@ -4,6 +4,7 @@ import { createTheme } from "@mui/material/styles";
 export enum ThemeColor {
   CREAM = "#fcf8f3",
   BLACK = "#000000",
+  HALF_BLACK = "#00000090",
   WHITE = "#fff",
   LIGHT_GRAY = "#A6A6A6",
   GRAY = "#e2dfda",

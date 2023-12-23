@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { OAuthResponse } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../index";
@@ -9,7 +9,7 @@ export type AuthType = {
   loading: boolean;
   authenticated: boolean;
   token: string;
-  profile: OAuthResponse["data"];
+  profile: User;
   redirectTo: string;
   authCheck: boolean;
 };
@@ -18,7 +18,7 @@ export const initialState = {
   loading: false,
   authenticated: false,
   token: "",
-  profile: {} as OAuthResponse["data"],
+  profile: {} as User,
   authCheck: false,
   redirectTo: "/",
 } as AuthType;

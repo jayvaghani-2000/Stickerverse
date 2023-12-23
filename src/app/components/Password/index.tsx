@@ -1,5 +1,8 @@
 "use client";
+import { useAppDispatch } from "@/app/store";
+import { useAuthStore } from "@/app/store/authentication";
 import { useUpdateUserPasswordMutation } from "@/app/store/authentication/api";
+import { setGlobalData } from "@/app/store/global";
 import { Typography } from "@mui/material";
 import classNames from "classnames";
 import { FormikValues } from "formik";
@@ -11,6 +14,7 @@ import Nova from "../Font/nova";
 import Icon from "../Icon";
 import Button from "../Shared/Button";
 import Forms from "../Shared/Forms";
+import InlineSpinner from "../Shared/InlineSpinner";
 import Text from "../Shared/Input/Text";
 import { FormPropType } from "../Shared/Types/formPropsTypes";
 
@@ -22,6 +26,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const PasswordForm = (props: FormPropType) => {
+  const { redirectTo } = useAuthStore();
+  const router = useRouter();
   const { handleChange, values, isSubmitting, errors } = props;
 
   return (
@@ -45,8 +51,9 @@ const PasswordForm = (props: FormPropType) => {
         className="w-fit pt-1 pb-1 pl-1 sm:pl-1 md:pl-1 pr-1 sm:pr-1 md:pr-1 bg-lightPink hover:bg-lightPink"
         childClassName="px-2 normal-case"
         type="submit"
+        disabled={isSubmitting}
       >
-        Continue
+        Continue {isSubmitting && <InlineSpinner />}
       </Button>
 
       <Typography variant="button" className="normal-case text-center">
@@ -56,7 +63,10 @@ const PasswordForm = (props: FormPropType) => {
         icon="chevronRight"
         className="w-fit pt-1 pb-1 pl-1 sm:pl-1 md:pl-1 pr-1 sm:pr-1 md:pr-1 bg-lemonGreen hover:bg-lemonGreen"
         childClassName="px-2 normal-case"
-        onClick={() => {}}
+        onClick={() => {
+          router.replace(redirectTo);
+        }}
+        disabled={isSubmitting}
       >
         Skip
       </Button>
@@ -69,27 +79,39 @@ const Password = (
   ref: LegacyRef<HTMLDivElement>
 ) => {
   const { onModal = false } = props;
+  const { redirectTo } = useAuthStore();
   const [updateUser] = useUpdateUserPasswordMutation();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const handleSetPassword = async (values: FormikValues) => {
-    const { data, error } = await supabase.auth.updateUser({
+    const { data } = await supabase.auth.updateUser({
       password: values.password,
     });
 
     if (data && data.user) {
       const res = await updateUser({ id: data.user.id });
       if ("data" in res) {
-        return router.replace("/");
+        return router.replace(redirectTo);
       }
     } else {
+      dispatch(
+        setGlobalData({
+          toast: {
+            show: true,
+            message: "Unable to set password at this moment!",
+            type: "error",
+          },
+        })
+      );
+      return router.replace(redirectTo);
     }
   };
 
   return (
     <div
       className={classNames({
-        ["flex flex-col  py-5 sm:py-20 justify-center items-center"]: !onModal,
+        ["flex flex-col  py-5 justify-center items-center"]: !onModal,
         paddingSpacing: !onModal,
       })}
       ref={ref}
@@ -97,7 +119,7 @@ const Password = (
       {onModal ? null : (
         <div
           className={classNames(
-            "w-[80dvw] sm:w-[420px] md:w-[550px]  flex items-end"
+            "w-full sm:w-[420px] md:w-[550px]  flex items-end"
           )}
         >
           <div className="flex-1 pb-4">
@@ -110,7 +132,7 @@ const Password = (
           />
         </div>
       )}
-      <div className="flex flex-col gap-3 md:gap-4 py-20 justify-center items-center bg-coffee w-[80dvw] sm:w-[420px] md:w-[550px] p-[30px] sm:p-[44px] md:p-[55px]">
+      <div className="flex flex-col gap-3 md:gap-4 py-20 justify-center items-center bg-coffee w-full sm:w-[420px] md:w-[550px] p-[30px] sm:p-[44px] md:p-[55px]">
         <div className="flex gap-2 justify-center ">
           <Typography
             variant="h3"

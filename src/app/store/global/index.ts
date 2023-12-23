@@ -1,3 +1,4 @@
+import { AlertColor } from "@mui/material";
 import { createSlice } from "@reduxjs/toolkit";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -5,10 +6,12 @@ import { RootState } from "../index";
 
 export type GlobalData = {
   showLogin: boolean;
+  toast: { show: boolean; message: string; type: AlertColor };
 };
 
 export const initialState = {
   showLogin: false,
+  toast: { show: false, message: "", type: "success" },
 } as GlobalData;
 
 export const globalSlice = createSlice({
