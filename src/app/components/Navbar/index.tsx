@@ -112,7 +112,7 @@ const Navbar = () => {
         </Typography>
       </div>
 
-      <div className="flex items-center justify-between gap-2 md:gap-[20px]">
+      <div className="flex items-center justify-between gap-[15px] md:gap-[20px]">
         <div className="h-[20px] sm:h-[25px] w-[20px] sm:w-[25px]">
           <Icon name="search" className="h-full w-full" />
         </div>
@@ -121,12 +121,6 @@ const Navbar = () => {
           className="h-[20px] sm:h-[25px] w-[20px] sm:w-[25px]"
         >
           <Icon name="cart" className="h-full w-full" />
-        </Link>
-        <Link
-          href="/wishlist"
-          className="h-[20px] sm:h-[25px] w-[20px] sm:w-[25px]"
-        >
-          <Icon name="heartBlack" className="h-full w-full" />
         </Link>
       </div>
     </nav>
