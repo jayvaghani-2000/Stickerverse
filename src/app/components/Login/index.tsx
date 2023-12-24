@@ -132,7 +132,7 @@ const Login = (
   return (
     <div
       className={classNames({
-        ["flex flex-col py-5 justify-center items-center"]: !onModal,
+        ["flex flex-col py-5 sm:py-10 justify-center items-center"]: !onModal,
         paddingSpacing: !onModal,
       })}
       ref={ref}

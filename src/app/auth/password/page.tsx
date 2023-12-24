@@ -1,11 +1,11 @@
-import WithHeader from "@/app/components/HOC/withHeader";
 import Password from "@/app/components/Password";
+import { paddingSpacing } from "@/app/utils/styles";
 
 const PasswordPage = () => {
   return (
-    <WithHeader>
+    <div className={paddingSpacing}>
       <Password />
-    </WithHeader>
+    </div>
   );
 };
 
