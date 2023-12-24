@@ -33,9 +33,6 @@ export default function Toast() {
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
       TransitionComponent={TransitionUp}
       message={message}
-      classes={{
-        root: "mt-[60px] sm:mt-[85px]",
-      }}
     >
       <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
         <Typography variant="subtitle2" className="normal-case text-center">
