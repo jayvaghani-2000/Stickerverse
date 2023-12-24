@@ -24,7 +24,7 @@ export const metadata: Metadata = {
       "Explore StickerVerse, where every amusing, eccentric, and side-splitting sticker comes to life! We've got a vast collection of funny stickers for you to discover and enjoy.",
     images: [
       {
-        url: "https://wlofkglxzzwfrvghuitm.supabase.co/storage/v1/object/public/images/logo/logo.png",
+        url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/logo/logo.png`,
       },
     ],
   },
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
       "Explore StickerVerse, where every amusing, eccentric, and side-splitting sticker comes to life! We've got a vast collection of funny stickers for you to discover and enjoy.",
     images: [
       {
-        url: "https://wlofkglxzzwfrvghuitm.supabase.co/storage/v1/object/public/images/logo/logo.png",
+        url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/logo/logo.png`,
       },
     ],
   },

@@ -61,6 +61,10 @@ const ThemeProvider = ({
                 name="viewport"
                 content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
               />
+              <meta
+                property="og:image"
+                content={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/logo/logo.png`}
+              />
             </head>
             <body className={className} ref={ref}>
               <WithAuth>
