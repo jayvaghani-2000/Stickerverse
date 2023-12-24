@@ -1,11 +1,15 @@
+import { useAppDispatch } from "@/app/store";
+import { resetAuthData } from "@/app/store/authentication";
+import { setGlobalData } from "@/app/store/global";
 import { activeRoute } from "@/app/utils/activeRoute";
 import { paddingSpacing } from "@/app/utils/styles";
 import { useMobileScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import classNames from "classnames";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { supabase } from "../../../../supabase/init";
 import Icon from "../Icon";
 import Profile from "./Profile";
 import Drawer from "./drawer";
@@ -26,6 +30,8 @@ const ADMIN_TABS = [
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
   const path = usePathname();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const isMobile = useMobileScreen();
   const [profileEl, setProfileEl] = React.useState<HTMLElement | null>(null);
   const isAdmin = path!.startsWith("/admin");
@@ -47,6 +53,33 @@ const Navbar = () => {
     setProfileEl(null);
   };
 
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      dispatch(
+        setGlobalData({
+          toast: {
+            show: true,
+            message: "Logged out successfully",
+            type: "success",
+          },
+        })
+      );
+      dispatch(resetAuthData());
+      router.replace("/");
+    } else {
+      dispatch(
+        setGlobalData({
+          toast: {
+            show: true,
+            message: "Unable Logged out!",
+            type: "error",
+          },
+        })
+      );
+    }
+  };
+
   const open = Boolean(profileEl);
 
   return isMobile ? (
@@ -64,21 +97,36 @@ const Navbar = () => {
       >
         <Icon name="menu" />
       </button>
-      <Drawer open={openNav} toggleNav={toggleDrawer} />
+      <Drawer
+        open={openNav}
+        toggleNav={toggleDrawer}
+        handleLogout={handleLogout}
+      />
 
       <div className="flex items-center gap-[8px]">
         <Link href="/" className="h-[42px] w-[42px] ">
-          <Icon name="logo" className="h-[42px]" />
+          <Icon name="logo" className="h-full w-full" />
         </Link>
         <Typography variant="subtitle1" className="uppercase">
           Sticker verse
         </Typography>
       </div>
 
-      <div className="flex items-center justify-between gap-[15px] md:gap-[20px]">
-        <Icon name="search" className="h-[20px]" />
-        <Link href="/cart" className="scale-90 md:scale-100">
-          <Icon name="cart" className="h-[20px]" />
+      <div className="flex items-center justify-between gap-2 md:gap-[20px]">
+        <div className="h-[20px] sm:h-[25px] w-[20px] sm:w-[25px]">
+          <Icon name="search" className="h-full w-full" />
+        </div>
+        <Link
+          href="/cart"
+          className="h-[20px] sm:h-[25px] w-[20px] sm:w-[25px]"
+        >
+          <Icon name="cart" className="h-full w-full" />
+        </Link>
+        <Link
+          href="/wishlist"
+          className="h-[20px] sm:h-[25px] w-[20px] sm:w-[25px]"
+        >
+          <Icon name="heartBlack" className="h-full w-full" />
         </Link>
       </div>
     </nav>
@@ -124,24 +172,34 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center justify-between gap-[15px] md:gap-[20px]">
-        <Icon name="search" className="w-[22px] md:w-[25px]" />
+        <div className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]">
+          <Icon name="search" className="h-full w-ful" />
+        </div>
         <button
           aria-describedby={"mouse-over-popover"}
           onClick={handlePopoverOpen}
+          className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]"
         >
-          <Icon name="user" className="w-[22px] md:w-[25px]" />
+          <Icon name="user" className="h-full w-full" />
         </button>
-        <Link href="/wishlist">
-          <Icon name="heartBlack" className="w-[22px] md:w-[25px]" />
+        <Link
+          href="/wishlist"
+          className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]"
+        >
+          <Icon name="heartBlack" className="h-full w-full" />
         </Link>
-        <Link href="/cart">
-          <Icon name="cart" className="w-[22px] md:w-[25px]" />
+        <Link
+          href="/cart"
+          className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]"
+        >
+          <Icon name="cart" className="h-full w-full" />
         </Link>
       </div>
       <Profile
         handlePopoverClose={handlePopoverClose}
         open={open}
         profileEl={profileEl}
+        handleLogout={handleLogout}
       />
     </nav>
   );

@@ -7,9 +7,15 @@ import Nova from "../Font/nova";
 import Loader from "../Loader";
 
 const loginRoute = ["/auth/login"];
-const authRoute = ["/auth/password", "/auth/verify"];
+const authRoute = ["/auth/password", "/auth/verify", "/orders", "/profile"];
 
-const privateTillAuthRoute = ["/auth/login", "/auth/password", "/auth/verify"];
+const privateTillAuthRoute = [
+  "/auth/login",
+  "/auth/password",
+  "/auth/verify",
+  "/orders",
+  "/profile",
+];
 
 const WithAuth = ({ children }: { children: React.ReactNode }) => {
   const path = usePathname();
@@ -21,14 +27,6 @@ const WithAuth = ({ children }: { children: React.ReactNode }) => {
     const { data } = await supabase.auth.refreshSession();
 
     if (data && data.session) {
-      if (loginRoute.includes(path!)) {
-        dispatch(
-          setAuthData({
-            authCheck: true,
-          })
-        );
-        return router.replace("/");
-      }
       const res = await supabase.auth.setSession({
         access_token: data.session.access_token,
         refresh_token: data.session.refresh_token,
@@ -42,6 +40,9 @@ const WithAuth = ({ children }: { children: React.ReactNode }) => {
             authCheck: true,
           })
         );
+      }
+      if (loginRoute.includes(path!)) {
+        router.replace("/");
       }
     } else {
       if (authRoute.includes(path!)) {

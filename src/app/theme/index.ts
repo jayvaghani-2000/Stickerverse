@@ -114,6 +114,16 @@ const theme = createTheme({
         fontSize: "12px",
       },
     },
+    h5: {
+      fontWeight: "700",
+      fontSize: "20px",
+      "@media (max-width:900px)": {
+        fontSize: "18px",
+      },
+      "@media (max-width:600px)": {
+        fontSize: "16px",
+      },
+    },
     h6: {
       fontWeight: "bold",
       fontSize: "16px",

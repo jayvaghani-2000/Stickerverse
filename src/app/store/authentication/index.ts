@@ -30,6 +30,9 @@ export const authenticationSlice = createSlice({
     setAuthData: (state, action: { payload: Partial<AuthType> }) => {
       Object.assign(state, action.payload);
     },
+    resetAuthData: state => {
+      Object.assign(state, initialState);
+    },
   },
   extraReducers: builder => {
     builder.addMatcher(authApi.endpoints.getUserById.matchPending, state => {
@@ -55,5 +58,5 @@ export const useAuthStore = () => {
   const authentication = useSelector(selectAuthentication);
   return useMemo(() => authentication, [authentication]);
 };
-export const { setAuthData } = authenticationSlice.actions;
+export const { setAuthData, resetAuthData } = authenticationSlice.actions;
 export default authenticationSlice.reducer;

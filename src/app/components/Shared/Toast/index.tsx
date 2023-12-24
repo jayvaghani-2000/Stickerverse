@@ -8,7 +8,7 @@ import Snackbar from "@mui/material/Snackbar";
 type TransitionProps = Omit<SlideProps, "direction">;
 
 function TransitionUp(props: TransitionProps) {
-  return <Slide {...props} direction="up" />;
+  return <Slide {...props} direction="down" />;
 }
 
 export default function Toast() {
@@ -30,9 +30,12 @@ export default function Toast() {
       open={show}
       autoHideDuration={2000}
       onClose={handleClose}
-      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
       TransitionComponent={TransitionUp}
       message={message}
+      classes={{
+        root: "mt-[60px] sm:mt-[85px]",
+      }}
     >
       <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
         <Typography variant="subtitle2" className="normal-case text-center">
