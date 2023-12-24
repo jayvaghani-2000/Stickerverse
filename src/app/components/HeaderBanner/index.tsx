@@ -1,4 +1,3 @@
-"use client";
 import { headerBanner } from "@/app/utils/constant";
 import { Typography } from "@mui/material";
 

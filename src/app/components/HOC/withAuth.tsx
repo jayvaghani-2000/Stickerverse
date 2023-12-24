@@ -1,4 +1,3 @@
-"use client";
 import { useAppDispatch } from "@/app/store";
 import { setAuthData, useAuthStore } from "@/app/store/authentication";
 import { usePathname, useRouter } from "next/navigation";

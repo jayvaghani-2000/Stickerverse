@@ -83,7 +83,7 @@ const LoginForm = (props: FormPropType) => {
   );
 };
 
-const Login = async (
+const Login = (
   props: { onModal?: boolean },
   ref: LegacyRef<HTMLDivElement>
 ) => {

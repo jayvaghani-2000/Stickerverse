@@ -1,4 +1,3 @@
-"use client";
 import { activeRoute } from "@/app/utils/activeRoute";
 import { paddingSpacing } from "@/app/utils/styles";
 import { useMobileScreen } from "@/app/utils/useScreenSize";
