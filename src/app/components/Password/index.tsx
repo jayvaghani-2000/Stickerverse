@@ -92,6 +92,13 @@ const Password = (
     if (data && data.user) {
       const res = await updateUser({ id: data.user.id });
       if ("data" in res) {
+        setGlobalData({
+          toast: {
+            show: true,
+            message: "Password set successfully!",
+            type: "success",
+          },
+        });
         return router.replace(redirectTo);
       }
     } else {

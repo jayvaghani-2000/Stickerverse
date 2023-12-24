@@ -23,21 +23,24 @@ const Verify = () => {
   };
 
   const getCurrentSession = async () => {
-    dispatch(
-      setGlobalData({
-        toast: {
-          show: true,
-          message: "Logged in successfully",
-          type: "success",
-        },
-      })
-    );
     const res = await supabase.auth.getUser();
-    if (res.data.user) {
+
+    const resSession = await supabase.auth.getSession();
+    if (res.data.user && resSession.data.session) {
+      dispatch(
+        setGlobalData({
+          toast: {
+            show: true,
+            message: "Logged in successfully",
+            type: "success",
+          },
+        })
+      );
       dispatch(
         setAuthData({
           profile: res.data.user,
           authenticated: true,
+          token: resSession.data.session.access_token,
         })
       );
       const createdBefore = getDifferenceInHours(res.data.user.created_at);
@@ -52,6 +55,13 @@ const Verify = () => {
         handleCompleteVerify();
       }
     } else {
+      setGlobalData({
+        toast: {
+          show: true,
+          message: "Something went wrong!",
+          type: "error",
+        },
+      });
       handleCompleteVerify();
     }
   };

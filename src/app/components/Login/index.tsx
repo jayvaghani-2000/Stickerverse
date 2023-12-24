@@ -1,3 +1,4 @@
+"use client";
 import { useAppDispatch } from "@/app/store";
 import { setAuthData, useAuthStore } from "@/app/store/authentication";
 import { setGlobalData } from "@/app/store/global";
@@ -97,7 +98,7 @@ const Login = async (
       password: values.password,
     });
 
-    if (data.user) {
+    if (data.user && data.session) {
       dispatch(
         setGlobalData({
           toast: {
@@ -110,6 +111,7 @@ const Login = async (
       dispatch(
         setAuthData({
           profile: data.user,
+          token: data.session.access_token,
           authenticated: true,
         })
       );

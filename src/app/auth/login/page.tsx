@@ -1,4 +1,3 @@
-"use client";
 import WithHeader from "@/app/components/HOC/withHeader";
 import Login from "@/app/components/Login";
 
