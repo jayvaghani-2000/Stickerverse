@@ -1,7 +1,8 @@
 import { useAppDispatch } from "@/app/store";
-import { resetAuthData } from "@/app/store/authentication";
+import { resetAuthData, setAuthData } from "@/app/store/authentication";
 import { setGlobalData } from "@/app/store/global";
 import { activeRoute } from "@/app/utils/activeRoute";
+import { handleRemoveToken } from "@/app/utils/handleSetToken";
 import { paddingSpacing } from "@/app/utils/styles";
 import { useMobileScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
@@ -66,6 +67,12 @@ const Navbar = () => {
         })
       );
       dispatch(resetAuthData());
+      dispatch(
+        setAuthData({
+          authCheck: true,
+        })
+      );
+      await handleRemoveToken();
       router.replace("/");
     } else {
       dispatch(

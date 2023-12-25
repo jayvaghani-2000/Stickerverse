@@ -9,6 +9,7 @@ import Text from "@/app/components/Shared/Input/Text/index";
 import { FormPropType } from "@/app/components/Shared/Types/formPropsTypes";
 import { useGetStickerCategoryQuery } from "@/app/store/category/api";
 import { Typography } from "@mui/material";
+import { parentCategory } from "@prisma/client";
 import axios from "axios";
 import { FormikValues } from "formik";
 import { cloneDeep } from "lodash";
@@ -132,6 +133,7 @@ const AddProductForm = forwardRef((props: FormPropType & {}, parentRef) => {
   const handleCreateCategory = async (option: string) => {
     const formData = new FormData();
     formData.append("categoryName", option);
+    formData.append("parent", parentCategory.sticker);
 
     const response = await axios.post("/api/category/sticker", formData, {
       headers: {

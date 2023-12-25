@@ -2,6 +2,7 @@
 import { useAppDispatch } from "@/app/store";
 import { setAuthData, useAuthStore } from "@/app/store/authentication";
 import { setGlobalData } from "@/app/store/global";
+import { handleSetToken } from "@/app/utils/handleSetToken";
 import { Typography } from "@mui/material";
 import classNames from "classnames";
 import { FormikValues } from "formik";
@@ -115,6 +116,7 @@ const Login = (
           authenticated: true,
         })
       );
+      await handleSetToken(data.session.access_token);
       router.replace(redirectTo);
     } else {
       dispatch(

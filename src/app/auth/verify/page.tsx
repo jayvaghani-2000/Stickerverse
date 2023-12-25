@@ -6,9 +6,11 @@ import { setAuthData, useAuthStore } from "@/app/store/authentication";
 import { useLazyGetUserByIdQuery } from "@/app/store/authentication/api";
 import { setGlobalData, useGlobalStore } from "@/app/store/global";
 import { getDifferenceInHours } from "@/app/utils/dates";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { supabase } from "../../../../supabase/init";
+import { handleSetToken } from "@/app/utils/handleSetToken";
 
 const Verify = () => {
   const router = useRouter();
@@ -43,6 +45,7 @@ const Verify = () => {
           token: resSession.data.session.access_token,
         })
       );
+      await handleSetToken(resSession.data.session.access_token);
       const createdBefore = getDifferenceInHours(res.data.user.created_at);
       if (createdBefore > 24) {
         handleCompleteVerify();

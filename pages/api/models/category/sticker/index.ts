@@ -1,12 +1,11 @@
-import { AddStickerCategorySchema } from "./schema";
 import prisma from "../../../../../prisma";
+import { AddCategorySchema } from "./schema";
 
 export async function post(data: unknown) {
-  const payload = AddStickerCategorySchema.parse(data);
+  const payload = AddCategorySchema.parse(data);
 
   return await prisma.category.create({
     data: {
-      parent: "sticker",
       ...payload,
     },
     select: {
