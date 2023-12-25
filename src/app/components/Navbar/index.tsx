@@ -127,7 +127,15 @@ const Navbar = () => {
           href="/cart"
           className="h-[20px] sm:h-[25px] w-[20px] sm:w-[25px]"
         >
-          <Icon name="cart" className="h-full w-full" />
+          <Badge
+            badgeContent={9}
+            max={10}
+            classes={{
+              badge: `bg-lightRed text-white border-[3px] border-white text-[8px] h-[20px] w-[20px] rounded-full`,
+            }}
+          >
+            <Icon name="cart" className="h-full w-full" />
+          </Badge>
         </Link>
       </div>
     </nav>
