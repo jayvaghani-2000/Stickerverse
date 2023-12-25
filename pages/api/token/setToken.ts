@@ -17,7 +17,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         })
       );
       res.statusCode = 201;
-      res.json({ token: token });
+      return res.json({ token: token });
     }
     res.setHeader("Allow", "GET");
     return res.status(405).json({ error: "Method not allowed" });

@@ -5,7 +5,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "GET") {
       let token = req.cookies[req.query!.key as string];
       res.statusCode = 200;
-      res.json({ token: token });
+      return res.json({ token: token });
     }
     res.setHeader("Allow", "GET");
     return res.status(405).json({ error: "Method not allowed" });
