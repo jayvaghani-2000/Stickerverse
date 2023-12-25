@@ -202,7 +202,7 @@ const Navbar = () => {
             badgeContent={9}
             max={10}
             classes={{
-              badge: `bg-lightRed text-white border-[3px] border-white text-[10px] h-[22px] w-[22px]`,
+              badge: `bg-lightRed text-white border-[3px] border-white text-[10px] h-[22px] w-[22px] rounded-full`,
             }}
           >
             <Icon
