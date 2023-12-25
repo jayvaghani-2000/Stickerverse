@@ -1,5 +1,6 @@
 import { useAddToCartMutation } from "@/app/store/cart/api";
 import { productAnimation, productHoverEffect } from "@/app/utils/animation";
+import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
@@ -15,6 +16,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
   const [quantity, setQuantity] = useState(1);
   const aspectRatio = i.image[0].width / i.image[0].height;
   const [handleAddToCart] = useAddToCartMutation();
+  const { refetchCart } = useLocalCart();
   const isTab = useTabScreen();
   const isMobile = useMobileScreen();
   const getImageSize = () => {
@@ -61,12 +63,16 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
               {i.price - 0.01} ₹
             </Typography>
           </div>
-          <div className="m-auto w-fit relative flex gap-2 justify-center mt-1 sm:mt-2 md:mt-3">
+          <div className="ml-[20px] md:ml-[24px] relative flex gap-1 sm:gap-2 justify-center items-center mt-1 sm:mt-2 md:mt-3">
             <ItemCount quantity={quantity} setQuantity={setQuantity} />
             <button
-              className="absolute top-[2px] md:top-[3px] -right-8 h-[20px] md:h-[24px]"
-              onClick={() => {
-                handleAddToCart({ quantity: quantity, stickerId: sticker.id });
+              className="h-[20px] md:h-[24px]"
+              onClick={async () => {
+                await handleAddToCart({
+                  quantity: quantity,
+                  stickerId: sticker.id,
+                });
+                refetchCart();
               }}
             >
               <Icon name="cart" className="h-full w-full" />

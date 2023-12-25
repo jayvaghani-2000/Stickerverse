@@ -1,4 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setCartData } from ".";
+import store from "..";
 import { AddToCart } from "../../../../pages/api/models/cart/schema";
 import { getCartType } from "../../../../pages/api/types";
 import { prepareHeaders } from "./../../utils/tokenManager";
@@ -16,6 +18,7 @@ export const cartApi = createApi({
       query: () => `/api/cart`,
       transformResponse: (response: { cart: getCartType }) => {
         if (response?.cart) {
+          store.dispatch(setCartData({ cart: response.cart }));
           return response.cart;
         }
         return {} as getCartType;
@@ -37,4 +40,8 @@ export const cartApi = createApi({
   }),
 });
 
-export const { useLazyGetUserCartQuery, useAddToCartMutation } = cartApi;
+export const {
+  useLazyGetUserCartQuery,
+  useGetUserCartQuery,
+  useAddToCartMutation,
+} = cartApi;

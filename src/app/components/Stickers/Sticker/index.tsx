@@ -1,5 +1,6 @@
 import { useAddToCartMutation } from "@/app/store/cart/api";
 import { productAnimation, productClickEffect } from "@/app/utils/animation";
+import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { getPlatform } from "@/app/utils/getPlatform";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
@@ -17,6 +18,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const [quantity, setQuantity] = useState(1);
   const isTab = useTabScreen();
   const isMobileSize = useMobileScreen();
+  const { refetchCart } = useLocalCart();
   const [handleAddToCart] = useAddToCartMutation();
   const { isMobile } = getPlatform();
   const aspectRatio = sticker.image[0].width / sticker.image[0].height;
@@ -132,8 +134,12 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
             typography="subtitle2"
             className="bg-primeGreen hover:bg-primeGreen w-fit mt-2 sm:mt-3 md:mt-4 pl-2 sm:pl-3 md:pl-4  pr-2 sm:pr-3 md:pr-3  pt-1 pb-1 sm:pt-[6px] sm:pb-[6px] md:pt-2 sm:pb-2"
             icon="cart"
-            onClick={() => {
-              handleAddToCart({ quantity: quantity, stickerId: sticker.id });
+            onClick={async () => {
+              await handleAddToCart({
+                quantity: quantity,
+                stickerId: sticker.id,
+              });
+              refetchCart();
             }}
           >
             Add to Cart

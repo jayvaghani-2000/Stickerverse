@@ -11,6 +11,7 @@ import Navbar from "../components/Navbar";
 import ScrollToTop from "../components/ScrollToTop";
 import Toast from "../components/Shared/Toast";
 import store from "../store";
+import CartProvider from "../utils/context/localCartProvider";
 import theme from "./index";
 
 const ThemeProvider = ({
@@ -68,14 +69,16 @@ const ThemeProvider = ({
             </head>
             <body className={className} ref={ref}>
               <WithAuth>
-                <Navbar />
-                {children}
-                <ScrollToTop
-                  handleScrollToTop={handleScrollToTop}
-                  active={active}
-                />
-                <Footer />
-                <Toast />
+                <CartProvider>
+                  <Navbar />
+                  {children}
+                  <ScrollToTop
+                    handleScrollToTop={handleScrollToTop}
+                    active={active}
+                  />
+                  <Footer />
+                  <Toast />
+                </CartProvider>
               </WithAuth>
             </body>
           </html>

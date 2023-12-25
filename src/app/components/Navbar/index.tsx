@@ -1,7 +1,13 @@
 import { useAppDispatch } from "@/app/store";
-import { resetAuthData, setAuthData } from "@/app/store/authentication";
+import {
+  resetAuthData,
+  setAuthData,
+  useAuthStore,
+} from "@/app/store/authentication";
+import { useCartStore } from "@/app/store/cart";
 import { setGlobalData } from "@/app/store/global";
 import { activeRoute } from "@/app/utils/activeRoute";
+import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { handleRemoveToken } from "@/app/utils/handleSetToken";
 import { paddingSpacing } from "@/app/utils/styles";
 import { useMobileScreen } from "@/app/utils/useScreenSize";
@@ -12,6 +18,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../supabase/init";
 import Icon from "../Icon";
+import { LocalCart } from "../Shared/Types/localStoreType";
 import Profile from "./Profile";
 import Drawer from "./drawer";
 import styles from "./navbar.module.scss";
@@ -30,6 +37,9 @@ const ADMIN_TABS = [
 
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
+  const { localCart } = useLocalCart();
+  const { authenticated } = useAuthStore();
+  const { cart } = useCartStore();
   const path = usePathname();
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -89,6 +99,13 @@ const Navbar = () => {
 
   const open = Boolean(profileEl);
 
+  const cartItems = authenticated
+    ? cart.items?.length ?? 0
+    : (localCart as LocalCart).reduce((prev, curr) => {
+        prev += curr.items.length;
+        return prev;
+      }, 0);
+
   return isMobile ? (
     <nav
       className={classNames(
@@ -128,13 +145,16 @@ const Navbar = () => {
           className="h-[20px] sm:h-[25px] w-[20px] sm:w-[25px]"
         >
           <Badge
-            badgeContent={9}
+            badgeContent={cartItems}
             max={10}
             classes={{
               badge: `bg-lightRed text-white border-[3px] border-cream text-[8px] h-[20px] w-[20px] rounded-full`,
             }}
           >
-            <Icon name="cart" className="h-full w-full" />
+            <Icon
+              name="cart"
+              className={classNames("h-full w-full", styles.activeIconOnNav)}
+            />
           </Badge>
         </Link>
       </div>
@@ -207,7 +227,7 @@ const Navbar = () => {
           className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]"
         >
           <Badge
-            badgeContent={9}
+            badgeContent={cartItems}
             max={10}
             classes={{
               badge: `bg-lightRed text-white border-[3px] border-cream text-[10px] h-[22px] w-[22px] rounded-full`,
