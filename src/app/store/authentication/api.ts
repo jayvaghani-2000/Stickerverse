@@ -9,7 +9,7 @@ export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "",
-    prepareHeaders,
+    prepareHeaders: prepareHeaders,
   }),
   tagTypes: ["User"],
   refetchOnMountOrArgChange: true,

@@ -1,3 +1,4 @@
+import { User } from "@supabase/supabase-js";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { COOKIE_KEYS } from "./cookies";
@@ -13,8 +14,9 @@ export async function verifyJWTToken(token: string) {
         token.split(" ")[1],
         process.env.NEXT_JWT_SECRET!
       );
-      if ("user" in ((decode ?? {}) as JwtPayload)) {
-        return ((decode ?? {}) as JwtPayload).user;
+
+      if ("user_metadata" in ((decode ?? {}) as JwtPayload)) {
+        return (decode ?? {}) as JwtPayload;
       } else {
         throw new Error("Unauthorized");
       }
@@ -24,7 +26,10 @@ export async function verifyJWTToken(token: string) {
   }
 }
 
-export default function jwtMiddleware(handler: any, throwError: method[] = []) {
+export default function jwtMiddleware(
+  handler: any,
+  throwError: method[] = AllMethods
+) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const cookieToken = `Bearer ${req.cookies[COOKIE_KEYS.TOKEN]}`;
 
@@ -39,12 +44,12 @@ export default function jwtMiddleware(handler: any, throwError: method[] = []) {
 
     try {
       const decoded = await verifyJWTToken(token || cookieToken);
-      return handler(req, res, decoded);
+      return handler(req, res, decoded as User);
     } catch (error) {
       if (throwError.includes(req.method as method)) {
         return res.status(401).json({ error: "Unauthorized" });
       } else {
-        return handler(req, res, {});
+        return handler(req, res, {} as User);
       }
     }
   };
