@@ -29,7 +29,7 @@ const WithAuth = ({ children }: { children: React.ReactNode }) => {
     const currentSession = await supabase.auth.getSession();
     const { data: currentSessionData, error } = currentSession;
 
-    if (currentSessionData && currentSessionData.session && error) {
+    if (currentSessionData && currentSessionData.session && !error) {
       const session = currentSessionData.session as Session;
       dispatch(
         setAuthData({
