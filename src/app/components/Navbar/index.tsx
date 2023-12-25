@@ -5,7 +5,7 @@ import { activeRoute } from "@/app/utils/activeRoute";
 import { handleRemoveToken } from "@/app/utils/handleSetToken";
 import { paddingSpacing } from "@/app/utils/styles";
 import { useMobileScreen } from "@/app/utils/useScreenSize";
-import { Typography } from "@mui/material";
+import { Badge, Typography } from "@mui/material";
 import classNames from "classnames";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -181,7 +181,12 @@ const Navbar = () => {
           onClick={handlePopoverOpen}
           className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]"
         >
-          <Icon name="user" className="h-full w-full" />
+          <Icon
+            name="user"
+            className={classNames("h-full w-full", {
+              [styles.activeIconOnNav]: open,
+            })}
+          />
         </button>
         <Link
           href="/wishlist"
@@ -193,7 +198,18 @@ const Navbar = () => {
           href="/cart"
           className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]"
         >
-          <Icon name="cart" className="h-full w-full" />
+          <Badge
+            badgeContent={9}
+            max={10}
+            classes={{
+              badge: `bg-lightRed text-white border-2 border-cream text-[10px]`,
+            }}
+          >
+            <Icon
+              name="cart"
+              className={classNames("h-full w-full", styles.activeIconOnNav)}
+            />
+          </Badge>
         </Link>
       </div>
       <Profile

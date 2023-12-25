@@ -17,6 +17,7 @@ const config: Config = {
         lemonGreen: "#EBE19C",
         purple: "#8870FF",
         lightBlue: "#A2CDFF",
+        darkBlue: "#328DFF",
         lightRed: "#F25B5C",
         lightOrange: "#FFB278",
         darkPink: "#FC9985",
