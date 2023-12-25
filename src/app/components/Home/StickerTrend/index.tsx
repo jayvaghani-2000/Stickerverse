@@ -2,7 +2,6 @@
 import { useAppDispatch } from "@/app/store";
 import { setTrendingSticker, useHomeStore } from "@/app/store/home";
 import { useLazyGetTrendingStickerQuery } from "@/app/store/home/api";
-import { productAnimation, productHoverEffect } from "@/app/utils/animation";
 import { placeholder } from "@/app/utils/constant";
 import { randomColor } from "@/app/utils/skeleton";
 import { paddingSpacing } from "@/app/utils/styles";
@@ -14,9 +13,8 @@ import React, { useEffect } from "react";
 import { trendingStickerType } from "../../../../../pages/api/types";
 import { MotionImage } from "../../MotionImage";
 import Button from "../../Shared/Button";
-import ItemCount from "../../Shared/ItemCount";
-import Rating from "../../Shared/Rating";
 import { Skeleton } from "../../Skeleton";
+import Sticker from "./sticker";
 
 type className = React.HTMLProps<HTMLElement>["className"];
 const dummySticker: className = "w-[150px] sm:w-[180px] md:w-[240px]";
@@ -63,52 +61,7 @@ const StickerTrend = () => {
         {!isError && trendingSticker.length !== 0
           ? trendingSticker.slice(0, 6).map(i => {
               const aspectRatio = i.image[0].width / i.image[0].height;
-              return (
-                <motion.figure
-                  key={i.id}
-                  {...productAnimation(i.id.toString())}
-                >
-                  <motion.div
-                    key={i.id}
-                    className="w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col "
-                    {...productHoverEffect()}
-                  >
-                    <div className="py-[10px] sm:py-[15px] md:py-[20px]">
-                      <div
-                        className={`h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden rounded-[30px] bg-white flex justify-center items-center`}
-                        style={{ aspectRatio: aspectRatio }}
-                      >
-                        <MotionImage
-                          src={i.image[0].url}
-                          alt=""
-                          fill
-                          placeholder="blur"
-                          blurDataURL={i.image[0].blurUrl}
-                          style={{ objectFit: "cover" }}
-                          sizes={getImageSize()}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
-                      <Typography variant="subtitle2" className="text-center">
-                        {i.productName}
-                      </Typography>
-                      <div className="flex justify-center">
-                        <Rating />
-                      </div>
-                      <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
-                        <Typography
-                          variant="body1"
-                          className="text-start leading-none	"
-                        >
-                          {i.price - 0.01} ₹
-                        </Typography>
-                      </div>
-                      <ItemCount />
-                    </div>
-                  </motion.div>
-                </motion.figure>
-              );
+              return <Sticker key={i.id} sticker={i} />;
             })
           : null}
 

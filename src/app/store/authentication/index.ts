@@ -50,6 +50,30 @@ export const authenticationSlice = createSlice({
         state.loading = false;
       }
     });
+    builder.addMatcher(
+      authApi.endpoints.updateUserPassword.matchPending,
+      state => {
+        if (!state.loading) {
+          state.loading = true;
+        }
+      }
+    );
+    builder.addMatcher(
+      authApi.endpoints.updateUserPassword.matchFulfilled,
+      state => {
+        if (state.loading) {
+          state.loading = false;
+        }
+      }
+    );
+    builder.addMatcher(
+      authApi.endpoints.updateUserPassword.matchRejected,
+      state => {
+        if (state.loading) {
+          state.loading = false;
+        }
+      }
+    );
   },
 });
 

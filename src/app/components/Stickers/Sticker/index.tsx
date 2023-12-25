@@ -1,9 +1,10 @@
+import { useAddToCartMutation } from "@/app/store/cart/api";
 import { productAnimation, productClickEffect } from "@/app/utils/animation";
 import { getPlatform } from "@/app/utils/getPlatform";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import { animate, motion } from "framer-motion";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { stickersType } from "../../../../../pages/api/types";
 import { MotionImage } from "../../MotionImage";
 import Button from "../../Shared/Button";
@@ -13,8 +14,10 @@ import styles from "../stickers.module.scss";
 const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const title = useRef<HTMLHeadingElement>(null!);
   const titleBackup = useRef<HTMLHeadingElement>(null!);
+  const [quantity, setQuantity] = useState(1);
   const isTab = useTabScreen();
   const isMobileSize = useMobileScreen();
+  const [handleAddToCart] = useAddToCartMutation();
   const { isMobile } = getPlatform();
   const aspectRatio = sticker.image[0].width / sticker.image[0].height;
   const imageClass = `image-${sticker.id}`;
@@ -120,13 +123,18 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
               ₹{i.price - 0.01}
             </Typography>
           </div>
-          <ItemCount />
+          <div className="mt-1 sm:mt-2 md:mt-3">
+            <ItemCount quantity={quantity} setQuantity={setQuantity} />
+          </div>
 
           <Button
             childClassName="normal-case"
             typography="subtitle2"
             className="bg-primeGreen hover:bg-primeGreen w-fit mt-2 sm:mt-3 md:mt-4 pl-2 sm:pl-3 md:pl-4  pr-2 sm:pr-3 md:pr-3  pt-1 pb-1 sm:pt-[6px] sm:pb-[6px] md:pt-2 sm:pb-2"
             icon="cart"
+            onClick={() => {
+              handleAddToCart({ quantity: quantity, stickerId: sticker.id });
+            }}
           >
             Add to Cart
           </Button>

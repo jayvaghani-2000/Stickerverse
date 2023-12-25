@@ -1,3 +1,5 @@
+import { handleAddToCart } from "../helpers/cart";
+import { getCart } from "../models/cart";
 import { getStickerCategory } from "../models/category/sticker";
 import {
   getStickerCount,
@@ -31,4 +33,9 @@ export type userByIdType = NonNullable<Awaited<ReturnType<typeof getUserById>>>;
 
 export type updateUserPasswordType = NonNullable<
   Awaited<ReturnType<typeof setUserPasswordById>>
+>;
+
+export type getCartType = NonNullable<Awaited<ReturnType<typeof getCart>>>;
+export type addToCartType = NonNullable<
+  Awaited<ReturnType<typeof handleAddToCart>>
 >;

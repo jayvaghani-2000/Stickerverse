@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import Icon from "../../Icon";
 import { Typography } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
+import Icon from "../../Icon";
 
-const ItemCount = () => {
-  const [quantity, setQuantity] = useState(1);
-
+const ItemCount = ({
+  quantity,
+  setQuantity,
+}: {
+  quantity: number;
+  setQuantity: Dispatch<SetStateAction<number>>;
+}) => {
   return (
-    <div className="flex justify-center items-center  mt-1 sm:mt-2 md:mt-3">
+    <div className="flex justify-center items-center">
       <button
         onClick={() => {
           setQuantity(prev => (prev === 1 ? 1 : prev - 1));
