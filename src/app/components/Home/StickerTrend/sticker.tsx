@@ -63,10 +63,10 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
               {i.price - 0.01} ₹
             </Typography>
           </div>
-          <div className="ml-[20px] md:ml-[24px] relative flex gap-1 sm:gap-2 justify-center items-center mt-1 sm:mt-2 md:mt-3">
+          <div className="ml-[20px] md:ml-[24px] relative flex justify-center items-center mt-1 sm:mt-2 md:mt-3">
             <ItemCount quantity={quantity} setQuantity={setQuantity} />
             <button
-              className="h-[20px] md:h-[24px]"
+              className="ml-1 sm:ml-2 h-[20px] md:h-[24px]"
               onClick={async () => {
                 await handleAddToCart({
                   quantity: quantity,
