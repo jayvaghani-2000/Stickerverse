@@ -66,7 +66,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
           <div className="ml-[20px] md:ml-[24px] relative flex justify-center items-center mt-1 sm:mt-2 md:mt-3">
             <ItemCount quantity={quantity} setQuantity={setQuantity} />
             <button
-              className="ml-1 sm:ml-2 h-[20px] md:h-[24px]"
+              className="ml-1 sm:ml-2 w-[20px] md:w-[24px] h-[20px] md:h-[24px]"
               onClick={async () => {
                 await handleAddToCart({
                   quantity: quantity,

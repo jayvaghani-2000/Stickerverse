@@ -1,3 +1,4 @@
+import prisma from "../../../../prisma";
 import { AddToCartSchema } from "./schema";
 
 export async function getCart(id: string) {
