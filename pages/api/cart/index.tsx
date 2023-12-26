@@ -25,7 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse, user: any) {
       const errorObj = handleErrorMsg(error);
       return res.status(400).json({ error: errorObj });
     }
-    return res.status(500).json({ error: "Something went wrong" });
+    return res.status(500).json({ error: error });
   }
 }
 
