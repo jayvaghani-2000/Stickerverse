@@ -31,8 +31,6 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
     LocalCartSchema
   );
 
-  console.log({ localCart });
-
   const [getCart] = useLazyGetUserCartQuery({});
 
   useEffect(() => {
