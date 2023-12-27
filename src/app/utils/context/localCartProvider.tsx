@@ -6,12 +6,18 @@ import {
 } from "@/app/components/Shared/Types/localStoreType";
 import { useAuthStore } from "@/app/store/authentication";
 import { useLazyGetUserCartQuery } from "@/app/store/cart/api";
-import { createContext, useContext, useEffect } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+} from "react";
 import useLocalStorage from "../hook/useLocalStorage";
 
 type CartContextType = {
-  localCart: unknown;
-  setLocalCart: unknown;
+  localCart: LocalCart;
+  setLocalCart: Dispatch<SetStateAction<LocalCart>>;
   refetchCart: () => void;
 };
 
@@ -21,9 +27,12 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const { authenticated } = useAuthStore();
   const [localCart, setLocalCart] = useLocalStorage(
     LOCAL_STORE_KEY.CART,
-    [] as LocalCart,
+    [{ type: "sticker", items: [] }] as LocalCart,
     LocalCartSchema
   );
+
+  console.log({ localCart });
+
   const [getCart] = useLazyGetUserCartQuery({});
 
   useEffect(() => {
@@ -35,8 +44,8 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <CartContext.Provider
       value={{
-        localCart: localCart,
-        setLocalCart: setLocalCart,
+        localCart: localCart as LocalCart,
+        setLocalCart: setLocalCart as Dispatch<SetStateAction<LocalCart>>,
         refetchCart: () => {
           getCart({});
         },

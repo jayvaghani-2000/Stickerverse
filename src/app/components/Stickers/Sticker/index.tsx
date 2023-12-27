@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/app/store/authentication";
 import { useAddToCartMutation } from "@/app/store/cart/api";
 import { productAnimation, productClickEffect } from "@/app/utils/animation";
 import { useLocalCart } from "@/app/utils/context/localCartProvider";
@@ -5,6 +6,7 @@ import { getPlatform } from "@/app/utils/getPlatform";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import { animate, motion } from "framer-motion";
+import { cloneDeep } from "lodash";
 import { useLayoutEffect, useRef, useState } from "react";
 import { stickersType } from "../../../../../pages/api/types";
 import { MotionImage } from "../../MotionImage";
@@ -18,8 +20,9 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const [quantity, setQuantity] = useState(1);
   const isTab = useTabScreen();
   const isMobileSize = useMobileScreen();
-  const { refetchCart } = useLocalCart();
+  const { refetchCart, setLocalCart } = useLocalCart();
   const [handleAddToCart] = useAddToCartMutation();
+  const { authenticated } = useAuthStore();
   const { isMobile } = getPlatform();
   const aspectRatio = sticker.image[0].width / sticker.image[0].height;
   const imageClass = `image-${sticker.id}`;
@@ -135,11 +138,38 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
             className="bg-primeGreen hover:bg-primeGreen w-fit mt-2 sm:mt-3 md:mt-4 pl-2 sm:pl-3 md:pl-4  pr-2 sm:pr-3 md:pr-3  pt-1 pb-1 sm:pt-[6px] sm:pb-[6px] md:pt-2 sm:pb-2"
             icon="cart"
             onClick={async () => {
-              await handleAddToCart({
-                quantity: quantity,
-                stickerId: sticker.id,
-              });
-              refetchCart();
+              if (authenticated) {
+                await handleAddToCart({
+                  quantity: quantity,
+                  stickerId: sticker.id,
+                });
+                refetchCart();
+              } else {
+                setLocalCart(prev => {
+                  const copy = cloneDeep(prev);
+                  const stickerIndex = copy.findIndex(
+                    i => i.type === "sticker"
+                  );
+
+                  const itemIndex = copy[stickerIndex].items.findIndex(
+                    j => j.id === i.id
+                  );
+
+                  if (itemIndex === -1) {
+                    copy[stickerIndex].items.push({
+                      id: i.id,
+                      price: i.price,
+                      image: i.image,
+                      name: i.productName,
+                      quantity: quantity,
+                    });
+                  } else {
+                    copy[stickerIndex].items[itemIndex].quantity = quantity;
+                  }
+
+                  return copy;
+                });
+              }
             }}
           >
             Add to Cart

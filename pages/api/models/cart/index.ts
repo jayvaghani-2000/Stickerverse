@@ -2,21 +2,18 @@ import prisma from "../../../../prisma";
 import { AddToCartSchema } from "./schema";
 
 export async function getCart(id: string) {
-  return await prisma.cart.findUniqueOrThrow({
+  return await prisma.cartItem.findMany({
     where: {
-      userId: id,
+      cart: {
+        userId: id,
+      },
     },
     include: {
-      items: {
-        select: {
-          quantity: true,
-          id: true,
-          sticker: true,
-        },
-      },
+      sticker: true,
     },
   });
 }
+
 export async function addToCart(id: string, data: unknown) {
   const payload = AddToCartSchema.parse(data);
 

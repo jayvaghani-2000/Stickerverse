@@ -1,6 +1,10 @@
-import React from "react";
+export async function generateMetadata() {
+  return {
+    title: "Check",
+  };
+}
 
-const StickerDetail = () => {
+const StickerDetail = async () => {
   return <div>StickerDetail</div>;
 };
 

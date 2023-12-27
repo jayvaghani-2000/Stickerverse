@@ -100,7 +100,7 @@ const Navbar = () => {
   const open = Boolean(profileEl);
 
   const cartItems = authenticated
-    ? cart.items?.length ?? 0
+    ? cart.length ?? 0
     : (localCart as LocalCart).reduce((prev, curr) => {
         prev += curr.items.length;
         return prev;

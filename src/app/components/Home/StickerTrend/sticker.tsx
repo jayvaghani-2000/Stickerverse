@@ -1,9 +1,11 @@
+import { useAuthStore } from "@/app/store/authentication";
 import { useAddToCartMutation } from "@/app/store/cart/api";
 import { productAnimation, productHoverEffect } from "@/app/utils/animation";
 import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
+import { cloneDeep } from "lodash";
 import { useState } from "react";
 import { trendingStickerType } from "../../../../../pages/api/types";
 import Icon from "../../Icon";
@@ -16,7 +18,8 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
   const [quantity, setQuantity] = useState(1);
   const aspectRatio = i.image[0].width / i.image[0].height;
   const [handleAddToCart] = useAddToCartMutation();
-  const { refetchCart } = useLocalCart();
+  const { refetchCart, setLocalCart } = useLocalCart();
+  const { authenticated } = useAuthStore();
   const isTab = useTabScreen();
   const isMobile = useMobileScreen();
   const getImageSize = () => {
@@ -68,11 +71,38 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
             <button
               className="ml-1 sm:ml-2 w-[20px] md:w-[24px] h-[20px] md:h-[24px]"
               onClick={async () => {
-                await handleAddToCart({
-                  quantity: quantity,
-                  stickerId: sticker.id,
-                });
-                refetchCart();
+                if (authenticated) {
+                  await handleAddToCart({
+                    quantity: quantity,
+                    stickerId: sticker.id,
+                  });
+                  refetchCart();
+                } else {
+                  setLocalCart(prev => {
+                    const copy = cloneDeep(prev);
+                    const stickerIndex = copy.findIndex(
+                      i => i.type === "sticker"
+                    );
+
+                    const itemIndex = copy[stickerIndex].items.findIndex(
+                      j => j.id === i.id
+                    );
+
+                    if (itemIndex === -1) {
+                      copy[stickerIndex].items.push({
+                        id: i.id,
+                        price: i.price,
+                        image: i.image,
+                        name: i.productName,
+                        quantity: quantity,
+                      });
+                    } else {
+                      copy[stickerIndex].items[itemIndex].quantity = quantity;
+                    }
+
+                    return copy;
+                  });
+                }
               }}
             >
               <Icon name="cart" className="h-full w-full" />

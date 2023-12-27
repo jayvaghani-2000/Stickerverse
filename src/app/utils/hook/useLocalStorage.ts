@@ -10,9 +10,9 @@ function useLocalStorage<T>(key: string, initialState: T, schema: any) {
     const value = localStorage.getItem(key);
     if (value) {
       try {
-        const parsed = schema.parse(value);
+        schema.parse(JSON.parse(value));
         return JSON.parse(value);
-      } catch {
+      } catch (err) {
         return initialState;
       }
     } else {

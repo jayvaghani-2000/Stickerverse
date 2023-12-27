@@ -15,13 +15,16 @@ export const LocalCartSchema = z.array(
         quantity: z.number(),
         name: z.string(),
         price: z.number(),
-        image: z.object({
-          id: z.string(),
-          url: z.string().startsWith(process.env.NEXT_PUBLIC_SUPABASE_URL!),
-          blurUrl: z.string(),
-          height: z.number(),
-          width: z.number(),
-        }),
+        image: z.array(
+          z.object({
+            id: z.number(),
+            url: z.string().startsWith(process.env.NEXT_PUBLIC_SUPABASE_URL!),
+            blurUrl: z.string(),
+            height: z.number(),
+            width: z.number(),
+            stickerId: z.number(),
+          })
+        ),
       })
     ),
   })
