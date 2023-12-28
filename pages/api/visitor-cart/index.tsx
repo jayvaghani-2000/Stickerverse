@@ -1,19 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ZodError } from "zod";
-import { handleErrorMsg } from "../../helpers/utils/handleErrorMsg";
-import { handleCleanupVisitorCart } from "../../helpers/visitor-cart";
+import { handleErrorMsg } from "../helpers/utils/handleErrorMsg";
+import { handleCreateVisitorCart } from "../helpers/visitor-cart";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     switch (req.method) {
-      case "GET":
-        const cart = await handleCleanupVisitorCart();
-        return res.status(200).json({ cart });
+      case "POST":
+        const data = await handleCreateVisitorCart();
+        return res.status(201).json({ data });
       default:
-        res.setHeader("Allow", "POST");
+        res.setHeader("Allow", "POST, GET");
         return res.status(405).json({ error: "Method not allowed" });
     }
   } catch (error) {
+    console.log(error);
     if (error instanceof ZodError) {
       const errorObj = handleErrorMsg(error);
       return res.status(400).json({ error: errorObj });

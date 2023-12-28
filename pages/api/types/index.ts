@@ -8,6 +8,11 @@ import {
   trendingSticker,
 } from "../models/sticker";
 import { getUserById, setUserPasswordById } from "../models/user";
+import {
+  addToVisitorCart,
+  createVisitor,
+  getVisitorCart,
+} from "../models/visitor-cart";
 
 export type addStickerType = NonNullable<
   Awaited<ReturnType<typeof postSticker>>
@@ -38,4 +43,15 @@ export type updateUserPasswordType = NonNullable<
 export type getCartType = NonNullable<Awaited<ReturnType<typeof getCart>>>;
 export type addToCartType = NonNullable<
   Awaited<ReturnType<typeof handleAddToCart>>
+>;
+
+export type getVisitorCartType = NonNullable<
+  Awaited<ReturnType<typeof getVisitorCart>>
+>;
+
+export type createVisitorType = NonNullable<
+  Awaited<ReturnType<typeof createVisitor>>
+>;
+export type addToVisitorCartType = NonNullable<
+  Awaited<ReturnType<typeof addToVisitorCart>>
 >;

@@ -62,7 +62,6 @@ model sticker {
   rating       rating[]
   wistlistItem wistlistItem[]
   slug         String         @unique
-  visitorCart  visitorCart[]
 }
 
 model image {
@@ -136,9 +135,6 @@ model cartItem {
 
 model visitorCart {
   id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  sticker   sticker    @relation(fields: [stickerId], references: [id])
-  stickerId Int
-  quantity  Int
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   items     cartItem[]
