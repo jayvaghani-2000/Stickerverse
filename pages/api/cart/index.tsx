@@ -16,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse, user: any) {
         const updatedCart = await handleAddToCart(id, req.body);
         return res.status(201).json({ cart: updatedCart });
       default:
-        res.setHeader("Allow", "POST");
+        res.setHeader("Allow", "POST, GET");
         return res.status(405).json({ error: "Method not allowed" });
     }
   } catch (error) {

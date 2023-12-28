@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/clear-visitor-cart",
+      "path": "/api/cron/cleanup/visitor-cart",
       "schedule": "5 22 * * *"
     }
   ]

@@ -13,6 +13,19 @@ export async function getCart(id: string) {
     },
   });
 }
+export async function cleanupVisitorCart() {
+  const currentDate = new Date();
+  const thresholdDate = new Date(currentDate);
+  thresholdDate.setDate(currentDate.getDate() - 2);
+
+  return await prisma.visitorCart.deleteMany({
+    where: {
+      createdAt: {
+        lt: thresholdDate.toISOString(),
+      },
+    },
+  });
+}
 
 export async function addToCart(id: string, data: unknown) {
   const payload = AddToCartSchema.parse(data);
