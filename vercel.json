@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/cleanup/visitor-cart",
-      "schedule": "5 22 * * *"
+      "schedule": "22 22 * * *"
     }
   ]
 }
