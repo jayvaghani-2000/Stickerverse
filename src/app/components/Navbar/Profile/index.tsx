@@ -1,4 +1,6 @@
 import { useAuthStore } from "@/app/store/authentication";
+import { defaultCart } from "@/app/utils/constant";
+import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { Popover, Typography } from "@mui/material";
 import Link from "next/link";
 
@@ -16,6 +18,7 @@ const Profile = ({
   handleLogout,
 }: propType) => {
   const { profile, authenticated } = useAuthStore();
+  const { setLocalCart } = useLocalCart();
 
   return (
     <Popover
@@ -105,6 +108,7 @@ const Profile = ({
                 e.stopPropagation();
                 handleLogout();
                 handlePopoverClose();
+                setLocalCart(defaultCart);
               }}
             >
               <Typography variant="body2">Logout</Typography>

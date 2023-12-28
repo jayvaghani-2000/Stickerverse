@@ -1,11 +1,11 @@
 import {
   AnimationProps,
   MotionProps,
-  easeOut,
   TargetAndTransition,
+  easeOut,
 } from "framer-motion";
-import { getPlatform } from "./getPlatform";
 import seedrandom from "seedrandom";
+import { getPlatform } from "./getPlatform";
 
 const { isIOS, isMobile } = getPlatform();
 export const titleAnimation: AnimationProps = isIOS
@@ -87,17 +87,17 @@ export const productHoverEffect = (): AnimationProps & MotionProps => {
       transition: { duration: 0.3 },
     },
     whileTap: {
-      scale: 0.9,
+      // scale: 0.9,
       transition: { duration: 0.3 },
     },
   };
 };
 export const productClickEffect = (): AnimationProps & MotionProps => {
   return {
-    whileTap: {
-      scale: 0.9,
-      transition: { duration: 0.3 },
-    },
+    // whileTap: {
+    //   scale: 0.9,
+    //   transition: { duration: 0.3 },
+    // },
   };
 };
 

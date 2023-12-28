@@ -13,6 +13,7 @@ import {
   useContext,
   useEffect,
 } from "react";
+import { defaultCart } from "../constant";
 import useLocalStorage from "../hook/useLocalStorage";
 
 type CartContextType = {
@@ -27,7 +28,7 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const { authenticated } = useAuthStore();
   const [localCart, setLocalCart] = useLocalStorage(
     LOCAL_STORE_KEY.CART,
-    [{ type: "sticker", items: [] }] as LocalCart,
+    defaultCart,
     LocalCartSchema
   );
 

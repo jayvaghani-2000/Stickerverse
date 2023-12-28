@@ -14,9 +14,11 @@ function useLocalStorage<T>(key: string, initialState: T, schema: any) {
         schema.parse(JSON.parse(value));
         setEntry(JSON.parse(value));
       } catch (err) {
+        localStorage.setItem(key, JSON.stringify(initialState));
         setEntry(initialState);
       }
     } else {
+      localStorage.setItem(key, JSON.stringify(initialState));
       setEntry(initialState);
     }
   }, []);
