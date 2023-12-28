@@ -60,6 +60,7 @@ model sticker {
   rating       rating[]
   wistlistItem wistlistItem[]
   slug         String         @unique
+  visitorCart  visitorCart[]
 }
 
 model image {
@@ -109,14 +110,25 @@ model cart {
 }
 
 model cartItem {
-  id        Int     @id @default(autoincrement())
-  cart      cart    @relation(fields: [cartId], references: [id])
-  cartId    Int
-  sticker   sticker @relation(fields: [stickerId], references: [id])
-  stickerId Int     
+  id        Int          @id @default(autoincrement())
+  cart      cart?        @relation(fields: [cartId], references: [id])
+  cartId    Int?
+  visitorId String?      @db.Uuid
+  visitor   visitorCart? @relation(fields: [visitorId], references: [id])
+  sticker   sticker      @relation(fields: [stickerId], references: [id])
+  stickerId Int
   quantity  Int
 
   @@unique([cartId, stickerId])
+  @@unique([visitorId, stickerId])
+}
+
+model visitorCart {
+  id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sticker   sticker    @relation(fields: [stickerId], references: [id])
+  stickerId Int
+  quantity  Int
+  items     cartItem[]
 }
 
 model payment {

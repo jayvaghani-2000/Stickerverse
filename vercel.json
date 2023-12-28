@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/clear-visitor-cart",
+      "schedule": "0 * * * *"
+    }
+  ]
+}
