@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 function useLocalStorage<T>(key: string, initialState: T, schema: any) {
   const rendered = useRef(false);
@@ -31,7 +31,7 @@ function useLocalStorage<T>(key: string, initialState: T, schema: any) {
     localStorage.setItem(key, JSON.stringify(entry));
   }, [entry]);
 
-  return [entry, setEntry];
+  return [entry, setEntry] as [T, Dispatch<SetStateAction<T>>];
 }
 
 export default useLocalStorage;

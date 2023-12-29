@@ -1,12 +1,13 @@
 import { useAuthStore } from "@/app/store/authentication";
 import { useAddToCartMutation } from "@/app/store/cart/api";
+import { useVisitorCartStore } from "@/app/store/visitorCart";
+import { useAddToVisitorCartMutation } from "@/app/store/visitorCart/api";
 import { productAnimation, productClickEffect } from "@/app/utils/animation";
 import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { getPlatform } from "@/app/utils/getPlatform";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import { animate, motion } from "framer-motion";
-import { cloneDeep } from "lodash";
 import { useLayoutEffect, useRef, useState } from "react";
 import { stickersType } from "../../../../../pages/api/types";
 import { MotionImage } from "../../MotionImage";
@@ -20,7 +21,9 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const [quantity, setQuantity] = useState(1);
   const isTab = useTabScreen();
   const isMobileSize = useMobileScreen();
-  const { refetchCart, setLocalCart } = useLocalCart();
+  const { refetchCart, createCart, refetchVisitCart } = useLocalCart();
+  const { visitorCartId } = useVisitorCartStore();
+  const [handleAddToVisitorCart] = useAddToVisitorCartMutation();
   const [handleAddToCart] = useAddToCartMutation();
   const { authenticated } = useAuthStore();
   const { isMobile } = getPlatform();
@@ -135,7 +138,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
           <Button
             childClassName="normal-case"
             typography="subtitle2"
-            className="bg-primeGreen hover:bg-primeGreen w-fit mt-2 sm:mt-3 md:mt-4 pl-2 sm:pl-3 md:pl-4  pr-2 sm:pr-3 md:pr-3  pt-1 pb-1 sm:pt-[6px] sm:pb-[6px] md:pt-2 sm:pb-2"
+            className="bg-primeGreen hover:bg-primeGreen w-fit mt-2 sm:mt-3 md:mt-4 pl-2 sm:pl-3 md:pl-4  pr-2 sm:pr-3 md:pr-3  pt-1 pb-1 sm:pt-[6px] sm:pb-[6px] md:pt-2"
             icon="cart"
             onClick={async () => {
               if (authenticated) {
@@ -145,30 +148,28 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
                 });
                 refetchCart();
               } else {
-                setLocalCart(prev => {
-                  const copy = cloneDeep(prev);
-                  const stickerIndex = copy.findIndex(
-                    i => i.type === "sticker"
-                  );
-
-                  const itemIndex = copy[stickerIndex].items.findIndex(
-                    j => j.id === i.id
-                  );
-
-                  if (itemIndex === -1) {
-                    copy[stickerIndex].items.push({
-                      id: i.id,
-                      price: i.price,
-                      image: i.image,
-                      name: i.productName,
+                if (visitorCartId) {
+                  await handleAddToVisitorCart({
+                    id: visitorCartId,
+                    body: {
                       quantity: quantity,
+                      stickerId: sticker.id,
+                    },
+                  });
+                  refetchVisitCart();
+                } else {
+                  const id = await createCart();
+                  if (id) {
+                    await handleAddToVisitorCart({
+                      id: id,
+                      body: {
+                        quantity: quantity,
+                        stickerId: sticker.id,
+                      },
                     });
-                  } else {
-                    copy[stickerIndex].items[itemIndex].quantity = quantity;
+                    refetchVisitCart();
                   }
-
-                  return copy;
-                });
+                }
               }
             }}
           >

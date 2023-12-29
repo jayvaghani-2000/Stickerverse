@@ -17,17 +17,21 @@ export const visitorCartApi = createApi({
   tagTypes: ["visitorCart"],
   refetchOnMountOrArgChange: true,
   endpoints: builder => ({
-    getVisitorCart: builder.mutation({
+    getVisitorCart: builder.query({
       query: ({ id }: { id: string }) => `/api/visitor-cart/${id}`,
       transformResponse: (response: { cart: getVisitorCartType }) => {
         if (response?.cart) {
+          store.dispatch(setVisitorCartData({ cart: response.cart }));
           return response.cart;
         }
         return [] as getVisitorCartType;
       },
     }),
     createVisitorCart: builder.mutation({
-      query: () => `/api/visitor-cart`,
+      query: () => ({
+        url: `/api/visitor-cart`,
+        method: "POST",
+      }),
       transformResponse: (response: { data: createVisitorType }) => {
         if (response?.data) {
           store.dispatch(
@@ -40,7 +44,7 @@ export const visitorCartApi = createApi({
     }),
     addToVisitorCart: builder.mutation({
       query: ({ id, body }: { id: string; body: AddToVisitorCart }) => ({
-        url: `/api/cart/${id}`,
+        url: `/api/visitor-cart/${id}`,
         method: "PUT",
         body: body,
       }),
@@ -54,5 +58,8 @@ export const visitorCartApi = createApi({
   }),
 });
 
-export const { useAddToVisitorCartMutation, useCreateVisitorCartMutation } =
-  visitorCartApi;
+export const {
+  useAddToVisitorCartMutation,
+  useCreateVisitorCartMutation,
+  useLazyGetVisitorCartQuery,
+} = visitorCartApi;

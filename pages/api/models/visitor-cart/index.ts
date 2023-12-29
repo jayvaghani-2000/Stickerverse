@@ -35,12 +35,11 @@ export async function cleanupVisitorCart() {
 export async function addToVisitorCart(id: string, data: unknown) {
   const payload = AddToVisitorCartSchema.parse(data);
 
-  return await prisma.visitorCart.upsert({
+  return await prisma.visitorCart.update({
     where: {
       id: id,
     },
-    update: {
-      id: id,
+    data: {
       items: {
         upsert: [
           {
@@ -59,9 +58,6 @@ export async function addToVisitorCart(id: string, data: unknown) {
           },
         ],
       },
-    },
-    create: {
-      ...payload,
     },
   });
 }

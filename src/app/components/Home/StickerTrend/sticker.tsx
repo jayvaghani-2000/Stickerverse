@@ -1,11 +1,12 @@
 import { useAuthStore } from "@/app/store/authentication";
 import { useAddToCartMutation } from "@/app/store/cart/api";
+import { useVisitorCartStore } from "@/app/store/visitorCart";
+import { useAddToVisitorCartMutation } from "@/app/store/visitorCart/api";
 import { productAnimation, productHoverEffect } from "@/app/utils/animation";
 import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import { cloneDeep } from "lodash";
 import { useState } from "react";
 import { trendingStickerType } from "../../../../../pages/api/types";
 import Icon from "../../Icon";
@@ -18,7 +19,9 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
   const [quantity, setQuantity] = useState(1);
   const aspectRatio = i.image[0].width / i.image[0].height;
   const [handleAddToCart] = useAddToCartMutation();
-  const { refetchCart, setLocalCart } = useLocalCart();
+  const { refetchCart, createCart, refetchVisitCart } = useLocalCart();
+  const { visitorCartId } = useVisitorCartStore();
+  const [handleAddToVisitorCart] = useAddToVisitorCartMutation();
   const { authenticated } = useAuthStore();
   const isTab = useTabScreen();
   const isMobile = useMobileScreen();
@@ -78,30 +81,28 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                   });
                   refetchCart();
                 } else {
-                  setLocalCart(prev => {
-                    const copy = cloneDeep(prev);
-                    const stickerIndex = copy.findIndex(
-                      i => i.type === "sticker"
-                    );
-
-                    const itemIndex = copy[stickerIndex].items.findIndex(
-                      j => j.id === i.id
-                    );
-
-                    if (itemIndex === -1) {
-                      copy[stickerIndex].items.push({
-                        id: i.id,
-                        price: i.price,
-                        image: i.image,
-                        name: i.productName,
+                  if (visitorCartId) {
+                    await handleAddToVisitorCart({
+                      id: visitorCartId,
+                      body: {
                         quantity: quantity,
+                        stickerId: sticker.id,
+                      },
+                    });
+                    refetchVisitCart();
+                  } else {
+                    const id = await createCart();
+                    if (id) {
+                      await handleAddToVisitorCart({
+                        id: id,
+                        body: {
+                          quantity: quantity,
+                          stickerId: sticker.id,
+                        },
                       });
-                    } else {
-                      copy[stickerIndex].items[itemIndex].quantity = quantity;
+                      refetchVisitCart();
                     }
-
-                    return copy;
-                  });
+                  }
                 }
               }}
             >

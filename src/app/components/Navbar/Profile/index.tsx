@@ -108,7 +108,7 @@ const Profile = ({
                 e.stopPropagation();
                 handleLogout();
                 handlePopoverClose();
-                setLocalCart(defaultCart);
+                setLocalCart("");
               }}
             >
               <Typography variant="body2">Logout</Typography>
