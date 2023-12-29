@@ -3,12 +3,20 @@ import {
   cleanupVisitorCart,
   createVisitor,
   getVisitorCart,
+  getVisitorItemCart,
 } from "../../models/visitor-cart";
 
 export const handleVisitorUserCart = async (id: string) => {
   try {
-    const cart = await getVisitorCart(id);
-    return cart;
+    const [cart, visitorCart] = await Promise.all([
+      getVisitorItemCart(id),
+      getVisitorCart(id),
+    ]);
+    if (visitorCart) {
+      return cart;
+    } else {
+      throw new Error("Cart not found!");
+    }
   } catch (err) {
     throw err;
   }

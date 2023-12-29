@@ -1,13 +1,24 @@
 import prisma from "../../../../prisma";
 import { AddToVisitorCartSchema } from "./schema";
 
-export async function getVisitorCart(id: string) {
+export async function getVisitorItemCart(id: string) {
   return await prisma.cartItem.findMany({
     where: {
       visitorId: id,
     },
     include: {
       sticker: true,
+    },
+  });
+}
+
+export async function getVisitorCart(id: string) {
+  return await prisma.visitorCart.findFirst({
+    where: {
+      id: id,
+    },
+    select: {
+      _count: true,
     },
   });
 }

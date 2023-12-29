@@ -1,5 +1,4 @@
 import { useAuthStore } from "@/app/store/authentication";
-import { defaultCart } from "@/app/utils/constant";
 import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { Popover, Typography } from "@mui/material";
 import Link from "next/link";

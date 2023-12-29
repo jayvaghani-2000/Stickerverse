@@ -11,7 +11,7 @@ import { getUserById, setUserPasswordById } from "../models/user";
 import {
   addToVisitorCart,
   createVisitor,
-  getVisitorCart,
+  getVisitorItemCart,
 } from "../models/visitor-cart";
 
 export type addStickerType = NonNullable<
@@ -46,7 +46,7 @@ export type addToCartType = NonNullable<
 >;
 
 export type getVisitorCartType = NonNullable<
-  Awaited<ReturnType<typeof getVisitorCart>>
+  Awaited<ReturnType<typeof getVisitorItemCart>>
 >;
 
 export type createVisitorType = NonNullable<

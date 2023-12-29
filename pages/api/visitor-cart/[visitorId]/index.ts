@@ -23,7 +23,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         return res.status(405).json({ error: "Method not allowed" });
     }
   } catch (error) {
-    console.log(error);
     if (error instanceof ZodError) {
       const errorObj = handleErrorMsg(error);
       return res.status(400).json({ error: errorObj });

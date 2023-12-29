@@ -6,7 +6,6 @@ import { useLazyGetUserCartQuery } from "@/app/store/cart/api";
 import {
   resetVisitorCartData,
   setVisitorCartData,
-  useVisitorCartStore,
 } from "@/app/store/visitorCart";
 import {
   useCreateVisitorCartMutation,
@@ -27,14 +26,13 @@ type CartContextType = {
   setLocalCart: Dispatch<SetStateAction<string>>;
   refetchCart: () => void;
   createCart: () => Promise<string>;
-  refetchVisitCart: () => void;
+  refetchVisitCart: (id: string) => void;
 };
 
 const CartContext = createContext<CartContextType>({} as CartContextType);
 
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const { authenticated, authCheck } = useAuthStore();
-  const { visitorCartId } = useVisitorCartStore();
   const [localCart, setLocalCart] = useLocalStorage(
     LOCAL_STORE_KEY.CART,
     "",
@@ -104,8 +102,8 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
           getCart({});
         },
         createCart: handleCreateVisitorCart,
-        refetchVisitCart: () => {
-          getVisitorCart({ id: visitorCartId! });
+        refetchVisitCart: (id: string) => {
+          getVisitorCart({ id: id });
         },
       }}
     >

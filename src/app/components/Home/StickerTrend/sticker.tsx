@@ -89,7 +89,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                         stickerId: sticker.id,
                       },
                     });
-                    refetchVisitCart();
+                    refetchVisitCart(visitorCartId);
                   } else {
                     const id = await createCart();
                     if (id) {
@@ -100,7 +100,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                           stickerId: sticker.id,
                         },
                       });
-                      refetchVisitCart();
+                      refetchVisitCart(id);
                     }
                   }
                 }

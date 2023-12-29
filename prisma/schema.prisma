@@ -110,7 +110,7 @@ model orderItem {
 
 model cart {
   id        Int        @id @default(autoincrement())
-  user      user       @relation(fields: [userId], references: [id])
+  user      user       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String     @unique @db.Uuid
   items     cartItem[]
   createdAt DateTime   @default(now())
@@ -119,11 +119,11 @@ model cart {
 
 model cartItem {
   id        Int          @id @default(autoincrement())
-  cart      cart?        @relation(fields: [cartId], references: [id])
+  cart      cart?        @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId    Int?
   visitorId String?      @db.Uuid
-  visitor   visitorCart? @relation(fields: [visitorId], references: [id])
-  sticker   sticker      @relation(fields: [stickerId], references: [id])
+  visitor   visitorCart? @relation(fields: [visitorId], references: [id], onDelete: Cascade)
+  sticker   sticker      @relation(fields: [stickerId], references: [id], onDelete: Cascade)
   stickerId Int
   quantity  Int
   createdAt DateTime     @default(now())
@@ -142,7 +142,7 @@ model visitorCart {
 
 model payment {
   id        Int      @id @default(autoincrement())
-  user      user     @relation(fields: [userId], references: [id])
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String   @db.Uuid
   amount    Float
   status    String
@@ -163,7 +163,7 @@ model rating {
 
 model wistlist {
   id        Int            @id @default(autoincrement())
-  user      user           @relation(fields: [userId], references: [id])
+  user      user           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String         @db.Uuid
   items     wistlistItem[]
   createdAt DateTime       @default(now())
@@ -172,9 +172,9 @@ model wistlist {
 
 model wistlistItem {
   id         Int      @id @default(autoincrement())
-  wistlist   wistlist @relation(fields: [wistlistId], references: [id])
+  wistlist   wistlist @relation(fields: [wistlistId], references: [id], onDelete: Cascade)
   wistlistId Int
-  sticker    sticker  @relation(fields: [stickerId], references: [id])
+  sticker    sticker  @relation(fields: [stickerId], references: [id], onDelete: Cascade)
   stickerId  Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -182,7 +182,7 @@ model wistlistItem {
 
 model userAddress {
   id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user       user     @relation(fields: [userId], references: [id])
+  user       user     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String   @db.Uuid
   city       String
   address1   String
