@@ -42,6 +42,21 @@ export const cartSlice = createSlice({
         state.loading = false;
       }
     });
+    builder.addMatcher(cartApi.endpoints.addToCart.matchPending, state => {
+      if (!state.loading) {
+        state.loading = true;
+      }
+    });
+    builder.addMatcher(cartApi.endpoints.addToCart.matchFulfilled, state => {
+      if (state.loading) {
+        state.loading = false;
+      }
+    });
+    builder.addMatcher(cartApi.endpoints.addToCart.matchRejected, state => {
+      if (state.loading) {
+        state.loading = false;
+      }
+    });
   },
 });
 

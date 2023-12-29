@@ -11,12 +11,14 @@ import { useState } from "react";
 import { trendingStickerType } from "../../../../../pages/api/types";
 import Icon from "../../Icon";
 import { MotionImage } from "../../MotionImage";
+import InlineSpinner from "../../Shared/InlineSpinner";
 import ItemCount from "../../Shared/ItemCount";
 import Rating from "../../Shared/Rating";
 
 const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
   const i = sticker;
   const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(false);
   const aspectRatio = i.image[0].width / i.image[0].height;
   const [handleAddToCart] = useAddToCartMutation();
   const { refetchCart, createCart, refetchVisitCart } = useLocalCart();
@@ -74,39 +76,52 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
             <button
               className="ml-1 sm:ml-2 w-[20px] md:w-[24px] h-[20px] md:h-[24px]"
               onClick={async () => {
-                if (authenticated) {
-                  await handleAddToCart({
-                    quantity: quantity,
-                    stickerId: sticker.id,
-                  });
-                  refetchCart();
-                } else {
-                  if (visitorCartId) {
-                    await handleAddToVisitorCart({
-                      id: visitorCartId,
-                      body: {
-                        quantity: quantity,
-                        stickerId: sticker.id,
-                      },
+                setLoading(true);
+                try {
+                  if (authenticated) {
+                    await handleAddToCart({
+                      quantity: quantity,
+                      stickerId: sticker.id,
                     });
-                    refetchVisitCart(visitorCartId);
+                    await refetchCart();
+                    setLoading(false);
                   } else {
-                    const id = await createCart();
-                    if (id) {
+                    if (visitorCartId) {
                       await handleAddToVisitorCart({
-                        id: id,
+                        id: visitorCartId,
                         body: {
                           quantity: quantity,
                           stickerId: sticker.id,
                         },
                       });
-                      refetchVisitCart(id);
+                      await refetchVisitCart(visitorCartId);
+                      setLoading(false);
+                    } else {
+                      const id = await createCart();
+                      if (id) {
+                        await handleAddToVisitorCart({
+                          id: id,
+                          body: {
+                            quantity: quantity,
+                            stickerId: sticker.id,
+                          },
+                        });
+                        await refetchVisitCart(id);
+                        setLoading(false);
+                      }
                     }
                   }
+                } catch (err) {
+                  setLoading(false);
                 }
               }}
+              disabled={loading}
             >
-              <Icon name="cart" className="h-full w-full" />
+              {loading ? (
+                <InlineSpinner />
+              ) : (
+                <Icon name="cart" className="h-full w-full" />
+              )}
             </button>
           </div>
         </div>

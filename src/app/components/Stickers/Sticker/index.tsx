@@ -12,6 +12,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { stickersType } from "../../../../../pages/api/types";
 import { MotionImage } from "../../MotionImage";
 import Button from "../../Shared/Button";
+import InlineSpinner from "../../Shared/InlineSpinner";
 import ItemCount from "../../Shared/ItemCount";
 import styles from "../stickers.module.scss";
 
@@ -19,6 +20,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const title = useRef<HTMLHeadingElement>(null!);
   const titleBackup = useRef<HTMLHeadingElement>(null!);
   const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(false);
   const isTab = useTabScreen();
   const isMobileSize = useMobileScreen();
   const { refetchCart, createCart, refetchVisitCart } = useLocalCart();
@@ -139,41 +141,55 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
             childClassName="normal-case"
             typography="subtitle2"
             className="bg-primeGreen hover:bg-primeGreen w-fit mt-2 sm:mt-3 md:mt-4 pl-2 sm:pl-3 md:pl-4  pr-2 sm:pr-3 md:pr-3  pt-1 pb-1 sm:pt-[6px] sm:pb-[6px] md:pt-2"
-            icon="cart"
+            icon={loading ? "" : "cart"}
             onClick={async () => {
-              if (authenticated) {
-                await handleAddToCart({
-                  quantity: quantity,
-                  stickerId: sticker.id,
-                });
-                refetchCart();
-              } else {
-                if (visitorCartId) {
-                  await handleAddToVisitorCart({
-                    id: visitorCartId,
-                    body: {
-                      quantity: quantity,
-                      stickerId: sticker.id,
-                    },
+              setLoading(true);
+              try {
+                if (authenticated) {
+                  await handleAddToCart({
+                    quantity: quantity,
+                    stickerId: sticker.id,
                   });
-                  refetchVisitCart(visitorCartId);
+                  await refetchCart();
+                  setLoading(false);
                 } else {
-                  const id = await createCart();
-                  if (id) {
+                  if (visitorCartId) {
                     await handleAddToVisitorCart({
-                      id: id,
+                      id: visitorCartId,
                       body: {
                         quantity: quantity,
                         stickerId: sticker.id,
                       },
                     });
-                    refetchVisitCart(id);
+                    await refetchVisitCart(visitorCartId);
+                    setLoading(false);
+                  } else {
+                    const id = await createCart();
+                    if (id) {
+                      await handleAddToVisitorCart({
+                        id: id,
+                        body: {
+                          quantity: quantity,
+                          stickerId: sticker.id,
+                        },
+                      });
+                      await refetchVisitCart(id);
+                      setLoading(false);
+                    }
                   }
                 }
+              } catch (err) {
+                setLoading(false);
               }
             }}
+            disabled={loading}
           >
-            Add to Cart
+            Add to Cart{" "}
+            {loading ? (
+              <div className="inline-block ml-1 h-[15px] sm:h-[18px] md:h-[21px] w-[15px] sm:w-[18px] md:w-[21px]">
+                <InlineSpinner />
+              </div>
+            ) : null}
           </Button>
         </div>
       </motion.div>

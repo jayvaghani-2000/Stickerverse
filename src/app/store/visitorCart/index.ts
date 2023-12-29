@@ -56,6 +56,54 @@ export const visitorCartSlice = createSlice({
         }
       }
     );
+    builder.addMatcher(
+      visitorCartApi.endpoints.getVisitorCart.matchPending,
+      state => {
+        if (!state.loading) {
+          state.loading = true;
+        }
+      }
+    );
+    builder.addMatcher(
+      visitorCartApi.endpoints.getVisitorCart.matchFulfilled,
+      state => {
+        if (state.loading) {
+          state.loading = false;
+        }
+      }
+    );
+    builder.addMatcher(
+      visitorCartApi.endpoints.getVisitorCart.matchRejected,
+      state => {
+        if (state.loading) {
+          state.loading = false;
+        }
+      }
+    );
+    builder.addMatcher(
+      visitorCartApi.endpoints.addToVisitorCart.matchPending,
+      state => {
+        if (!state.loading) {
+          state.loading = true;
+        }
+      }
+    );
+    builder.addMatcher(
+      visitorCartApi.endpoints.addToVisitorCart.matchFulfilled,
+      state => {
+        if (state.loading) {
+          state.loading = false;
+        }
+      }
+    );
+    builder.addMatcher(
+      visitorCartApi.endpoints.addToVisitorCart.matchRejected,
+      state => {
+        if (state.loading) {
+          state.loading = false;
+        }
+      }
+    );
   },
 });
 

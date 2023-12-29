@@ -98,12 +98,12 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         localCart: localCart as string,
         setLocalCart: setLocalCart as Dispatch<SetStateAction<string>>,
-        refetchCart: () => {
-          getCart({});
+        refetchCart: async () => {
+          await getCart({});
         },
         createCart: handleCreateVisitorCart,
-        refetchVisitCart: (id: string) => {
-          getVisitorCart({ id: id });
+        refetchVisitCart: async (id: string) => {
+          await getVisitorCart({ id: id });
         },
       }}
     >
