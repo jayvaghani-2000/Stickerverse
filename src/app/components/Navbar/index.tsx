@@ -8,7 +8,6 @@ import { useCartStore } from "@/app/store/cart";
 import { setGlobalData } from "@/app/store/global";
 import { useVisitorCartStore } from "@/app/store/visitorCart";
 import { activeRoute } from "@/app/utils/activeRoute";
-import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { handleRemoveToken } from "@/app/utils/handleSetToken";
 import { paddingSpacing } from "@/app/utils/styles";
 import { useMobileScreen } from "@/app/utils/useScreenSize";
@@ -37,7 +36,6 @@ const ADMIN_TABS = [
 
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
-  const { localCart } = useLocalCart();
   const { authenticated } = useAuthStore();
   const { cart } = useCartStore();
   const { cart: visitorCart } = useVisitorCartStore();

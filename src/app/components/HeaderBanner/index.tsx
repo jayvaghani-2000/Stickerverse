@@ -4,16 +4,11 @@ import { Typography } from "@mui/material";
 const HeaderBanner = () => {
   return (
     <div className="mt-2 sm:mt-3 md:mt-4">
-      <div
-        className={`border-2 border-black `}
-        style={{
-          aspectRatio: headerBanner.width / headerBanner.height,
-        }}
-      >
+      <div className={`border-2 border-black `}>
         <img
           src={headerBanner.url}
           alt=""
-          className="h-full block object-cover w-full"
+          className="h-full block object-cover w-full max-h-[200px]"
           placeholder="blur"
           style={{ objectFit: "cover" }}
         />

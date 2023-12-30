@@ -1,7 +1,12 @@
-import React from "react";
+import Cart from "../components/Cart";
+import WithHeader from "../components/HOC/withHeader";
 
-const Cart = () => {
-  return <div>Cart</div>;
+const CartPage = () => {
+  return (
+    <WithHeader>
+      <Cart />
+    </WithHeader>
+  );
 };
 
-export default Cart;
+export default CartPage;
