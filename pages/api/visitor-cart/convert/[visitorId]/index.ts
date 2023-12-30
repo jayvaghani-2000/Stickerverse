@@ -1,13 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ZodError } from "zod";
-import { handleErrorMsg } from "../helpers/utils/handleErrorMsg";
-import { handleCreateVisitorCart } from "../helpers/visitor-cart";
+import { getTokenData } from "../../../helpers/utils/getTokenData";
+import { handleErrorMsg } from "../../../helpers/utils/handleErrorMsg";
+import jwtMiddleware from "../../../helpers/utils/valiateToken";
+import { handleConvertVisitorToUserCart } from "../../../helpers/visitor-cart";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse, user: any) {
+  const { id } = getTokenData(user);
   try {
     switch (req.method) {
       case "POST":
-        const data = await handleCreateVisitorCart();
+        const data = await handleConvertVisitorToUserCart(
+          id,
+          req.query.visitorId as string
+        );
         return res.status(201).json({ data });
       default:
         res.setHeader("Allow", "POST");
@@ -23,4 +29,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default handler;
+export default jwtMiddleware(handler);

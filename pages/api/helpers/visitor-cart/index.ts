@@ -1,6 +1,7 @@
 import {
   addToVisitorCart,
   cleanupVisitorCart,
+  convertVisitorCart,
   createVisitor,
   getVisitorCart,
   getVisitorItemCart,
@@ -43,6 +44,19 @@ export const handleAddToVisitorCart = async (id: string, data: unknown) => {
 export const handleCleanupVisitorCart = async () => {
   try {
     const cart = await cleanupVisitorCart();
+    return cart;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const handleConvertVisitorToUserCart = async (
+  id: string,
+  visitorId: string
+) => {
+  try {
+    const cart = await convertVisitorCart(id, visitorId);
+
     return cart;
   } catch (err) {
     throw err;

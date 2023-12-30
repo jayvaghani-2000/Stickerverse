@@ -1,16 +1,18 @@
 "use client";
 import Nova from "@/app/components/Font/nova";
 import Loader from "@/app/components/Loader";
+import { LOCAL_STORE_KEY } from "@/app/components/Shared/Types/localStoreType";
 import { useAppDispatch } from "@/app/store";
 import { setAuthData, useAuthStore } from "@/app/store/authentication";
 import { useLazyGetUserByIdQuery } from "@/app/store/authentication/api";
 import { setGlobalData, useGlobalStore } from "@/app/store/global";
 import { getDifferenceInHours } from "@/app/utils/dates";
+import { handleSetToken } from "@/app/utils/handleSetToken";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { z } from "zod";
 import { supabase } from "../../../../supabase/init";
-import { handleSetToken } from "@/app/utils/handleSetToken";
 
 const Verify = () => {
   const router = useRouter();
@@ -29,6 +31,25 @@ const Verify = () => {
 
     const resSession = await supabase.auth.getSession();
     if (res.data.user && resSession.data.session) {
+      const cartId = localStorage.getItem(LOCAL_STORE_KEY.CART);
+
+      if (cartId) {
+        try {
+          z.string().uuid().parse(JSON.parse(cartId));
+          const res = await axios.post(
+            `/api/visitor-cart/convert/${JSON.parse(cartId)}`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${resSession.data.session.access_token}`,
+              },
+            }
+          );
+
+          console.log(res);
+        } catch (err) {}
+      }
+
       dispatch(
         setGlobalData({
           toast: {

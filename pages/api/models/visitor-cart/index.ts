@@ -72,3 +72,90 @@ export async function addToVisitorCart(id: string, data: unknown) {
     },
   });
 }
+
+export async function convertVisitorCart(id: string, visitorId: string) {
+  const [cart, visitorCart] = await Promise.all([
+    prisma.cart.findFirst({
+      where: {
+        userId: id,
+      },
+      select: {
+        id: true,
+      },
+    }),
+    prisma.visitorCart.findFirst({
+      where: {
+        id: visitorId,
+      },
+      include: {
+        items: true,
+      },
+    }),
+  ]);
+
+  await prisma.visitorCart.delete({
+    where: {
+      id: visitorId,
+    },
+  });
+
+  if (visitorCart && visitorCart.items.length > 0) {
+    const stickers = visitorCart.items.map(i => ({
+      stickerId: i.stickerId,
+      quantity: i.quantity,
+    }));
+
+    if (cart) {
+      return await prisma.cart.upsert({
+        where: {
+          id: cart.id,
+        },
+        update: {
+          userId: id,
+          items: {
+            upsert: stickers.map(sticker => ({
+              where: {
+                cartId_stickerId: {
+                  cartId: cart.id,
+                  stickerId: sticker.stickerId,
+                },
+              },
+              update: {
+                quantity: sticker.quantity,
+              },
+              create: {
+                quantity: sticker.quantity,
+                stickerId: sticker.stickerId,
+              },
+            })),
+          },
+        },
+        create: {
+          userId: id,
+          items: {
+            createMany: {
+              data: stickers.map(sticker => ({
+                stickerId: sticker.stickerId,
+                quantity: sticker.quantity,
+              })),
+            },
+          },
+        },
+      });
+    } else {
+      return await prisma.cart.create({
+        data: {
+          userId: id,
+          items: {
+            createMany: {
+              data: stickers.map(sticker => ({
+                stickerId: sticker.stickerId,
+                quantity: sticker.quantity,
+              })),
+            },
+          },
+        },
+      });
+    }
+  }
+}

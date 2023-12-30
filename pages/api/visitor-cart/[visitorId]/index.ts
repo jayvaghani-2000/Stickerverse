@@ -19,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         );
         return res.status(200).json({ cart: updatedCart });
       default:
-        res.setHeader("Allow", "POST, GET");
+        res.setHeader("Allow", "PUT, GET");
         return res.status(405).json({ error: "Method not allowed" });
     }
   } catch (error) {

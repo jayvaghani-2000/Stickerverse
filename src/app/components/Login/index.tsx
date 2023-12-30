@@ -2,8 +2,10 @@
 import { useAppDispatch } from "@/app/store";
 import { setAuthData, useAuthStore } from "@/app/store/authentication";
 import { setGlobalData } from "@/app/store/global";
+import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { handleSetToken } from "@/app/utils/handleSetToken";
 import { Typography } from "@mui/material";
+import axios from "axios";
 import classNames from "classnames";
 import { FormikValues } from "formik";
 import { useRouter } from "next/navigation";
@@ -90,6 +92,7 @@ const Login = (
 ) => {
   const { onModal = false } = props;
   const { redirectTo } = useAuthStore();
+  const { localCart } = useLocalCart();
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -100,6 +103,21 @@ const Login = (
     });
 
     if (data.user && data.session) {
+      if (localCart) {
+        try {
+          const res = await axios.post(
+            `/api/visitor-cart/convert/${localCart}`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${data.session.access_token}`,
+              },
+            }
+          );
+
+          console.log(res);
+        } catch (err) {}
+      }
       dispatch(
         setGlobalData({
           toast: {
@@ -116,6 +134,7 @@ const Login = (
           authenticated: true,
         })
       );
+
       await handleSetToken(data.session.access_token);
       router.replace(redirectTo);
     } else {

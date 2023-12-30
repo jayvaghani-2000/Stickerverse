@@ -149,7 +149,9 @@ const Navbar = () => {
           >
             <Icon
               name="cart"
-              className={classNames("h-full w-full", styles.activeIconOnNav)}
+              className={classNames("h-full w-full", {
+                [styles.activeIconOnNav]: cartItems > 0,
+              })}
             />
           </Badge>
         </Link>
@@ -231,7 +233,9 @@ const Navbar = () => {
           >
             <Icon
               name="cart"
-              className={classNames("h-full w-full", styles.activeIconOnNav)}
+              className={classNames("h-full w-full", {
+                [styles.activeIconOnNav]: cartItems > 0,
+              })}
             />
           </Badge>
         </Link>
