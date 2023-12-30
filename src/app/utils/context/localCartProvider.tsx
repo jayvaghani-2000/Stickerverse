@@ -63,6 +63,7 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (authenticated) {
+      console.log({ res: "TTTTT" });
       getCart({});
     }
   }, [authenticated]);

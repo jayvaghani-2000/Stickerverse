@@ -92,7 +92,7 @@ const Login = (
 ) => {
   const { onModal = false } = props;
   const { redirectTo } = useAuthStore();
-  const { localCart } = useLocalCart();
+  const { localCart, setLocalCart } = useLocalCart();
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -105,7 +105,7 @@ const Login = (
     if (data.user && data.session) {
       if (localCart) {
         try {
-          const res = await axios.post(
+          await axios.post(
             `/api/visitor-cart/convert/${localCart}`,
             {},
             {
@@ -114,8 +114,7 @@ const Login = (
               },
             }
           );
-
-          console.log(res);
+          setLocalCart("");
         } catch (err) {}
       }
       dispatch(

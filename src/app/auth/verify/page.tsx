@@ -6,6 +6,7 @@ import { useAppDispatch } from "@/app/store";
 import { setAuthData, useAuthStore } from "@/app/store/authentication";
 import { useLazyGetUserByIdQuery } from "@/app/store/authentication/api";
 import { setGlobalData, useGlobalStore } from "@/app/store/global";
+import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { getDifferenceInHours } from "@/app/utils/dates";
 import { handleSetToken } from "@/app/utils/handleSetToken";
 import axios from "axios";
@@ -19,6 +20,7 @@ const Verify = () => {
   const { redirectTo } = useAuthStore();
   const { toast } = useGlobalStore();
   const { show } = toast;
+  const { setLocalCart, refetchCart } = useLocalCart();
   const dispatch = useAppDispatch();
   const [getUser] = useLazyGetUserByIdQuery();
 
@@ -36,7 +38,7 @@ const Verify = () => {
       if (cartId) {
         try {
           z.string().uuid().parse(JSON.parse(cartId));
-          const res = await axios.post(
+          await axios.post(
             `/api/visitor-cart/convert/${JSON.parse(cartId)}`,
             {},
             {
@@ -45,8 +47,8 @@ const Verify = () => {
               },
             }
           );
-
-          console.log(res);
+          await refetchCart();
+          setLocalCart("");
         } catch (err) {}
       }
 

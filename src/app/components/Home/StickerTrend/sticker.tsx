@@ -111,6 +111,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                       }
                     }
                   }
+                  setQuantity(1);
                 } catch (err) {
                   setLoading(false);
                 }

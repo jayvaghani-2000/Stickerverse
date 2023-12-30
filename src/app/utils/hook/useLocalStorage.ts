@@ -3,25 +3,23 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 function useLocalStorage<T>(key: string, initialState: T, schema: any) {
   const rendered = useRef(false);
-  const [entry, setEntry] = useState<T>(initialState);
-
-  useEffect(() => {
+  const [entry, setEntry] = useState<T>(() => {
     const ISSERVER = typeof window === "undefined";
     if (ISSERVER) return;
     const value = localStorage.getItem(key);
     if (value) {
       try {
         schema.parse(JSON.parse(value));
-        setEntry(JSON.parse(value));
+        return JSON.parse(value);
       } catch (err) {
         localStorage.setItem(key, JSON.stringify(initialState));
-        setEntry(initialState);
+        return initialState;
       }
     } else {
       localStorage.setItem(key, JSON.stringify(initialState));
-      setEntry(initialState);
+      return initialState;
     }
-  }, []);
+  });
 
   useEffect(() => {
     if (!rendered.current) {

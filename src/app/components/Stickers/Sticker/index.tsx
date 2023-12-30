@@ -178,6 +178,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
                     }
                   }
                 }
+                setQuantity(1);
               } catch (err) {
                 setLoading(false);
               }
