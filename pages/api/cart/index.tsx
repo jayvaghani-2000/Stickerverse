@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { ZodError } from "zod";
 import {
   handleAddToCart,
+  handleDeleteCartItem,
   handleGetUserCart,
   handleUpdateCart,
 } from "../helpers/cart";
@@ -22,8 +23,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse, user: any) {
       case "PUT":
         const newCart = await handleUpdateCart(id, req.body);
         return res.status(200).json({ cart: newCart });
+      case "DELETE":
+        await handleDeleteCartItem(id, req.body);
+        return res.status(200).json({ success: true });
       default:
-        res.setHeader("Allow", "POST, GET");
+        res.setHeader("Allow", "POST, GET, PUT, DELETE");
         return res.status(405).json({ error: "Method not allowed" });
     }
   } catch (error) {

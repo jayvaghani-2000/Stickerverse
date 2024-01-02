@@ -5,3 +5,8 @@ export const AddToVisitorCartSchema = z.object({
   quantity: z.number(),
   stickerId: z.number(),
 });
+
+export type DeleteVisitorCartItem = z.infer<typeof DeleteVisitorCartSchema>;
+export const DeleteVisitorCartSchema = z.object({
+  stickerId: z.number(),
+});

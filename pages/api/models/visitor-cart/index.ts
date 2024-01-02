@@ -1,5 +1,5 @@
 import prisma from "../../../../prisma";
-import { AddToVisitorCartSchema } from "./schema";
+import { AddToVisitorCartSchema, DeleteVisitorCartSchema } from "./schema";
 
 export async function getVisitorItemCart(id: string) {
   return await prisma.cartItem.findMany({
@@ -90,6 +90,26 @@ export async function updateToVisitorCart(id: string, data: unknown) {
           },
           data: {
             quantity: payload.quantity,
+          },
+        },
+      },
+    },
+  });
+}
+
+export async function deleteVisitorCartItem(id: string, data: unknown) {
+  const payload = DeleteVisitorCartSchema.parse(data);
+
+  return await prisma.visitorCart.update({
+    where: {
+      id: id,
+    },
+    data: {
+      items: {
+        delete: {
+          visitorId_stickerId: {
+            visitorId: id,
+            stickerId: payload.stickerId,
           },
         },
       },

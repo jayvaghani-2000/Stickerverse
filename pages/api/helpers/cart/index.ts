@@ -1,4 +1,9 @@
-import { addToCart, getCart, updateCartItems } from "../../models/cart";
+import {
+  addToCart,
+  deleteCartItems,
+  getCart,
+  updateCartItems,
+} from "../../models/cart";
 
 export const handleGetUserCart = async (id: string) => {
   try {
@@ -20,6 +25,14 @@ export const handleAddToCart = async (id: string, data: unknown) => {
 export const handleUpdateCart = async (id: string, data: unknown) => {
   try {
     const cart = await updateCartItems(id, data);
+    return cart;
+  } catch (err) {
+    throw err;
+  }
+};
+export const handleDeleteCartItem = async (id: string, data: unknown) => {
+  try {
+    const cart = await deleteCartItems(id, data);
     return cart;
   } catch (err) {
     throw err;

@@ -3,6 +3,7 @@ import {
   cleanupVisitorCart,
   convertVisitorCart,
   createVisitor,
+  deleteVisitorCartItem,
   getVisitorCart,
   getVisitorItemCart,
   updateToVisitorCart,
@@ -44,6 +45,17 @@ export const handleAddToVisitorCart = async (id: string, data: unknown) => {
 export const handleUpdateVisitorCart = async (id: string, data: unknown) => {
   try {
     const cart = await updateToVisitorCart(id, data);
+    return cart;
+  } catch (err) {
+    throw err;
+  }
+};
+export const handleDeleteVisitorCartItem = async (
+  id: string,
+  data: unknown
+) => {
+  try {
+    const cart = await deleteVisitorCartItem(id, data);
     return cart;
   } catch (err) {
     throw err;

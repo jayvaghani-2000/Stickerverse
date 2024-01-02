@@ -3,6 +3,7 @@ import { ZodError } from "zod";
 import { handleErrorMsg } from "../../helpers/utils/handleErrorMsg";
 import {
   handleAddToVisitorCart,
+  handleDeleteVisitorCartItem,
   handleUpdateVisitorCart,
   handleVisitorUserCart,
 } from "../../helpers/visitor-cart";
@@ -25,8 +26,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           req.body
         );
         return res.status(200).json({ cart: newCart });
+      case "DELETE":
+        await handleDeleteVisitorCartItem(
+          req.query.visitorId as string,
+          req.body
+        );
+        return res.status(200).json({ success: true });
       default:
-        res.setHeader("Allow", "POST, GET");
+        res.setHeader("Allow", "POST, GET, PUT, DELETE");
         return res.status(405).json({ error: "Method not allowed" });
     }
   } catch (error) {
