@@ -109,7 +109,6 @@ model orderItem {
 }
 
 model cart {
-  id        Int        @id @default(autoincrement())
   user      user       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String     @unique @db.Uuid
   items     cartItem[]
@@ -119,8 +118,8 @@ model cart {
 
 model cartItem {
   id        Int          @id @default(autoincrement())
-  cart      cart?        @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  cartId    Int?
+  cart      cart?        @relation(fields: [cartId], references: [userId], onDelete: Cascade)
+  cartId    String?      @db.Uuid
   visitorId String?      @db.Uuid
   visitor   visitorCart? @relation(fields: [visitorId], references: [id], onDelete: Cascade)
   sticker   sticker      @relation(fields: [stickerId], references: [id], onDelete: Cascade)

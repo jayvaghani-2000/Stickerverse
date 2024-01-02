@@ -45,7 +45,7 @@ export const visitorCartApi = createApi({
     addToVisitorCart: builder.mutation({
       query: ({ id, body }: { id: string; body: AddToVisitorCart }) => ({
         url: `/api/visitor-cart/${id}`,
-        method: "PUT",
+        method: "POST",
         body: body,
       }),
       transformResponse: (response: { cart: getVisitorCartType }) => {

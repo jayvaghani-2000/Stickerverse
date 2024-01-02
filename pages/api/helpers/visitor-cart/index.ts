@@ -5,6 +5,7 @@ import {
   createVisitor,
   getVisitorCart,
   getVisitorItemCart,
+  updateToVisitorCart,
 } from "../../models/visitor-cart";
 
 export const handleVisitorUserCart = async (id: string) => {
@@ -35,6 +36,14 @@ export const handleCreateVisitorCart = async () => {
 export const handleAddToVisitorCart = async (id: string, data: unknown) => {
   try {
     const cart = await addToVisitorCart(id, data);
+    return cart;
+  } catch (err) {
+    throw err;
+  }
+};
+export const handleUpdateVisitorCart = async (id: string, data: unknown) => {
+  try {
+    const cart = await updateToVisitorCart(id, data);
     return cart;
   } catch (err) {
     throw err;

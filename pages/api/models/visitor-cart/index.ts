@@ -72,6 +72,30 @@ export async function addToVisitorCart(id: string, data: unknown) {
     },
   });
 }
+export async function updateToVisitorCart(id: string, data: unknown) {
+  const payload = AddToVisitorCartSchema.parse(data);
+
+  return await prisma.visitorCart.update({
+    where: {
+      id: id,
+    },
+    data: {
+      items: {
+        update: {
+          where: {
+            visitorId_stickerId: {
+              visitorId: id,
+              stickerId: payload.stickerId,
+            },
+          },
+          data: {
+            quantity: payload.quantity,
+          },
+        },
+      },
+    },
+  });
+}
 
 export async function convertVisitorCart(id: string, visitorId: string) {
   const [cart, visitorCart] = await Promise.all([
@@ -80,7 +104,7 @@ export async function convertVisitorCart(id: string, visitorId: string) {
         userId: id,
       },
       select: {
-        id: true,
+        userId: true,
       },
     }),
     prisma.visitorCart.findFirst({
@@ -108,7 +132,7 @@ export async function convertVisitorCart(id: string, visitorId: string) {
     if (cart) {
       return await prisma.cart.upsert({
         where: {
-          id: cart.id,
+          userId: id,
         },
         update: {
           userId: id,
@@ -116,7 +140,7 @@ export async function convertVisitorCart(id: string, visitorId: string) {
             upsert: stickers.map(sticker => ({
               where: {
                 cartId_stickerId: {
-                  cartId: cart.id,
+                  cartId: id,
                   stickerId: sticker.stickerId,
                 },
               },

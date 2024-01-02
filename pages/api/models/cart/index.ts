@@ -17,60 +17,63 @@ export async function getCart(id: string) {
 export async function addToCart(id: string, data: unknown) {
   const payload = AddToCartSchema.parse(data);
 
-  const cart = await prisma.cart.findFirst({
+  return await prisma.cart.upsert({
     where: {
       userId: id,
     },
-    select: {
-      id: true,
-    },
-  });
-
-  if (cart) {
-    return await prisma.cart.upsert({
-      where: {
-        id: cart.id,
-      },
-      update: {
-        id: cart.id,
-        items: {
-          upsert: [
-            {
-              where: {
-                cartId_stickerId: {
-                  cartId: cart.id,
-                  stickerId: payload.stickerId,
-                },
-              },
-              update: {
-                quantity: payload.quantity,
-              },
-              create: {
-                ...payload,
+    update: {
+      userId: id,
+      items: {
+        upsert: [
+          {
+            where: {
+              cartId_stickerId: {
+                cartId: id,
+                stickerId: payload.stickerId,
               },
             },
-          ],
+            update: {
+              quantity: payload.quantity,
+            },
+            create: {
+              ...payload,
+            },
+          },
+        ],
+      },
+    },
+    create: {
+      userId: id,
+      items: {
+        create: {
+          ...payload,
         },
       },
-      create: {
-        userId: id,
-        items: {
-          create: {
-            ...payload,
+    },
+  });
+}
+
+export async function updateCartItems(id: string, data: unknown) {
+  const payload = AddToCartSchema.parse(data);
+
+  await prisma.cart.update({
+    where: {
+      userId: id,
+    },
+    data: {
+      items: {
+        update: {
+          where: {
+            cartId_stickerId: {
+              cartId: id,
+              stickerId: payload.stickerId,
+            },
+          },
+          data: {
+            quantity: payload.quantity,
           },
         },
       },
-    });
-  } else {
-    return await prisma.cart.create({
-      data: {
-        userId: id,
-        items: {
-          create: {
-            ...payload,
-          },
-        },
-      },
-    });
-  }
+    },
+  });
 }
