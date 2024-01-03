@@ -1,7 +1,7 @@
-import { AddProductSchema, GetProductSchema } from "./schema";
-import prisma from "../../../../prisma";
-import { Prisma } from "@prisma/client";
 import { SORT_BY } from "@/app/utils/enum";
+import { Prisma } from "@prisma/client";
+import prisma from "../../../../prisma";
+import { AddProductSchema, GetProductSchema } from "./schema";
 
 export async function post(data: unknown) {
   const payload = AddProductSchema.parse(data);
@@ -33,7 +33,11 @@ export async function trendingSticker() {
       trending: true,
     },
     include: {
-      image: true,
+      image: {
+        orderBy: {
+          url: "asc",
+        },
+      },
     },
   });
   return stickers;
@@ -51,7 +55,11 @@ export async function getStickers(data: unknown) {
     skip: skip,
     take: pageSize,
     include: {
-      image: true,
+      image: {
+        orderBy: {
+          url: "asc",
+        },
+      },
     },
     orderBy: orderBy,
     where: filter,

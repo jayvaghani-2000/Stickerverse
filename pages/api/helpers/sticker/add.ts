@@ -1,15 +1,15 @@
-import { IncomingMessage } from "http";
 import fs from "fs";
-import { parse } from "../formData";
-import { getStickersSlug, post } from "../../models/sticker";
-import { createMedia } from "../upload/uploadImage";
-import {
-  prepareNumberPayload,
-  prepareBooleanPayload,
-} from "../utils/converter";
+import { IncomingMessage } from "http";
 import { postStickerImage } from "../../models/image";
+import { getStickersSlug, post } from "../../models/sticker";
 import { IMAGE_FOLDER } from "../../utils/constant";
 import { convertToSlug, createSlug } from "../../utils/generateSlug";
+import { parse } from "../formData";
+import { createMedia } from "../upload/uploadImage";
+import {
+  prepareBooleanPayload,
+  prepareNumberPayload,
+} from "../utils/converter";
 
 export const handlePostProduct = async (req: IncomingMessage) => {
   try {
@@ -31,7 +31,7 @@ export const handlePostProduct = async (req: IncomingMessage) => {
         const imageFile = fs.readFileSync(i.filepath);
         return await createMedia(
           Buffer.from(imageFile),
-          `${IMAGE_FOLDER.STICKER}/${finalSlug}`
+          `${IMAGE_FOLDER.STICKER}/${finalSlug}/${i.originalFilename}`
         );
       })
     );
