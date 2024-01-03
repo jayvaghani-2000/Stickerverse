@@ -9,7 +9,15 @@ export async function getCart(id: string) {
       },
     },
     include: {
-      sticker: true,
+      sticker: {
+        include: {
+          image: {
+            orderBy: {
+              url: "asc",
+            },
+          },
+        },
+      },
     },
   });
 }

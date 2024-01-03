@@ -7,7 +7,15 @@ export async function getVisitorItemCart(id: string) {
       visitorId: id,
     },
     include: {
-      sticker: true,
+      sticker: {
+        include: {
+          image: {
+            orderBy: {
+              url: "asc",
+            },
+          },
+        },
+      },
     },
   });
 }
