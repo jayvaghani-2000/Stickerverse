@@ -1,7 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCartData } from ".";
 import store from "..";
-import { AddToCart } from "../../../../pages/api/models/cart/schema";
+import {
+  AddToCart,
+  DeleteCartItem,
+} from "../../../../pages/api/models/cart/schema";
 import { getCartType } from "../../../../pages/api/types";
 import { prepareHeaders } from "./../../utils/tokenManager";
 
@@ -37,6 +40,19 @@ export const cartApi = createApi({
         return {} as getCartType;
       },
     }),
+    removeFromToCart: builder.mutation({
+      query: (body: DeleteCartItem) => ({
+        url: `/api/cart`,
+        method: "DELETE",
+        body: body,
+      }),
+      transformResponse: (response: { success: boolean }) => {
+        if (response?.success) {
+          return response;
+        }
+        return { success: false };
+      },
+    }),
   }),
 });
 
@@ -44,4 +60,5 @@ export const {
   useLazyGetUserCartQuery,
   useGetUserCartQuery,
   useAddToCartMutation,
+  useRemoveFromToCartMutation,
 } = cartApi;

@@ -2,6 +2,10 @@ import Icon from "@/app/components/Icon";
 import { MotionImage } from "@/app/components/MotionImage";
 import Checkbox from "@/app/components/Shared/Checkbox";
 import ItemCount from "@/app/components/Shared/ItemCount";
+import {
+  useLazyGetUserCartQuery,
+  useRemoveFromToCartMutation,
+} from "@/app/store/cart/api";
 import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { useLayoutEffect, useRef, useState } from "react";
@@ -22,6 +26,8 @@ const Sticker = (props: propType) => {
   const title = useRef<HTMLHeadingElement>(null!);
   const { item: i, handleSelectItems, selectedItem } = props;
   const [quantity, setQuantity] = useState(i.quantity);
+  const [removeFromCart] = useRemoveFromToCartMutation();
+  const [fetchCart] = useLazyGetUserCartQuery();
 
   useLayoutEffect(() => {
     const h2Element = title.current;
@@ -34,6 +40,15 @@ const Sticker = (props: propType) => {
       h2ElementBackup.style.opacity = "0";
     }
   }, []);
+
+  const handleRemoveItem = async () => {
+    try {
+      const res = await removeFromCart({ stickerId: i.stickerId });
+      if ("data" in res && res.data.success) {
+        await fetchCart({});
+      }
+    } catch (err) {}
+  };
 
   return (
     <div className="pb-4 sm:pb-5 md:pb-8  px-4 sm:px-5 md:px-7  relative flex gap-2 sm:gap-3 md:gap-4 justify-start items-start  after:content-[''] after:absolute after:w-full after:border-[1px] after:border-dashed after:border-lightGray after:bottom-2 sm:after:bottom-[10px] md:after:bottom-4 after:left-0 last:after:hidden last:pb-0">
@@ -64,7 +79,7 @@ const Sticker = (props: propType) => {
         </div>
       </motion.div>
 
-      <div className="flex-1 flex flex-col justify-between overflow-hidden">
+      <div className="flex-1 flex flex-col justify-between overflow-hidden self-center">
         <div className="relative max-w-full overflow-hidden">
           <div className={styles.marquee}>
             <Typography variant="subtitle2" ref={titleBackup}>
@@ -92,12 +107,16 @@ const Sticker = (props: propType) => {
             ₹{i.sticker.price - 0.01}
           </Typography>
         </div>
-        <div className="mt-1 sm:mt-2 md:mt-3 w-fit">
+        <div className="mt-1 sm:mt-2 md:mt-3 w-fit flex items-center gap-1">
+          <Typography variant="body2">Quantity</Typography>
           <ItemCount quantity={quantity} setQuantity={setQuantity} />
         </div>
       </div>
 
-      <button className="h-4 w-4 sm:h-6 sm:w-6 md:h-7 md:w-7 p-1 rounded-full bg-opacity-20 bg-black">
+      <button
+        className="h-4 w-4 sm:h-6 sm:w-6 md:h-7 md:w-7 p-1 rounded-full bg-opacity-20 bg-black"
+        onClick={handleRemoveItem}
+      >
         <Icon name="cross" className="h-full w-full" />
       </button>
     </div>
