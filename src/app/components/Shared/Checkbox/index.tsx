@@ -1,8 +1,15 @@
-import { FormControlLabel, Checkbox as MuiCheckbox } from "@mui/material";
+import {
+  CheckboxProps,
+  FormControlLabel,
+  Checkbox as MuiCheckbox,
+} from "@mui/material";
 import React from "react";
 import CheckboxIcon from "./checkbox";
 
-type propsType = {
+type propsType = Omit<
+  CheckboxProps,
+  "onChange" | "label" | "value" | "name"
+> & {
   label?: React.ReactNode;
   value: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -10,7 +17,7 @@ type propsType = {
 };
 
 const Checkbox = (props: propsType) => {
-  const { label = "", value, onChange, name } = props;
+  const { label = "", value, onChange, name, ...rest } = props;
   return (
     <FormControlLabel
       classes={{
@@ -30,6 +37,7 @@ const Checkbox = (props: propsType) => {
           onChange={(e, checked) => {
             onChange(e);
           }}
+          {...rest}
         />
       }
       label={label}

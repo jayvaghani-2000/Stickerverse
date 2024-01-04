@@ -26,7 +26,7 @@ const CartDetail = () => {
     <div className="my-[30px] sm:my-[60px]">
       <Stepper currentStep={currentStep} />
 
-      <div className="grid grid-cols-6 gap-6 pt-[40px] md:pt-[60px] sm:px-5 md:px-[60px]">
+      <div className="grid grid-cols-9 gap-6 pt-[40px] md:pt-[60px] sm:px-5 lg:px-[60px]">
         <Cart userCart={userCart} />
         <PriceSummary userCart={userCart} />
       </div>

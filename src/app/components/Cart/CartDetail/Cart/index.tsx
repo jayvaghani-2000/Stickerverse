@@ -33,11 +33,14 @@ const Cart = (props: propType) => {
   };
 
   return (
-    <div className="col-span-6 sm:col-span-4 bg-coffee">
+    <div className="col-span-9 sm:col-span-5 lg:col-span-6 bg-coffee">
       <div className="flex justify-between items-center  px-4 sm:px-5 md:px-7 py-3 sm:py-4 md:py-5 border-b-2 border-dashed border-lightGray">
         <Checkbox
           label={
-            <Typography variant="subtitle2" marginLeft={"16px"}>
+            <Typography
+              variant="subtitle2"
+              className="ml-[3px] sm:ml-[7px] md:ml-[15px]"
+            >
               Select All
             </Typography>
           }
