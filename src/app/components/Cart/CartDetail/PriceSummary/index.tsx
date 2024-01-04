@@ -8,7 +8,7 @@ type propType = {
 };
 
 const PriceSummary = (props: propType) => {
-  return <div className="col-span-2">PriceSummary</div>;
+  return <div className="col-span-6 sm:col-span-2">PriceSummary</div>;
 };
 
 export default PriceSummary;

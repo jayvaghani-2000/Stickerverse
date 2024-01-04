@@ -6,6 +6,7 @@ import {
   getCartType,
   getVisitorCartType,
 } from "../../../../../../pages/api/types";
+import Sticker from "./sticker";
 
 type propType = {
   userCart: getCartType | getVisitorCartType;
@@ -32,10 +33,14 @@ const Cart = (props: propType) => {
   };
 
   return (
-    <div className="col-span-4 bg-coffee">
-      <div className="flex justify-between items-center  px-5 py-3 border-b-2 border-dashed border-lightGray">
+    <div className="col-span-6 sm:col-span-4 bg-coffee">
+      <div className="flex justify-between items-center  px-4 sm:px-5 md:px-7 py-3 sm:py-4 md:py-5 border-b-2 border-dashed border-lightGray">
         <Checkbox
-          label={<Typography variant="subtitle2">Select All</Typography>}
+          label={
+            <Typography variant="subtitle2" marginLeft={"16px"}>
+              Select All
+            </Typography>
+          }
           name="selectAll"
           onChange={handleToggleSelectAll}
           value={userCart.length === selectedItem.length}
@@ -48,17 +53,14 @@ const Cart = (props: propType) => {
           Remove All
         </Button>
       </div>
-      <div className="py-3 px-5">
+      <div className="py-5">
         {userCart.map(i => (
-          <div key={i.id}>
-            <Checkbox
-              name={i.sticker.productName}
-              onChange={() => {
-                handleSelectItems(i.id);
-              }}
-              value={userCart.length === selectedItem.length}
-            />
-          </div>
+          <Sticker
+            key={i.id}
+            item={i}
+            handleSelectItems={handleSelectItems}
+            selectedItem={selectedItem}
+          />
         ))}
       </div>
     </div>

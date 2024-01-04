@@ -30,7 +30,6 @@ const CartDetail = () => {
         <Cart userCart={userCart} />
         <PriceSummary userCart={userCart} />
       </div>
-      {JSON.stringify(userCart)}
     </div>
   );
 };
