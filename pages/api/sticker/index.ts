@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { ZodError } from "zod";
 import { handlePostProduct } from "../helpers/sticker/add";
 import { handleGetProduct } from "../helpers/sticker/get";
-import { ZodError } from "zod";
 import { handleErrorMsg } from "../helpers/utils/handleErrorMsg";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
