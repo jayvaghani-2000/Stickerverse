@@ -3,14 +3,14 @@ import React from "react";
 import CheckboxIcon from "./checkbox";
 
 type propsType = {
-  label: React.ReactNode;
+  label?: React.ReactNode;
   value: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
 };
 
 const Checkbox = (props: propsType) => {
-  const { label = "Choose", value, onChange, name } = props;
+  const { label = "", value, onChange, name } = props;
   return (
     <FormControlLabel
       classes={{

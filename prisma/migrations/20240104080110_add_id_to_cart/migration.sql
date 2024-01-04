@@ -9,9 +9,13 @@
 -- DropForeignKey
 ALTER TABLE "cartItem" DROP CONSTRAINT "cartItem_cartId_fkey";
 
+-- DropIndex
+DROP INDEX "cart_userId_key";
+
 -- AlterTable
 ALTER TABLE "cart" DROP CONSTRAINT "cart_pkey",
-DROP COLUMN "id";
+DROP COLUMN "id",
+ADD CONSTRAINT "cart_pkey" PRIMARY KEY ("userId");
 
 -- AlterTable
 ALTER TABLE "cartItem" DROP COLUMN "cartId",
