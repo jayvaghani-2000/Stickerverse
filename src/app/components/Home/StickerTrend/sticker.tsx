@@ -1,7 +1,10 @@
 import { useAuthStore } from "@/app/store/authentication";
-import { useAddToCartMutation } from "@/app/store/cart/api";
+import { abortGetCartApi, useAddToCartMutation } from "@/app/store/cart/api";
 import { useVisitorCartStore } from "@/app/store/visitorCart";
-import { useAddToVisitorCartMutation } from "@/app/store/visitorCart/api";
+import {
+  abortGetVisitorCartApi,
+  useAddToVisitorCartMutation,
+} from "@/app/store/visitorCart/api";
 import { productAnimation, productHoverEffect } from "@/app/utils/animation";
 import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
@@ -79,6 +82,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                 setLoading(true);
                 try {
                   if (authenticated) {
+                    abortGetCartApi();
                     await handleAddToCart({
                       quantity: quantity,
                       stickerId: sticker.id,
@@ -87,6 +91,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                     setLoading(false);
                   } else {
                     if (visitorCartId) {
+                      abortGetVisitorCartApi();
                       await handleAddToVisitorCart({
                         id: visitorCartId,
                         body: {
@@ -97,6 +102,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                       await refetchVisitCart(visitorCartId);
                       setLoading(false);
                     } else {
+                      abortGetVisitorCartApi();
                       const id = await createCart();
                       if (id) {
                         await handleAddToVisitorCart({
