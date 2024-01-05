@@ -5,9 +5,11 @@ import Icon from "../../Icon";
 const ItemCount = ({
   quantity,
   setQuantity,
+  disable = false,
 }: {
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
+  disable?: boolean;
 }) => {
   return (
     <div className="flex justify-center items-center">
@@ -15,7 +17,8 @@ const ItemCount = ({
         onClick={() => {
           setQuantity(prev => (prev === 1 ? 1 : prev - 1));
         }}
-        className="border-[1px] border-black bg-white px-[6px] h-[24px] md:h-[30px]"
+        disabled={disable}
+        className="border-[1px] border-black bg-white px-[6px] h-[24px] md:h-[30px] disabled:cursor-not-allowed"
       >
         <Icon name="minus" className="h-[10px]" />
       </button>
@@ -29,7 +32,8 @@ const ItemCount = ({
         onClick={() => {
           setQuantity(prev => (prev === 99 ? 99 : prev + 1));
         }}
-        className="border-[1px] border-black bg-white px-[6px] h-[24px] md:h-[30px]"
+        disabled={disable}
+        className="border-[1px] border-black bg-white px-[6px] h-[24px] md:h-[30px] disabled:cursor-not-allowed"
       >
         <Icon name="plus" className="h-[10px]" />
       </button>
