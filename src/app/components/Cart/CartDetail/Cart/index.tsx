@@ -1,10 +1,16 @@
 import Button from "@/app/components/Shared/Button";
 import Checkbox from "@/app/components/Shared/Checkbox";
 import InlineSpinner from "@/app/components/Shared/InlineSpinner";
+import { useAuthStore } from "@/app/store/authentication";
 import {
   useLazyGetUserCartQuery,
   useRemoveFromToCartMutation,
 } from "@/app/store/cart/api";
+import { useVisitorCartStore } from "@/app/store/visitorCart";
+import {
+  useLazyGetVisitorCartQuery,
+  useRemoveFromToVisitorCartMutation,
+} from "@/app/store/visitorCart/api";
 import { ThemeColor } from "@/app/theme";
 import { Typography } from "@mui/material";
 import { useState } from "react";
@@ -20,9 +26,16 @@ type propType = {
 
 const Cart = (props: propType) => {
   const [selectedItem, setSelectedItem] = useState<number[]>([]);
+  const { authenticated } = useAuthStore();
   const [removeFromCart, { isLoading }] = useRemoveFromToCartMutation();
+  const [removeFromVisitorCart, { isLoading: removingFromVisitorCart }] =
+    useRemoveFromToVisitorCartMutation();
   const [fetchCart, { isLoading: loadingGettingCart }] =
     useLazyGetUserCartQuery();
+  const [fetchVisitorCart, { isLoading: loadingGettingVisitorCart }] =
+    useLazyGetVisitorCartQuery();
+  const { visitorCartId } = useVisitorCartStore();
+
   const { userCart } = props;
 
   const handleToggleSelectAll = () => {
@@ -41,14 +54,36 @@ const Cart = (props: propType) => {
     }
   };
 
+  const resetSelectedItem = () => {
+    setSelectedItem([]);
+  };
+
   const handleRemoveItem = async () => {
     try {
-      const res = await removeFromCart({ stickerIds: selectedItem });
-      if ("data" in res && res.data.success) {
-        await fetchCart({});
+      if (authenticated) {
+        const res = await removeFromCart({ stickerIds: selectedItem });
+        if ("data" in res && res.data.success) {
+          await fetchCart({});
+          resetSelectedItem();
+        }
+      } else {
+        const res = await removeFromVisitorCart({
+          cartId: visitorCartId as string,
+          body: { stickerIds: selectedItem },
+        });
+        if ("data" in res && res.data.success) {
+          await fetchVisitorCart({ id: visitorCartId as string });
+          resetSelectedItem();
+        }
       }
     } catch (err) {}
   };
+
+  const loading =
+    loadingGettingCart ||
+    isLoading ||
+    removingFromVisitorCart ||
+    loadingGettingVisitorCart;
 
   return (
     <div className="col-span-9 sm:col-span-5 lg:col-span-6 bg-coffee">
@@ -70,13 +105,11 @@ const Cart = (props: propType) => {
           typography="subtitle2"
           variant="border-bottom"
           className="text-lightRed disabled:text-lightRed bg-transparent hover:bg-transparent"
-          disabled={loadingGettingCart || isLoading}
+          disabled={loading || selectedItem.length === 0}
           onClick={handleRemoveItem}
         >
           Remove All
-          {loadingGettingCart || isLoading ? (
-            <InlineSpinner color={ThemeColor.LIGHT_RED} />
-          ) : null}
+          {loading ? <InlineSpinner color={ThemeColor.LIGHT_RED} /> : null}
         </Button>
       </div>
       <div className="py-5">

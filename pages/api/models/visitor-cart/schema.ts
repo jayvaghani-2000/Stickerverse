@@ -8,5 +8,5 @@ export const AddToVisitorCartSchema = z.object({
 
 export type DeleteVisitorCartItem = z.infer<typeof DeleteVisitorCartSchema>;
 export const DeleteVisitorCartSchema = z.object({
-  stickerId: z.number(),
+  stickerIds: z.array(z.number()),
 });

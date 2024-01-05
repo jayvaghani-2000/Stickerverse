@@ -1,7 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setVisitorCartData } from ".";
 import store from "..";
-import { AddToVisitorCart } from "../../../../pages/api/models/visitor-cart/schema";
+import {
+  AddToVisitorCart,
+  DeleteVisitorCartItem,
+} from "../../../../pages/api/models/visitor-cart/schema";
 import {
   createVisitorType,
   getVisitorCartType,
@@ -55,6 +58,25 @@ export const visitorCartApi = createApi({
         return {} as getVisitorCartType;
       },
     }),
+    removeFromToVisitorCart: builder.mutation({
+      query: ({
+        cartId,
+        body,
+      }: {
+        cartId: string;
+        body: DeleteVisitorCartItem;
+      }) => ({
+        url: `/api/visitor-cart/${cartId}`,
+        method: "DELETE",
+        body: body,
+      }),
+      transformResponse: (response: { success: boolean }) => {
+        if (response?.success) {
+          return response;
+        }
+        return { success: false };
+      },
+    }),
   }),
 });
 
@@ -62,4 +84,5 @@ export const {
   useAddToVisitorCartMutation,
   useCreateVisitorCartMutation,
   useLazyGetVisitorCartQuery,
+  useRemoveFromToVisitorCartMutation,
 } = visitorCartApi;

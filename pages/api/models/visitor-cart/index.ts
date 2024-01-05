@@ -108,19 +108,10 @@ export async function updateToVisitorCart(id: string, data: unknown) {
 export async function deleteVisitorCartItem(id: string, data: unknown) {
   const payload = DeleteVisitorCartSchema.parse(data);
 
-  return await prisma.visitorCart.update({
+  await prisma.cartItem.deleteMany({
     where: {
-      id: id,
-    },
-    data: {
-      items: {
-        delete: {
-          visitorId_stickerId: {
-            visitorId: id,
-            stickerId: payload.stickerId,
-          },
-        },
-      },
+      visitorId: id,
+      stickerId: { in: payload.stickerIds },
     },
   });
 }
