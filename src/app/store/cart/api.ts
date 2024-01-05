@@ -8,6 +8,9 @@ import {
 import { getCartType } from "../../../../pages/api/types";
 import { prepareHeaders } from "./../../utils/tokenManager";
 
+let controller: any;
+controller = new AbortController();
+
 export const cartApi = createApi({
   reducerPath: "cartApi",
   baseQuery: fetchBaseQuery({
@@ -18,7 +21,11 @@ export const cartApi = createApi({
   refetchOnMountOrArgChange: true,
   endpoints: builder => ({
     getUserCart: builder.query({
-      query: () => `/api/cart`,
+      query: () => ({
+        url: "/api/cart",
+        method: "GET",
+        signal: controller.signal,
+      }),
       transformResponse: (response: { cart: getCartType }) => {
         if (response?.cart) {
           store.dispatch(setCartData({ cart: response.cart }));
@@ -62,3 +69,8 @@ export const {
   useAddToCartMutation,
   useRemoveFromToCartMutation,
 } = cartApi;
+
+export const abortGetCartApi = () => {
+  controller.abort();
+  controller = new AbortController();
+};

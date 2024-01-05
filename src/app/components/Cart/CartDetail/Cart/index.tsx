@@ -3,11 +3,13 @@ import Checkbox from "@/app/components/Shared/Checkbox";
 import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 import { useAuthStore } from "@/app/store/authentication";
 import {
+  abortGetCartApi,
   useLazyGetUserCartQuery,
   useRemoveFromToCartMutation,
 } from "@/app/store/cart/api";
 import { useVisitorCartStore } from "@/app/store/visitorCart";
 import {
+  abortGetVisitorCartApi,
   useLazyGetVisitorCartQuery,
   useRemoveFromToVisitorCartMutation,
 } from "@/app/store/visitorCart/api";
@@ -61,12 +63,14 @@ const Cart = (props: propType) => {
   const handleRemoveItem = async () => {
     try {
       if (authenticated) {
+        abortGetCartApi();
         const res = await removeFromCart({ stickerIds: selectedItem });
         if ("data" in res && res.data.success) {
           await fetchCart({});
           resetSelectedItem();
         }
       } else {
+        abortGetVisitorCartApi();
         const res = await removeFromVisitorCart({
           cartId: visitorCartId as string,
           body: { stickerIds: selectedItem },

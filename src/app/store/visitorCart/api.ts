@@ -11,6 +11,9 @@ import {
 } from "../../../../pages/api/types";
 import { prepareHeaders } from "../../utils/tokenManager";
 
+let controller: any;
+controller = new AbortController();
+
 export const visitorCartApi = createApi({
   reducerPath: "visitorCartApi",
   baseQuery: fetchBaseQuery({
@@ -21,7 +24,11 @@ export const visitorCartApi = createApi({
   refetchOnMountOrArgChange: true,
   endpoints: builder => ({
     getVisitorCart: builder.query({
-      query: ({ id }: { id: string }) => `/api/visitor-cart/${id}`,
+      query: ({ id }: { id: string }) => ({
+        url: `/api/visitor-cart/${id}`,
+        method: "GET",
+        signal: controller.signal,
+      }),
       transformResponse: (response: { cart: getVisitorCartType }) => {
         if (response?.cart) {
           store.dispatch(setVisitorCartData({ cart: response.cart }));
@@ -86,3 +93,8 @@ export const {
   useLazyGetVisitorCartQuery,
   useRemoveFromToVisitorCartMutation,
 } = visitorCartApi;
+
+export const abortGetVisitorCartApi = () => {
+  controller.abort();
+  controller = new AbortController();
+};

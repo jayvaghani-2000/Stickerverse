@@ -5,11 +5,13 @@ import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 import ItemCount from "@/app/components/Shared/ItemCount";
 import { useAuthStore } from "@/app/store/authentication";
 import {
+  abortGetCartApi,
   useLazyGetUserCartQuery,
   useRemoveFromToCartMutation,
 } from "@/app/store/cart/api";
 import { useVisitorCartStore } from "@/app/store/visitorCart";
 import {
+  abortGetVisitorCartApi,
   useLazyGetVisitorCartQuery,
   useRemoveFromToVisitorCartMutation,
 } from "@/app/store/visitorCart/api";
@@ -58,11 +60,13 @@ const Sticker = (props: propType) => {
   const handleRemoveItem = async () => {
     try {
       if (authenticated) {
+        abortGetCartApi();
         const res = await removeFromCart({ stickerIds: [i.stickerId] });
         if ("data" in res && res.data.success) {
           await fetchCart({});
         }
       } else {
+        abortGetVisitorCartApi();
         const res = await removeFromVisitorCart({
           cartId: visitorCartId as string,
           body: { stickerIds: [i.stickerId] },
