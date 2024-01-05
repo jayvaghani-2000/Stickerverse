@@ -1,12 +1,15 @@
 import { ThemeColor } from "@/app/theme";
 import { CircularProgress } from "@mui/material";
-import React from "react";
 
-const InlineSpinner = () => {
+const InlineSpinner = ({
+  color = ThemeColor.BLACK,
+}: {
+  color?: ThemeColor;
+}) => {
   return (
     <CircularProgress
       sx={{
-        color: ThemeColor.BLACK,
+        color: color,
         "&.MuiCircularProgress-root": {
           height: "10px !important",
           width: "10px !important",

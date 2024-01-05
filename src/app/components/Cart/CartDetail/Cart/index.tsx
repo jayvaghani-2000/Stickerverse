@@ -1,5 +1,11 @@
 import Button from "@/app/components/Shared/Button";
 import Checkbox from "@/app/components/Shared/Checkbox";
+import InlineSpinner from "@/app/components/Shared/InlineSpinner";
+import {
+  useLazyGetUserCartQuery,
+  useRemoveFromToCartMutation,
+} from "@/app/store/cart/api";
+import { ThemeColor } from "@/app/theme";
 import { Typography } from "@mui/material";
 import { useState } from "react";
 import {
@@ -14,13 +20,16 @@ type propType = {
 
 const Cart = (props: propType) => {
   const [selectedItem, setSelectedItem] = useState<number[]>([]);
+  const [removeFromCart, { isLoading }] = useRemoveFromToCartMutation();
+  const [fetchCart, { isLoading: loadingGettingCart }] =
+    useLazyGetUserCartQuery();
   const { userCart } = props;
 
   const handleToggleSelectAll = () => {
     if (userCart.length === selectedItem.length) {
       setSelectedItem([]);
     } else {
-      setSelectedItem(userCart.map(i => i.id));
+      setSelectedItem(userCart.map(i => i.stickerId));
     }
   };
 
@@ -30,6 +39,15 @@ const Cart = (props: propType) => {
     } else {
       setSelectedItem(prev => [...prev, itemId]);
     }
+  };
+
+  const handleRemoveItem = async () => {
+    try {
+      const res = await removeFromCart({ stickerIds: selectedItem });
+      if ("data" in res && res.data.success) {
+        await fetchCart({});
+      }
+    } catch (err) {}
   };
 
   return (
@@ -51,9 +69,14 @@ const Cart = (props: propType) => {
         <Button
           typography="subtitle2"
           variant="border-bottom"
-          className="text-lightRed bg-transparent hover:bg-transparent"
+          className="text-lightRed disabled:text-lightRed bg-transparent hover:bg-transparent"
+          disabled={loadingGettingCart || isLoading}
+          onClick={handleRemoveItem}
         >
           Remove All
+          {loadingGettingCart || isLoading ? (
+            <InlineSpinner color={ThemeColor.LIGHT_RED} />
+          ) : null}
         </Button>
       </div>
       <div className="py-5">

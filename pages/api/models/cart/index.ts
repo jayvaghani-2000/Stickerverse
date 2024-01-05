@@ -89,19 +89,10 @@ export async function updateCartItems(id: string, data: unknown) {
 export async function deleteCartItems(id: string, data: unknown) {
   const payload = DeleteCartItemSchema.parse(data);
 
-  await prisma.cart.update({
+  await prisma.cartItem.deleteMany({
     where: {
-      userId: id,
-    },
-    data: {
-      items: {
-        delete: {
-          cartId_stickerId: {
-            cartId: id,
-            stickerId: payload.stickerId,
-          },
-        },
-      },
+      cartId: id,
+      stickerId: { in: payload.stickerIds },
     },
   });
 }

@@ -1,6 +1,7 @@
 import Icon from "@/app/components/Icon";
 import { MotionImage } from "@/app/components/MotionImage";
 import Checkbox from "@/app/components/Shared/Checkbox";
+import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 import ItemCount from "@/app/components/Shared/ItemCount";
 import {
   useLazyGetUserCartQuery,
@@ -26,8 +27,9 @@ const Sticker = (props: propType) => {
   const title = useRef<HTMLHeadingElement>(null!);
   const { item: i, handleSelectItems, selectedItem } = props;
   const [quantity, setQuantity] = useState(i.quantity);
-  const [removeFromCart] = useRemoveFromToCartMutation();
-  const [fetchCart] = useLazyGetUserCartQuery();
+  const [removeFromCart, { isLoading }] = useRemoveFromToCartMutation();
+  const [fetchCart, { isLoading: loadingGettingCart }] =
+    useLazyGetUserCartQuery();
 
   useLayoutEffect(() => {
     const h2Element = title.current;
@@ -43,7 +45,7 @@ const Sticker = (props: propType) => {
 
   const handleRemoveItem = async () => {
     try {
-      const res = await removeFromCart({ stickerId: i.stickerId });
+      const res = await removeFromCart({ stickerIds: [i.stickerId] });
       if ("data" in res && res.data.success) {
         await fetchCart({});
       }
@@ -55,9 +57,9 @@ const Sticker = (props: propType) => {
       <Checkbox
         name={i.sticker.productName}
         onChange={() => {
-          handleSelectItems(i.id);
+          handleSelectItems(i.stickerId);
         }}
-        value={selectedItem.includes(i.id)}
+        value={selectedItem.includes(i.stickerId)}
       />
 
       <motion.div className={`w-fit bg-white border-2 border-black `}>
@@ -114,10 +116,15 @@ const Sticker = (props: propType) => {
       </div>
 
       <button
-        className="h-4 w-4 sm:h-6 sm:w-6 md:h-7 md:w-7 p-1 rounded-full bg-opacity-20 bg-black"
+        className="h-4 w-4 sm:h-6 sm:w-6 md:h-7 md:w-7 p-1 rounded-full bg-opacity-20 bg-black flex justify-center items-center"
+        disabled={loadingGettingCart || isLoading}
         onClick={handleRemoveItem}
       >
-        <Icon name="cross" className="h-full w-full" />
+        {loadingGettingCart || isLoading ? (
+          <InlineSpinner />
+        ) : (
+          <Icon name="cross" className="h-full w-full" />
+        )}
       </button>
     </div>
   );
