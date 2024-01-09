@@ -19,7 +19,15 @@ import {
 } from "@/app/store/visitorCart/api";
 import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { debounce } from "lodash";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   getCartType,
   getVisitorCartType,
@@ -37,6 +45,7 @@ const Sticker = (props: propType) => {
   const title = useRef<HTMLHeadingElement>(null!);
   const { item: i, handleSelectItems, selectedItem } = props;
   const [quantity, setQuantity] = useState(i.quantity);
+  const quantityRef = useRef(i.quantity);
   const [removeFromCart, { isLoading }] = useRemoveFromToCartMutation();
   const [addToCart, { isLoading: addingToCart }] = useAddToCartMutation();
   const [addToVisitorCart, { isLoading: addingToVisitorCart }] =
@@ -62,12 +71,12 @@ const Sticker = (props: propType) => {
     }
   }, []);
 
-  const handleCartItemCount = async () => {
+  const handleCartItemCount = useCallback(async () => {
     try {
       if (authenticated) {
         abortGetCartApi();
         await addToCart({
-          quantity: quantity,
+          quantity: quantityRef.current,
           stickerId: i.stickerId,
         });
         await fetchCart({});
@@ -76,17 +85,25 @@ const Sticker = (props: propType) => {
         await addToVisitorCart({
           id: visitorCartId as string,
           body: {
-            quantity: quantity,
+            quantity: quantityRef.current,
             stickerId: i.stickerId,
           },
         });
         await fetchVisitorCart({ id: visitorCartId as string });
       }
     } catch (err) {}
-  };
+  }, []);
+
+  const debouncedCartItemCount = useMemo(
+    () => debounce(handleCartItemCount, 300),
+    [handleCartItemCount]
+  );
 
   useEffect(() => {
-    handleCartItemCount();
+    quantityRef.current = quantity;
+    debouncedCartItemCount();
+
+    return () => debouncedCartItemCount.cancel();
   }, [quantity]);
 
   const handleRemoveItem = async () => {
@@ -178,7 +195,7 @@ const Sticker = (props: propType) => {
           <ItemCount
             quantity={quantity}
             setQuantity={setQuantity}
-            disable={false}
+            disable={addingToCart || addingToVisitorCart}
           />
         </div>
       </div>

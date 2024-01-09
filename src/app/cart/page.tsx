@@ -1,3 +1,4 @@
+"use client";
 import Cart from "../components/Cart";
 import WithHeader from "../components/HOC/withHeader";
 

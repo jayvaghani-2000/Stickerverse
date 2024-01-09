@@ -14,6 +14,12 @@ import { prepareHeaders } from "../../utils/tokenManager";
 let controller: any;
 controller = new AbortController();
 
+let updateController: any;
+updateController = new AbortController();
+
+let removeController: any;
+removeController = new AbortController();
+
 export const visitorCartApi = createApi({
   reducerPath: "visitorCartApi",
   baseQuery: fetchBaseQuery({
@@ -97,4 +103,13 @@ export const {
 export const abortGetVisitorCartApi = () => {
   controller.abort();
   controller = new AbortController();
+};
+
+export const abortVisitorUpdateCartApi = () => {
+  updateController.abort();
+  updateController = new AbortController();
+};
+export const abortVisitorRemoveCartApi = () => {
+  removeController.abort();
+  removeController = new AbortController();
 };

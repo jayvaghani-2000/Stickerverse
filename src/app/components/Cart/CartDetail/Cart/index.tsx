@@ -4,12 +4,16 @@ import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 import { useAuthStore } from "@/app/store/authentication";
 import {
   abortGetCartApi,
+  abortRemoveCartApi,
+  abortUpdateCartApi,
   useLazyGetUserCartQuery,
   useRemoveFromToCartMutation,
 } from "@/app/store/cart/api";
 import { useVisitorCartStore } from "@/app/store/visitorCart";
 import {
   abortGetVisitorCartApi,
+  abortVisitorRemoveCartApi,
+  abortVisitorUpdateCartApi,
   useLazyGetVisitorCartQuery,
   useRemoveFromToVisitorCartMutation,
 } from "@/app/store/visitorCart/api";
@@ -64,6 +68,8 @@ const Cart = (props: propType) => {
     try {
       if (authenticated) {
         abortGetCartApi();
+        abortUpdateCartApi();
+        abortRemoveCartApi();
         const res = await removeFromCart({ stickerIds: selectedItem });
         if ("data" in res && res.data.success) {
           await fetchCart({});
@@ -71,6 +77,8 @@ const Cart = (props: propType) => {
         }
       } else {
         abortGetVisitorCartApi();
+        abortVisitorUpdateCartApi();
+        abortVisitorRemoveCartApi();
         const res = await removeFromVisitorCart({
           cartId: visitorCartId as string,
           body: { stickerIds: selectedItem },
@@ -89,6 +97,8 @@ const Cart = (props: propType) => {
     removingFromVisitorCart ||
     loadingGettingVisitorCart;
 
+  const cartItemId = userCart.map(i => i.stickerId);
+
   return (
     <div className="col-span-9 sm:col-span-5 lg:col-span-6 bg-coffee">
       <div className="flex justify-between items-center  px-4 sm:px-5 md:px-7 py-3 sm:py-4 md:py-5 border-b-2 border-dashed border-lightGray">
@@ -103,7 +113,10 @@ const Cart = (props: propType) => {
           }
           name="selectAll"
           onChange={handleToggleSelectAll}
-          value={userCart.length === selectedItem.length}
+          value={
+            userCart.length ===
+            selectedItem.filter(i => cartItemId.includes(i)).length
+          }
         />
         <Button
           typography="subtitle2"

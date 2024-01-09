@@ -11,6 +11,12 @@ import { prepareHeaders } from "./../../utils/tokenManager";
 let controller: any;
 controller = new AbortController();
 
+let updateController: any;
+updateController = new AbortController();
+
+let removeController: any;
+removeController = new AbortController();
+
 export const cartApi = createApi({
   reducerPath: "cartApi",
   baseQuery: fetchBaseQuery({
@@ -39,6 +45,7 @@ export const cartApi = createApi({
         url: `/api/cart`,
         method: "POST",
         body: body,
+        signal: updateController.signal,
       }),
       transformResponse: (response: { cart: getCartType }) => {
         if (response?.cart) {
@@ -52,6 +59,7 @@ export const cartApi = createApi({
         url: `/api/cart`,
         method: "DELETE",
         body: body,
+        signal: removeController.signal,
       }),
       transformResponse: (response: { success: boolean }) => {
         if (response?.success) {
@@ -73,4 +81,13 @@ export const {
 export const abortGetCartApi = () => {
   controller.abort();
   controller = new AbortController();
+};
+
+export const abortUpdateCartApi = () => {
+  updateController.abort();
+  updateController = new AbortController();
+};
+export const abortRemoveCartApi = () => {
+  removeController.abort();
+  removeController = new AbortController();
 };
