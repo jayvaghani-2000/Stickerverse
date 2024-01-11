@@ -25,9 +25,8 @@ model user {
   orders      order[]
   cart        cart[]
   payment     payment[]
-  avatar      avatar[]
   rating      rating[]
-  wistlist    wistlist[]
+  wishlist    wishlist[]
   userAddress userAddress[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @default(now()) @updatedAt
@@ -60,7 +59,7 @@ model sticker {
   orderItem    orderItem[]
   cartItem     cartItem[]
   rating       rating[]
-  wistlistItem wistlistItem[]
+  wishlistItem wishlistItem[]
   slug         String         @unique
 }
 
@@ -72,18 +71,6 @@ model image {
   width     Int
   sticker   sticker @relation(fields: [stickerId], references: [id], onDelete: Cascade)
   stickerId Int
-}
-
-model avatar {
-  id        Int      @id @default(autoincrement())
-  url       String
-  blurUrl   String
-  height    Int
-  width     Int
-  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model order {
@@ -160,19 +147,18 @@ model rating {
   updatedAt DateTime @updatedAt
 }
 
-model wistlist {
-  id        Int            @id @default(autoincrement())
+model wishlist {
   user      user           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String         @db.Uuid
-  items     wistlistItem[]
+  userId    String         @id @db.Uuid
+  items     wishlistItem[]
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
 }
 
-model wistlistItem {
+model wishlistItem {
   id         Int      @id @default(autoincrement())
-  wistlist   wistlist @relation(fields: [wistlistId], references: [id], onDelete: Cascade)
-  wistlistId Int
+  wishlist   wishlist @relation(fields: [wishlistId], references: [userId], onDelete: Cascade)
+  wishlistId String   @db.Uuid
   sticker    sticker  @relation(fields: [stickerId], references: [id], onDelete: Cascade)
   stickerId  Int
   createdAt  DateTime @default(now())
