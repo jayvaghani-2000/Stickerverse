@@ -1,33 +1,29 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ZodError } from "zod";
-import {
-  handleAddToCart,
-  handleDeleteCartItem,
-  handleGetUserCart,
-  handleUpdateCart,
-} from "../helpers/cart";
 import { getTokenData } from "../helpers/utils/getTokenData";
 import { handleErrorMsg } from "../helpers/utils/handleErrorMsg";
 import jwtMiddleware from "../helpers/utils/valiateToken";
+import {
+  handleAddToWishlist,
+  handleDeleteWishlistItem,
+  handleGetUserWishlist,
+} from "../helpers/wishlist";
 
 async function handler(req: NextApiRequest, res: NextApiResponse, user: any) {
   const { id } = getTokenData(user);
   try {
     switch (req.method) {
       case "GET":
-        const cart = await handleGetUserCart(id);
+        const cart = await handleGetUserWishlist(id);
         return res.status(200).json({ cart });
       case "POST":
-        const updatedCart = await handleAddToCart(id, req.body);
-        return res.status(201).json({ cart: updatedCart });
-      case "PUT":
-        const newCart = await handleUpdateCart(id, req.body);
-        return res.status(200).json({ cart: newCart });
+        const updatedWishlist = await handleAddToWishlist(id, req.body);
+        return res.status(201).json({ cart: updatedWishlist });
       case "DELETE":
-        await handleDeleteCartItem(id, req.body);
+        await handleDeleteWishlistItem(id, req.body);
         return res.status(200).json({ success: true });
       default:
-        res.setHeader("Allow", "POST, GET, PUT, DELETE");
+        res.setHeader("Allow", "POST, GET, DELETE");
         return res.status(405).json({ error: "Method not allowed" });
     }
   } catch (error) {

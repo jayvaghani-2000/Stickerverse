@@ -1,5 +1,5 @@
 import prisma from "../../../../prisma";
-import { AddToCartSchema, DeleteCartItemSchema } from "./schema";
+import { AddToWishlistSchema, DeleteWishlistItemSchema } from "./schema";
 
 export async function getWishlist(id: string) {
   return await prisma.wishlistItem.findMany({
@@ -20,76 +20,43 @@ export async function getWishlist(id: string) {
   });
 }
 
-export async function addToCart(id: string, data: unknown) {
-  const payload = AddToCartSchema.parse(data);
+export async function addWishlistCart(id: string, data: unknown) {
+  const payload = AddToWishlistSchema.parse(data);
 
-  return await prisma.cart.upsert({
+  return await prisma.wishlist.upsert({
     where: {
       userId: id,
     },
     update: {
       userId: id,
       items: {
-        upsert: [
-          {
-            where: {
-              cartId_stickerId: {
-                cartId: id,
-                stickerId: payload.stickerId,
-              },
-            },
-            update: {
-              quantity: payload.quantity,
-            },
-            create: {
-              ...payload,
-            },
-          },
-        ],
+        createMany: {
+          data: payload.stickerId.map(i => ({
+            wishlistId: id,
+            stickerId: i,
+          })),
+        },
       },
     },
     create: {
       userId: id,
       items: {
-        create: {
-          ...payload,
+        createMany: {
+          data: payload.stickerId.map(i => ({
+            wishlistId: id,
+            stickerId: i,
+          })),
         },
       },
     },
   });
 }
+export async function deleteWishlistItems(id: string, data: unknown) {
+  const payload = DeleteWishlistItemSchema.parse(data);
 
-export async function updateCartItems(id: string, data: unknown) {
-  const payload = AddToCartSchema.parse(data);
-
-  await prisma.cart.update({
+  await prisma.wishlistItem.deleteMany({
     where: {
-      userId: id,
-    },
-    data: {
-      items: {
-        update: {
-          where: {
-            cartId_stickerId: {
-              cartId: id,
-              stickerId: payload.stickerId,
-            },
-          },
-          data: {
-            quantity: payload.quantity,
-          },
-        },
-      },
-    },
-  });
-}
-
-export async function deleteCartItems(id: string, data: unknown) {
-  const payload = DeleteCartItemSchema.parse(data);
-
-  await prisma.cartItem.deleteMany({
-    where: {
-      cartId: id,
+      wishlistId: id,
       stickerId: { in: payload.stickerIds },
     },
   });
