@@ -13,6 +13,7 @@ import {
   createVisitor,
   getVisitorItemCart,
 } from "../models/visitor-cart";
+import { addWishlistCart, getWishlist } from "../models/wishlist";
 
 export type addStickerType = NonNullable<
   Awaited<ReturnType<typeof postSticker>>
@@ -54,4 +55,12 @@ export type createVisitorType = NonNullable<
 >;
 export type addToVisitorCartType = NonNullable<
   Awaited<ReturnType<typeof addToVisitorCart>>
+>;
+
+export type getWishlistType = NonNullable<
+  Awaited<ReturnType<typeof getWishlist>>
+>;
+
+export type addToWishlistType = NonNullable<
+  Awaited<ReturnType<typeof addWishlistCart>>
 >;

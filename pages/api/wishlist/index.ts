@@ -14,11 +14,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse, user: any) {
   try {
     switch (req.method) {
       case "GET":
-        const cart = await handleGetUserWishlist(id);
-        return res.status(200).json({ cart });
+        const wishlist = await handleGetUserWishlist(id);
+        return res.status(200).json({ wishlist });
       case "POST":
         const updatedWishlist = await handleAddToWishlist(id, req.body);
-        return res.status(201).json({ cart: updatedWishlist });
+        return res.status(201).json({ wishlist: updatedWishlist });
       case "DELETE":
         await handleDeleteWishlistItem(id, req.body);
         return res.status(200).json({ success: true });

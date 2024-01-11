@@ -14,6 +14,7 @@ import stickers from "./stickers";
 import { stickerApi } from "./stickers/api";
 import visitorCart from "./visitorCart";
 import { visitorCartApi } from "./visitorCart/api";
+import wishlist from "./wishlist";
 
 const reducers = combineReducers({
   home,
@@ -23,6 +24,7 @@ const reducers = combineReducers({
   authentication,
   cart,
   visitorCart,
+  wishlist,
   [cartApi.reducerPath]: cartApi.reducer,
   [homeApi.reducerPath]: homeApi.reducer,
   [categoryApi.reducerPath]: categoryApi.reducer,

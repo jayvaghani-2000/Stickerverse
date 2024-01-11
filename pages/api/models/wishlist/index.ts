@@ -31,8 +31,7 @@ export async function addWishlistCart(id: string, data: unknown) {
       userId: id,
       items: {
         createMany: {
-          data: payload.stickerId.map(i => ({
-            wishlistId: id,
+          data: payload.stickerIds.map(i => ({
             stickerId: i,
           })),
         },
@@ -42,8 +41,7 @@ export async function addWishlistCart(id: string, data: unknown) {
       userId: id,
       items: {
         createMany: {
-          data: payload.stickerId.map(i => ({
-            wishlistId: id,
+          data: payload.stickerIds.map(i => ({
             stickerId: i,
           })),
         },

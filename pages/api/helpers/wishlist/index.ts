@@ -6,8 +6,8 @@ import {
 
 export const handleGetUserWishlist = async (id: string) => {
   try {
-    const cart = await getWishlist(id);
-    return cart;
+    const wishlist = await getWishlist(id);
+    return wishlist;
   } catch (err) {
     throw err;
   }
@@ -15,8 +15,8 @@ export const handleGetUserWishlist = async (id: string) => {
 
 export const handleAddToWishlist = async (id: string, data: unknown) => {
   try {
-    const cart = await addWishlistCart(id, data);
-    return cart;
+    const wishlist = await addWishlistCart(id, data);
+    return wishlist;
   } catch (err) {
     throw err;
   }
@@ -24,8 +24,8 @@ export const handleAddToWishlist = async (id: string, data: unknown) => {
 
 export const handleDeleteWishlistItem = async (id: string, data: unknown) => {
   try {
-    const cart = await deleteWishlistItems(id, data);
-    return cart;
+    const wishlist = await deleteWishlistItems(id, data);
+    return wishlist;
   } catch (err) {
     throw err;
   }

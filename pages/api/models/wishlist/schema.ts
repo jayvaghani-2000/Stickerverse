@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export type AddToWishlist = z.infer<typeof AddToWishlistSchema>;
 export const AddToWishlistSchema = z.object({
-  stickerId: z.array(z.number()),
+  stickerIds: z.array(z.number()),
 });
 
 export type DeleteWishlistItem = z.infer<typeof DeleteWishlistItemSchema>;
