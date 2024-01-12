@@ -29,6 +29,7 @@ const config: Config = {
         darkYellow: "#FF9400",
         gray: "#e2dfda",
         placeholder: "#6c6c6c",
+        darkGray: "#b6b6b6",
         yellow: "#FFE248",
         grayStar: "#e4e4e4",
         coffee: "#f3efea",

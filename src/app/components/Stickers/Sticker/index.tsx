@@ -17,6 +17,7 @@ import { MotionImage } from "../../MotionImage";
 import Button from "../../Shared/Button";
 import InlineSpinner from "../../Shared/InlineSpinner";
 import ItemCount from "../../Shared/ItemCount";
+import WishlistItem from "../../Shared/WishlistItem";
 import styles from "../stickers.module.scss";
 
 const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
@@ -91,7 +92,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
         {...productClickEffect()}
       >
         <motion.div
-          className={`${imageClass} py-[10px] sm:py-[15px] md:py-[20px] bg-white border-2 border-black `}
+          className={`${imageClass} relative py-[10px] sm:py-[15px] md:py-[20px] bg-white border-2 border-black `}
         >
           <div
             className={`h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden  bg-white flex justify-center items-center`}
@@ -106,6 +107,9 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
               style={{ objectFit: "cover" }}
               sizes={getImageSize()}
             />
+          </div>
+          <div className="absolute z-10 bottom-1 right-1 sm:bottom-2 sm:right-2">
+            <WishlistItem />
           </div>
         </motion.div>
         <div className="flex-1 flex flex-col items-center pt-[5px] md:pt-[10px]  pb-[30px] sm:pb-[40px] md:pb-[80px] overflow-hidden">

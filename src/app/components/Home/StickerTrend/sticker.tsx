@@ -17,6 +17,7 @@ import { MotionImage } from "../../MotionImage";
 import InlineSpinner from "../../Shared/InlineSpinner";
 import ItemCount from "../../Shared/ItemCount";
 import Rating from "../../Shared/Rating";
+import WishlistItem from "../../Shared/WishlistItem";
 
 const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
   const i = sticker;
@@ -46,7 +47,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
         className="w-[150px] sm:w-[180px] md:w-[240px]  border-2 border-black rounded-2xl bg-white flex flex-col "
         {...productHoverEffect()}
       >
-        <div className="py-[10px] sm:py-[15px] md:py-[20px]">
+        <div className="relative py-[10px] sm:py-[15px] md:py-[20px]">
           <div
             className={`h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden rounded-[30px] bg-white flex justify-center items-center`}
             style={{ aspectRatio: aspectRatio }}
@@ -60,6 +61,9 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
               style={{ objectFit: "cover" }}
               sizes={getImageSize()}
             />
+          </div>
+          <div className="absolute z-10 bottom-1 right-1 sm:bottom-2 sm:right-2">
+            <WishlistItem />
           </div>
         </div>
         <div className="flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">

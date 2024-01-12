@@ -60,7 +60,6 @@ const StickerTrend = () => {
       <div className="relative flex flex-wrap justify-around sm:justify-between gap-[8px] sm:gap-[12px] md:gap-[20px] gap-y-5 sm:gap-y-8 md:gap-y-10 scrollbar-hide ">
         {!isError && trendingSticker.length !== 0
           ? trendingSticker.slice(0, 6).map(i => {
-              const aspectRatio = i.image[0].width / i.image[0].height;
               return <Sticker key={i.id} sticker={i} />;
             })
           : null}
