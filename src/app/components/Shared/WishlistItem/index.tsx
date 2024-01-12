@@ -3,15 +3,17 @@ import { useAuthStore } from "@/app/store/authentication";
 import { setGlobalData } from "@/app/store/global";
 import classNames from "classnames";
 import Icon from "../../Icon";
+import InlineSpinner from "../InlineSpinner";
 import styles from "./wishlistItem.module.scss";
 
 type propType = {
   favorite?: boolean;
   onClick?: () => void;
+  loading?: boolean;
 };
 
 const WishlistItem = (props: propType) => {
-  const { favorite = true, onClick = () => {} } = props;
+  const { favorite = true, onClick = () => {}, loading = false } = props;
   const dispatch = useAppDispatch();
   const { authenticated } = useAuthStore();
 
@@ -25,13 +27,18 @@ const WishlistItem = (props: propType) => {
           onClick();
         }
       }}
+      disabled={loading}
     >
-      <Icon
-        name="heart"
-        className={classNames("h-full w-full", {
-          [styles.isWishlist]: favorite,
-        })}
-      />
+      {loading ? (
+        <InlineSpinner />
+      ) : (
+        <Icon
+          name="heart"
+          className={classNames("h-full w-full", {
+            [styles.isWishlist]: favorite,
+          })}
+        />
+      )}
     </button>
   );
 };

@@ -11,8 +11,8 @@ export type WishlistType = {
 };
 
 export const initialState = {
-  loading: false,
-  wishlist: {} as getWishlistType,
+  loading: true,
+  wishlist: [] as getWishlistType,
 } as WishlistType;
 
 export const wishlistSlice = createSlice({

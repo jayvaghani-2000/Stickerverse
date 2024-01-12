@@ -1,7 +1,12 @@
-import React from "react";
+import WithHeader from "../components/HOC/withHeader";
+import Wishlist from "../components/Wishlist";
 
-const Wishlist = () => {
-  return <div>Wishlist</div>;
+const WishlistPage = () => {
+  return (
+    <WithHeader>
+      <Wishlist />
+    </WithHeader>
+  );
 };
 
-export default Wishlist;
+export default WishlistPage;

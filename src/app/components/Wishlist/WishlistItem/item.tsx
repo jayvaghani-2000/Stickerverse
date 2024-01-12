@@ -17,16 +17,22 @@ import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { trendingStickerType } from "../../../../../pages/api/types";
+import { colors } from ".";
+import { getWishlistType } from "../../../../../pages/api/types";
 import Icon from "../../Icon";
 import { MotionImage } from "../../MotionImage";
 import InlineSpinner from "../../Shared/InlineSpinner";
 import ItemCount from "../../Shared/ItemCount";
-import Rating from "../../Shared/Rating";
 import WishlistItem from "../../Shared/WishlistItem";
 
-const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
-  const i = sticker;
+const Item = ({
+  item,
+  colorIndex,
+}: {
+  item: getWishlistType[0];
+  colorIndex: number;
+}) => {
+  const i = item.sticker;
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -104,13 +110,14 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
             />
           </div>
         </div>
-        <div className="flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue">
+        <div
+          style={{ background: colors[colorIndex] }}
+          className="flex-1 border-t-2 border-black rounded-b-[14px] py-[10px] md:py-[20px] bg-lightBlue"
+        >
           <Typography variant="subtitle2" className="text-center">
             {i.productName}
           </Typography>
-          <div className="flex justify-center">
-            <Rating />
-          </div>
+
           <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
             <Typography variant="body1" className="text-start leading-none	">
               {i.price - 0.01} ₹
@@ -127,7 +134,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                     abortGetCartApi();
                     await handleAddToCart({
                       quantity: quantity,
-                      stickerId: sticker.id,
+                      stickerId: i.id,
                     });
                     await refetchCart();
                     setLoading(false);
@@ -138,7 +145,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                         id: visitorCartId,
                         body: {
                           quantity: quantity,
-                          stickerId: sticker.id,
+                          stickerId: i.id,
                         },
                       });
                       await refetchVisitCart(visitorCartId);
@@ -151,7 +158,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                           id: id,
                           body: {
                             quantity: quantity,
-                            stickerId: sticker.id,
+                            stickerId: i.id,
                           },
                         });
                         await refetchVisitCart(id);
@@ -179,4 +186,4 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
   );
 };
 
-export default Sticker;
+export default Item;

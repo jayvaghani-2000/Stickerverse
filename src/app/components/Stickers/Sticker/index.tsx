@@ -5,6 +5,12 @@ import {
   abortGetVisitorCartApi,
   useAddToVisitorCartMutation,
 } from "@/app/store/visitorCart/api";
+import { useWishlistStore } from "@/app/store/wishlist";
+import {
+  useAddToWishlistMutation,
+  useLazyGetUserWishlistQuery,
+  useRemoveFromWishlistMutation,
+} from "@/app/store/wishlist/api";
 import { productAnimation, productClickEffect } from "@/app/utils/animation";
 import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { getPlatform } from "@/app/utils/getPlatform";
@@ -25,6 +31,14 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const titleBackup = useRef<HTMLHeadingElement>(null!);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [addToWishlist, { isLoading: loadingAddToWishlist }] =
+    useAddToWishlistMutation();
+  const [removeFromWishlist, { isLoading: loadingRemoveFromWishlist }] =
+    useRemoveFromWishlistMutation();
+  const [fetchWishlist, { isLoading: loadingGetWishlist }] =
+    useLazyGetUserWishlistQuery();
+  const { wishlist } = useWishlistStore();
+
   const isTab = useTabScreen();
   const isMobileSize = useMobileScreen();
   const { refetchCart, createCart, refetchVisitCart } = useLocalCart();
@@ -37,6 +51,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const imageClass = `image-${sticker.id}`;
 
   const i = sticker;
+  const isInWishlist = wishlist.findIndex(j => j.stickerId === i.id) > -1;
 
   const getImageSize = () => {
     if (isMobileSize) {
@@ -45,6 +60,19 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
       return "150px";
     }
     return "200px";
+  };
+
+  const handleWishlistItem = async () => {
+    try {
+      if (isInWishlist) {
+        await removeFromWishlist({ stickerIds: [i.id] });
+      } else {
+        await addToWishlist({ stickerIds: [i.id] });
+      }
+    } catch (err) {
+    } finally {
+      await fetchWishlist({});
+    }
   };
 
   useLayoutEffect(() => {
@@ -109,7 +137,15 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
             />
           </div>
           <div className="absolute z-10 bottom-1 right-1 sm:bottom-2 sm:right-2">
-            <WishlistItem />
+            <WishlistItem
+              favorite={isInWishlist}
+              onClick={handleWishlistItem}
+              loading={
+                loadingAddToWishlist ||
+                loadingGetWishlist ||
+                loadingRemoveFromWishlist
+              }
+            />
           </div>
         </motion.div>
         <div className="flex-1 flex flex-col items-center pt-[5px] md:pt-[10px]  pb-[30px] sm:pb-[40px] md:pb-[80px] overflow-hidden">
