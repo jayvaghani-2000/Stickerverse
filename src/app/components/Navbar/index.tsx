@@ -7,6 +7,7 @@ import {
 import { useCartStore } from "@/app/store/cart";
 import { setGlobalData } from "@/app/store/global";
 import { useVisitorCartStore } from "@/app/store/visitorCart";
+import { useWishlistStore } from "@/app/store/wishlist";
 import { activeRoute } from "@/app/utils/activeRoute";
 import { handleRemoveToken } from "@/app/utils/handleSetToken";
 import { paddingSpacing } from "@/app/utils/styles";
@@ -38,6 +39,7 @@ const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
   const { authenticated } = useAuthStore();
   const { cart } = useCartStore();
+  const { wishlist } = useWishlistStore();
   const { cart: visitorCart } = useVisitorCartStore();
   const path = usePathname();
   const dispatch = useAppDispatch();
@@ -212,12 +214,24 @@ const Navbar = () => {
             })}
           />
         </button>
-        <Link
-          href="/wishlist"
-          className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]"
-        >
-          <Icon name="heartBlack" className="h-full w-full" />
-        </Link>
+        {wishlist.length > 0 || authenticated ? (
+          <Link
+            href="/wishlist"
+            className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]"
+          >
+            <Icon
+              name="heartBlack"
+              className={classNames("h-full w-full ", {
+                ["fill-maroon"]: wishlist.length > 0,
+              })}
+            />
+          </Link>
+        ) : (
+          <button className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]">
+            <Icon name="heartBlack" className="h-full w-full " />
+          </button>
+        )}
+
         <Link
           href="/cart"
           className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]"

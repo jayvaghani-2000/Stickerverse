@@ -15,6 +15,7 @@ import { stickerApi } from "./stickers/api";
 import visitorCart from "./visitorCart";
 import { visitorCartApi } from "./visitorCart/api";
 import wishlist from "./wishlist";
+import { wishlistApi } from "./wishlist/api";
 
 const reducers = combineReducers({
   home,
@@ -31,6 +32,7 @@ const reducers = combineReducers({
   [stickerApi.reducerPath]: stickerApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [visitorCartApi.reducerPath]: visitorCartApi.reducer,
+  [wishlistApi.reducerPath]: wishlistApi.reducer,
 });
 
 const store = configureStore({
@@ -45,7 +47,8 @@ const store = configureStore({
       stickerApi.middleware,
       authApi.middleware,
       cartApi.middleware,
-      visitorCartApi.middleware
+      visitorCartApi.middleware,
+      wishlistApi.middleware
     ),
 });
 

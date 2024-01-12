@@ -11,6 +11,7 @@ import {
   useCreateVisitorCartMutation,
   useLazyGetVisitorCartQuery,
 } from "@/app/store/visitorCart/api";
+import { useLazyGetUserWishlistQuery } from "@/app/store/wishlist/api";
 import {
   Dispatch,
   SetStateAction,
@@ -43,6 +44,7 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [createVisitorCart] = useCreateVisitorCartMutation({});
   const [getCart] = useLazyGetUserCartQuery({});
+  const [getWishlist] = useLazyGetUserWishlistQuery({});
   const [getVisitorCart] = useLazyGetVisitorCartQuery({});
 
   const refreshVisitorCart = () => {
@@ -64,6 +66,7 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (authenticated) {
       getCart({});
+      getWishlist({});
     }
   }, [authenticated]);
 

@@ -103,7 +103,7 @@ export const wishlistSlice = createSlice({
 });
 
 const selectWishlist = (state: RootState) => state.wishlist;
-export const useCartStore = () => {
+export const useWishlistStore = () => {
   const wishlist = useSelector(selectWishlist);
   return useMemo(() => wishlist, [wishlist]);
 };
