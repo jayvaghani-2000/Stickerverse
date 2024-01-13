@@ -79,16 +79,17 @@ model image {
 }
 
 model order {
-  id         Int                @id @default(autoincrement())
-  user       user               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String             @db.Uuid
-  items      orderItem[]
-  totalPrice Float
-  address    String
-  createdAt  DateTime           @default(now())
-  updatedAt  DateTime           @updatedAt
-  status     orderPaymentStatus
-  payment    payment[]
+  id                Int          @id @default(autoincrement())
+  user              user         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String       @db.Uuid
+  items             orderItem[]
+  deliveryAddress   userAddress? @relation(fields: [deliveryAddressId], references: [id], onDelete: Cascade)
+  deliveryAddressId String?      @db.Uuid
+  totalPrice        Float
+  address           String
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  payment           payment[]
 }
 
 model orderItem {
@@ -134,15 +135,16 @@ model visitorCart {
 }
 
 model payment {
-  id        Int                @id @default(autoincrement())
-  user      user               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String             @db.Uuid
-  amount    Float
-  status    orderPaymentStatus
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-  order     order              @relation(fields: [orderId], references: [id])
-  orderId   Int
+  id          Int                @id @default(autoincrement())
+  user        user               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String             @db.Uuid
+  orderUniqId String             @unique
+  amount      Float
+  status      orderPaymentStatus
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  order       order              @relation(fields: [orderId], references: [id])
+  orderId     Int
 }
 
 model rating {
@@ -187,4 +189,5 @@ model userAddress {
   postalCode String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  order      order[]
 }
