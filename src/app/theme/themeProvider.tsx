@@ -3,6 +3,7 @@ import {
   ThemeProvider as MuiThemeProvider,
   StyledEngineProvider,
 } from "@mui/material";
+import Script from "next/script";
 import React, { HTMLProps, useEffect, useRef, useState } from "react";
 import { Provider } from "react-redux";
 import Footer from "../components/Footer";
@@ -80,6 +81,7 @@ const ThemeProvider = ({
                   <Toast />
                 </CartProvider>
               </WithAuth>
+              <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
             </body>
           </html>
         </MuiThemeProvider>

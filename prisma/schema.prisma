@@ -15,6 +15,11 @@ enum parentCategory {
   tshirt
 }
 
+enum orderPaymentStatus {
+  pending
+  confirmed
+}
+
 model user {
   id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   username    String?
@@ -74,14 +79,16 @@ model image {
 }
 
 model order {
-  id         Int         @id @default(autoincrement())
-  user       user        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String      @db.Uuid
+  id         Int                @id @default(autoincrement())
+  user       user               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String             @db.Uuid
   items      orderItem[]
   totalPrice Float
   address    String
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+  status     orderPaymentStatus
+  payment    payment[]
 }
 
 model orderItem {
@@ -127,13 +134,15 @@ model visitorCart {
 }
 
 model payment {
-  id        Int      @id @default(autoincrement())
-  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @db.Uuid
+  id        Int                @id @default(autoincrement())
+  user      user               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String             @db.Uuid
   amount    Float
-  status    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  status    orderPaymentStatus
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  order     order              @relation(fields: [orderId], references: [id])
+  orderId   Int
 }
 
 model rating {
