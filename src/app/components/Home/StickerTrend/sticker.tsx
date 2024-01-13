@@ -7,6 +7,7 @@ import {
 } from "@/app/store/visitorCart/api";
 import { useWishlistStore } from "@/app/store/wishlist";
 import {
+  abortGeWishlistApi,
   useAddToWishlistMutation,
   useLazyGetUserWishlistQuery,
   useRemoveFromWishlistMutation,
@@ -58,6 +59,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
   const isInWishlist = wishlist.findIndex(j => j.stickerId === i.id) > -1;
 
   const handleWishlistItem = async () => {
+    abortGeWishlistApi();
     try {
       if (isInWishlist) {
         await removeFromWishlist({ stickerIds: [i.id] });

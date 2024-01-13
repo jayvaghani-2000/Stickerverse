@@ -81,7 +81,7 @@ export const {
   useRemoveFromWishlistMutation,
 } = wishlistApi;
 
-export const abortGetCartApi = () => {
+export const abortGeWishlistApi = () => {
   controller.abort();
   controller = new AbortController();
 };

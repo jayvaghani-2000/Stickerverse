@@ -9,7 +9,13 @@ import Nova from "../Font/nova";
 import Loader from "../Loader";
 
 const loginRoute = ["/auth/login"];
-const authRoute = ["/auth/password", "/auth/verify", "/orders", "/profile"];
+const authRoute = [
+  "/auth/password",
+  "/auth/verify",
+  "/orders",
+  "/profile",
+  "/wishlist",
+];
 
 const privateTillAuthRoute = [
   "/auth/login",
@@ -17,6 +23,7 @@ const privateTillAuthRoute = [
   "/auth/verify",
   "/orders",
   "/profile",
+  "/wishlist",
 ];
 
 const WithAuth = ({ children }: { children: React.ReactNode }) => {

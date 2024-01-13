@@ -7,6 +7,7 @@ import {
 } from "@/app/store/visitorCart/api";
 import { useWishlistStore } from "@/app/store/wishlist";
 import {
+  abortGeWishlistApi,
   useAddToWishlistMutation,
   useLazyGetUserWishlistQuery,
   useRemoveFromWishlistMutation,
@@ -63,6 +64,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   };
 
   const handleWishlistItem = async () => {
+    abortGeWishlistApi();
     try {
       if (isInWishlist) {
         await removeFromWishlist({ stickerIds: [i.id] });

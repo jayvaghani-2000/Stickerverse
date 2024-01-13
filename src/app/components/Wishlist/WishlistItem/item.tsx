@@ -7,6 +7,7 @@ import {
 } from "@/app/store/visitorCart/api";
 import { useWishlistStore } from "@/app/store/wishlist";
 import {
+  abortGeWishlistApi,
   useAddToWishlistMutation,
   useLazyGetUserWishlistQuery,
   useRemoveFromWishlistMutation,
@@ -64,6 +65,7 @@ const Item = ({
   const isInWishlist = wishlist.findIndex(j => j.stickerId === i.id) > -1;
 
   const handleWishlistItem = async () => {
+    abortGeWishlistApi();
     try {
       if (isInWishlist) {
         await removeFromWishlist({ stickerIds: [i.id] });
@@ -98,8 +100,9 @@ const Item = ({
               sizes={getImageSize()}
             />
           </div>
-          <div className="absolute z-10 bottom-1 right-1 sm:bottom-2 sm:right-2">
+          <div className="absolute z-10 top-1 right-1 sm:top-2 sm:right-2">
             <WishlistItem
+              icon="cross"
               favorite={isInWishlist}
               onClick={handleWishlistItem}
               loading={
@@ -119,8 +122,17 @@ const Item = ({
           </Typography>
 
           <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
-            <Typography variant="body1" className="text-start leading-none	">
-              {i.price - 0.01} ₹
+            <Typography
+              variant="body1"
+              className="text-start leading-none	font-semibold"
+            >
+              MRP.
+            </Typography>
+            <Typography
+              variant="body1"
+              className="text-start leading-none	font-semibold text-lightRed"
+            >
+              ₹{i.price - 0.01}
             </Typography>
           </div>
           <div className="ml-[20px] md:ml-[24px] relative flex justify-center items-center mt-1 sm:mt-2 md:mt-3">

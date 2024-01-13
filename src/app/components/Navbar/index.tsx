@@ -227,7 +227,16 @@ const Navbar = () => {
             />
           </Link>
         ) : (
-          <button className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]">
+          <button
+            className="h-[22px] md:h-[25px] w-[22px] md:w-[25px]"
+            onClick={() => {
+              dispatch(
+                setGlobalData({
+                  showLogin: true,
+                })
+              );
+            }}
+          >
             <Icon name="heartBlack" className="h-full w-full " />
           </button>
         )}

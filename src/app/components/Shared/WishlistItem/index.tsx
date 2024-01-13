@@ -10,10 +10,16 @@ type propType = {
   favorite?: boolean;
   onClick?: () => void;
   loading?: boolean;
+  icon?: string;
 };
 
 const WishlistItem = (props: propType) => {
-  const { favorite = true, onClick = () => {}, loading = false } = props;
+  const {
+    favorite = true,
+    onClick = () => {},
+    loading = false,
+    icon = "heart",
+  } = props;
   const dispatch = useAppDispatch();
   const { authenticated } = useAuthStore();
 
@@ -33,7 +39,7 @@ const WishlistItem = (props: propType) => {
         <InlineSpinner />
       ) : (
         <Icon
-          name="heart"
+          name={icon}
           className={classNames("h-full w-full", {
             [styles.isWishlist]: favorite,
           })}
