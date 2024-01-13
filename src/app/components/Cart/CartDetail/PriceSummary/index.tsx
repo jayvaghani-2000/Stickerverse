@@ -40,7 +40,6 @@ const PriceSummary = (props: propType) => {
           email: profile.email,
           contact: profile.phone,
         },
-        redirect: true,
         notes: {
           address: "Razorpay Corporate Office",
         },
