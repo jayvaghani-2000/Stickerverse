@@ -34,7 +34,7 @@ const PriceSummary = (props: propType) => {
         description: "Place order on stickerverse",
         image: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/logo/logo.png`,
         order_id: res.data.id,
-        callback_url: "http://localhost:4000/api/paymentverification",
+        callback_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout/payment-verification`,
         token: token,
         prefill: {
           name: profile.user_metadata.name,
