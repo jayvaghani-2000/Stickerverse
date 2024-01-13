@@ -25,7 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             },
           });
           res.status(302);
-          return res.redirect("https://jayvaghani.info/");
+          return res.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/stickers`);
         } else {
           return res.status(400).json({
             success: false,
