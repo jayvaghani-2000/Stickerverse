@@ -24,7 +24,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               status: orderPaymentStatus.confirmed,
             },
           });
-          res.status(302);
+          res.status(307);
           return res.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/stickers`);
         } else {
           return res.status(400).json({
