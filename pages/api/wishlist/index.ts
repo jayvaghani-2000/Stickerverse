@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { ZodError } from "zod";
 import { getTokenData } from "../helpers/utils/getTokenData";
 import { handleErrorMsg } from "../helpers/utils/handleErrorMsg";
-import jwtMiddleware from "../helpers/utils/valiateToken";
+import jwtMiddleware from "../helpers/utils/validateToken";
 import {
   handleAddToWishlist,
   handleDeleteWishlistItem,

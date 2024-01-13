@@ -8,7 +8,7 @@ import {
 } from "../helpers/cart";
 import { getTokenData } from "../helpers/utils/getTokenData";
 import { handleErrorMsg } from "../helpers/utils/handleErrorMsg";
-import jwtMiddleware from "../helpers/utils/valiateToken";
+import jwtMiddleware from "../helpers/utils/validateToken";
 
 async function handler(req: NextApiRequest, res: NextApiResponse, user: any) {
   const { id } = getTokenData(user);

@@ -7,6 +7,7 @@ import cart from "./cart";
 import { cartApi } from "./cart/api";
 import category from "./category";
 import { categoryApi } from "./category/api";
+import { checkoutApi } from "./checkout/api";
 import global from "./global";
 import home from "./home";
 import { homeApi } from "./home/api";
@@ -33,6 +34,7 @@ const reducers = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [visitorCartApi.reducerPath]: visitorCartApi.reducer,
   [wishlistApi.reducerPath]: wishlistApi.reducer,
+  [checkoutApi.reducerPath]: checkoutApi.reducer,
 });
 
 const store = configureStore({
@@ -48,7 +50,8 @@ const store = configureStore({
       authApi.middleware,
       cartApi.middleware,
       visitorCartApi.middleware,
-      wishlistApi.middleware
+      wishlistApi.middleware,
+      checkoutApi.middleware
     ),
 });
 

@@ -3,15 +3,15 @@ import { ZodError } from "zod";
 import { handleInitiateCheckout } from "../helpers/checkout";
 import { getTokenData } from "../helpers/utils/getTokenData";
 import { handleErrorMsg } from "../helpers/utils/handleErrorMsg";
-import jwtMiddleware from "../helpers/utils/valiateToken";
+import jwtMiddleware from "../helpers/utils/validateToken";
 
 async function handler(req: NextApiRequest, res: NextApiResponse, user: any) {
   const { id } = getTokenData(user);
   try {
     switch (req.method) {
       case "POST":
-        const cart = await handleInitiateCheckout(id, req.body);
-        return res.status(200).json({ cart });
+        const order = await handleInitiateCheckout(id, req.body);
+        return res.status(200).json({ order });
 
       default:
         res.setHeader("Allow", "POST");
