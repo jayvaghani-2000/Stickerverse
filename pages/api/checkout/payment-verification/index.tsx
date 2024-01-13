@@ -24,7 +24,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               status: orderPaymentStatus.confirmed,
             },
           });
-          res.redirect("https://jayvaghani.info");
+          res.redirect("https://www.jayvaghani.info/");
         } else {
           res.status(400).json({
             success: false,
