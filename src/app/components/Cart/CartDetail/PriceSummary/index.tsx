@@ -30,7 +30,7 @@ const PriceSummary = (props: propType) => {
         key: process.env.RAZORPAY_API_KEY,
         amount: res.data.amount,
         currency: "INR",
-        name: profile.user_metadata.name,
+        name: "Sticker Verse",
         description: "Place order on stickerverse",
         image: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/logo/logo.png`,
         order_id: res.data.id,
