@@ -15,6 +15,18 @@ export const handleInitiateOrder = async (
     },
   });
 
+  const payment = await prisma.payment.create({
+    data: {
+      orderUniqId: orderId,
+      userId: id,
+      amount: amount,
+      status: orderPaymentStatus.pending,
+    },
+    select: {
+      id: true,
+    },
+  });
+
   return await prisma.order.create({
     data: {
       address: "",
@@ -28,14 +40,7 @@ export const handleInitiateOrder = async (
           })),
         },
       },
-      payment: {
-        create: {
-          orderUniqId: orderId,
-          userId: id,
-          amount: amount,
-          status: orderPaymentStatus.pending,
-        },
-      },
+      paymentId: payment.id,
     },
     select: {
       id: true,
