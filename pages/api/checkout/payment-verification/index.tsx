@@ -24,7 +24,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               status: orderPaymentStatus.confirmed,
             },
           });
-          return res.writeHead(302, { location: "/stickers" }).end();
+          return res
+            .writeHead(302, {
+              location: `/order-placed?id=${razorpay_order_id}`,
+            })
+            .end();
         } else {
           return res.status(400).json({
             success: false,
