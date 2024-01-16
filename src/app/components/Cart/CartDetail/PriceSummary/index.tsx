@@ -4,6 +4,7 @@ import Button from "@/app/components/Shared/Button";
 import { useAuthStore } from "@/app/store/authentication";
 import { useInitiateOrderMutation } from "@/app/store/checkout/api";
 import { Typography } from "@mui/material";
+import { activeStep } from "..";
 import {
   getCartType,
   getVisitorCartType,
@@ -11,11 +12,13 @@ import {
 
 type propType = {
   userCart: getCartType | getVisitorCartType;
+  handleUpdateCurrentStep: (step: activeStep) => void;
+  currentStep: activeStep;
 };
 
 const PriceSummary = (props: propType) => {
-  const { userCart } = props;
-  const { profile, token } = useAuthStore();
+  const { userCart, handleUpdateCurrentStep, currentStep } = props;
+  const { profile } = useAuthStore();
   const [initiateOrder] = useInitiateOrderMutation();
 
   const total = userCart.reduce((prev, curr) => {
@@ -77,7 +80,12 @@ const PriceSummary = (props: propType) => {
         variant="mild-rounded-shadow"
         className="w-full bg-lightGreen hover:bg-lightGreen"
         onClick={() => {
-          handleInitiateOrder();
+          if (currentStep === activeStep.CART) {
+            handleUpdateCurrentStep(activeStep.ADDRESS);
+          } else if (currentStep === activeStep.ADDRESS) {
+            handleUpdateCurrentStep(activeStep.PLACE_ORDER);
+            handleInitiateOrder();
+          }
         }}
       >
         Place Order

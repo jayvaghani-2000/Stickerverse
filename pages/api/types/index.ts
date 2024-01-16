@@ -1,4 +1,5 @@
 import { handleAddToCart } from "../helpers/cart";
+import { getUserAddress } from "../models/address";
 import { getCart } from "../models/cart";
 import { getStickerCategory } from "../models/category/sticker";
 import {
@@ -63,4 +64,8 @@ export type getWishlistType = NonNullable<
 
 export type addToWishlistType = NonNullable<
   Awaited<ReturnType<typeof addWishlistCart>>
+>;
+
+export type getAddressType = NonNullable<
+  Awaited<ReturnType<typeof getUserAddress>>
 >;

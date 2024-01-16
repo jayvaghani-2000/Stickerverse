@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { combineReducers } from "redux";
+import address from "./address";
+import { addressApi } from "./address/api";
 import authentication from "./authentication";
 import { authApi } from "./authentication/api";
 import cart from "./cart";
@@ -27,6 +29,7 @@ const reducers = combineReducers({
   cart,
   visitorCart,
   wishlist,
+  address,
   [cartApi.reducerPath]: cartApi.reducer,
   [homeApi.reducerPath]: homeApi.reducer,
   [categoryApi.reducerPath]: categoryApi.reducer,
@@ -35,6 +38,7 @@ const reducers = combineReducers({
   [visitorCartApi.reducerPath]: visitorCartApi.reducer,
   [wishlistApi.reducerPath]: wishlistApi.reducer,
   [checkoutApi.reducerPath]: checkoutApi.reducer,
+  [addressApi.reducerPath]: addressApi.reducer,
 });
 
 const store = configureStore({
@@ -51,7 +55,8 @@ const store = configureStore({
       cartApi.middleware,
       visitorCartApi.middleware,
       wishlistApi.middleware,
-      checkoutApi.middleware
+      checkoutApi.middleware,
+      addressApi.middleware
     ),
 });
 
