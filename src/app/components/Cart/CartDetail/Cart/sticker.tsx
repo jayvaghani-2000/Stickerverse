@@ -46,6 +46,7 @@ const Sticker = (props: propType) => {
   const { item: i, handleSelectItems, selectedItem } = props;
   const [quantity, setQuantity] = useState(i.quantity);
   const quantityRef = useRef(i.quantity);
+  const loadedRef = useRef(false);
   const [removeFromCart, { isLoading }] = useRemoveFromToCartMutation();
   const [addToCart, { isLoading: addingToCart }] = useAddToCartMutation();
   const [addToVisitorCart, { isLoading: addingToVisitorCart }] =
@@ -100,6 +101,10 @@ const Sticker = (props: propType) => {
   );
 
   useEffect(() => {
+    if (!loadedRef.current) {
+      loadedRef.current = true;
+      return;
+    }
     quantityRef.current = quantity;
     debouncedCartItemCount();
 

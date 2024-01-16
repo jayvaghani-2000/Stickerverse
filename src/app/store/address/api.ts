@@ -1,4 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setAddressData } from ".";
+import store from "..";
 import { AddAddress } from "../../../../pages/api/models/address/schema";
 import { getAddressType } from "../../../../pages/api/types";
 import { prepareHeaders } from "./../../utils/tokenManager";
@@ -17,9 +19,11 @@ export const addressApi = createApi({
         url: "/api/address",
         method: "GET",
       }),
-      transformResponse: (response: { address: getAddressType }) => {
-        if (response?.address) {
-          return response.address;
+      transformResponse: (response: { addresses: getAddressType }) => {
+        if (response?.addresses) {
+          store.dispatch(setAddressData({ address: response.addresses }));
+
+          return response.addresses;
         }
         return {} as getAddressType;
       },

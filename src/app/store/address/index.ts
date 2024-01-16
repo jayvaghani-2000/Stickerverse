@@ -11,7 +11,7 @@ export type AddressType = {
 };
 
 export const initialState = {
-  loading: false,
+  loading: true,
   address: [] as getAddressType,
 } as AddressType;
 
