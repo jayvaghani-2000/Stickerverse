@@ -16,14 +16,17 @@ const mildRoundedShadow: className =
   "gap-1 items-center border-solid	normal-case px-4 sm:px-5 md:px-6 py-2 rounded-4 shadow-primaryShadow disabled:opacity-100 disabled:cursor-not-allowed";
 const roundedShadowFlat: className =
   "gap-1 items-center border-solid	normal-case px-3 sm:px-4 md:px-5 py-1 border-2 border-black rounded-full shadow-primaryShadow disabled:opacity-100 disabled:cursor-not-allowed ";
+const rounded: className =
+  "gap-1 items-center border-solid	normal-case px-3 sm:px-4 md:px-5 py-1 sm:py-2 border-2 border-black rounded-full disabled:opacity-100 disabled:cursor-not-allowed ";
 const borderBottom: className =
-  "gap-1 items-center border-solid	normal-case px-0 py-0 border-b-2 disabled:opacity-100 disabled:cursor-not-allowed rounded-none";
+  "gap-1 items-center border-solid normal-case px-0 py-0 border-b-2 disabled:opacity-100 disabled:cursor-not-allowed rounded-none";
 
 const variants = {
   "rounded-shadow": roundedShadow,
   "rounded-shadow-flat": roundedShadowFlat,
   "border-bottom": borderBottom,
   "mild-rounded-shadow": mildRoundedShadow,
+  rounded: rounded,
 };
 
 type propType = {

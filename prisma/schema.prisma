@@ -186,7 +186,7 @@ model userAddress {
   address1   String
   address2   String?
   state      String
-  postalCode String
+  postalCode Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   contact    String?

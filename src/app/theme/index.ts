@@ -185,6 +185,7 @@ const theme = createTheme({
       fontWeight: "600",
       lineHeight: "1.5",
       fontSize: "15px",
+      textTransform: "none",
       "@media (max-width:900px)": {
         fontSize: "13px",
       },

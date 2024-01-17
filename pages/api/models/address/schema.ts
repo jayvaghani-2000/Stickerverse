@@ -6,7 +6,7 @@ export const AddAddressSchema = z.object({
   address1: z.string(),
   address2: z.string().optional().nullable(),
   state: z.string(),
-  postalCode: z.string(),
+  postalCode: z.number(),
   contact: z.string().optional().nullable(),
   name: z.string().optional().nullable(),
   default: z.boolean().default(false),

@@ -1,18 +1,23 @@
-//https://api.postalpincode.in/pincode/395006
+import Button from "@/app/components/Shared/Button";
 import Checkbox from "@/app/components/Shared/Checkbox";
 import Forms from "@/app/components/Shared/Forms";
 import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 import Text from "@/app/components/Shared/Input/Text";
 import { FormPropType } from "@/app/components/Shared/Types/formPropsTypes";
 import { useAppDispatch } from "@/app/store";
+import { useAddUserAddressMutation } from "@/app/store/address/api";
 import { useAuthStore } from "@/app/store/authentication";
 import { setGlobalData } from "@/app/store/global";
-import { handleGetLocation } from "@/app/utils/getLocation";
+import {
+  handleGetLocation,
+  handleGetPostalCodeData,
+} from "@/app/utils/getLocation";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Typography } from "@mui/material";
 import { FormikValues } from "formik";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
+import { AddAddress } from "../../../../../../pages/api/models/address/schema";
 
 const AddressFormFields = (
   props: FormPropType & {
@@ -21,7 +26,7 @@ const AddressFormFields = (
 ) => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
-
+  const [loadingZipCodeData, setLoadingZipCodeData] = useState(false);
   const {
     handleChange,
     setFieldValue,
@@ -33,10 +38,25 @@ const AddressFormFields = (
     isGeolocationSupported,
   } = props;
 
-  const getLocation = async () => {};
+  const getLocation = async () => {
+    setLoadingZipCodeData(true);
+    try {
+      const location = await handleGetPostalCodeData(values.postalCode);
+
+      Object.keys(location).forEach(i => {
+        const key = i as keyof typeof location;
+        if (location[key]) {
+          setFieldValue(key, location[key]);
+        }
+      });
+    } catch (err) {
+    } finally {
+      setLoadingZipCodeData(false);
+    }
+  };
 
   useEffect(() => {
-    if (values.postalCode.length === 6) {
+    if (String(values.postalCode).length === 6) {
       getLocation();
     }
   }, [values.postalCode]);
@@ -124,6 +144,7 @@ const AddressFormFields = (
             name="postalCode"
             placeholder="Pin Code"
             onBlur={handleBlur}
+            disabled={loadingZipCodeData}
             onChange={e => {
               const value = e.target.value;
               if (value.length <= 6) {
@@ -160,6 +181,7 @@ const AddressFormFields = (
           />
           <Text
             type="text"
+            disabled={loadingZipCodeData}
             onBlur={handleBlur}
             name="city"
             placeholder="City"
@@ -169,6 +191,7 @@ const AddressFormFields = (
           />
           <Text
             type="text"
+            disabled={loadingZipCodeData}
             onBlur={handleBlur}
             name="state"
             placeholder="State"
@@ -192,6 +215,16 @@ const AddressFormFields = (
             </Typography>
           }
         />
+      </div>
+      <div className="mt-4 text-center">
+        <Button
+          variant="rounded"
+          type="submit"
+          className="bg-black hover:bg-black text-white"
+          disabled={isSubmitting}
+        >
+          Add New Address {isSubmitting && <InlineSpinner />}
+        </Button>
       </div>
     </div>
   );
@@ -219,8 +252,13 @@ const AddressForm = ({
 }: {
   isGeolocationSupported: boolean;
 }) => {
+  const [addAddress] = useAddUserAddressMutation();
   const { profile } = useAuthStore();
-  const handleAddAddress = async (value: FormikValues) => {};
+  const handleAddAddress = async (value: FormikValues) => {
+    try {
+      await addAddress(value as AddAddress);
+    } catch (err) {}
+  };
 
   return (
     <div className="mt-1 sm:mt-2 px-3 sm:px-4 md:px-5 py-3 sm:py-4 md:py-5 max-w-[600px]  bg-coffee">
