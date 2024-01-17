@@ -41,7 +41,24 @@ export const addressApi = createApi({
         return false;
       },
     }),
+    deleteUserAddress: builder.mutation({
+      query: (id: string) => ({
+        url: `/api/address/${id}`,
+        method: "DELETE",
+      }),
+      transformResponse: (response: { success: boolean }) => {
+        if (response?.success) {
+          return response.success;
+        }
+        return false;
+      },
+    }),
   }),
 });
 
-export const { useAddUserAddressMutation, useGetUserAddressQuery } = addressApi;
+export const {
+  useAddUserAddressMutation,
+  useGetUserAddressQuery,
+  useDeleteUserAddressMutation,
+  useLazyGetUserAddressQuery,
+} = addressApi;

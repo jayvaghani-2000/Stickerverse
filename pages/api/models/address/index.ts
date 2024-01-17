@@ -28,6 +28,18 @@ export async function getUserAddress(id: string) {
   return await prisma.userAddress.findMany({
     where: {
       userId: id,
+      shallowDeleted: false,
+    },
+  });
+}
+
+export async function deleteUserAddress(id: string) {
+  return await prisma.userAddress.update({
+    where: {
+      id: id,
+    },
+    data: {
+      shallowDeleted: true,
     },
   });
 }

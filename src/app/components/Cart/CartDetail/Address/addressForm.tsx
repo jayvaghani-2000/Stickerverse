@@ -5,7 +5,10 @@ import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 import Text from "@/app/components/Shared/Input/Text";
 import { FormPropType } from "@/app/components/Shared/Types/formPropsTypes";
 import { useAppDispatch } from "@/app/store";
-import { useAddUserAddressMutation } from "@/app/store/address/api";
+import {
+  useAddUserAddressMutation,
+  useLazyGetUserAddressQuery,
+} from "@/app/store/address/api";
 import { useAuthStore } from "@/app/store/authentication";
 import { setGlobalData } from "@/app/store/global";
 import {
@@ -222,7 +225,7 @@ const AddressFormFields = (
         <Button
           variant="rounded"
           type="submit"
-          className="bg-black hover:bg-black text-white"
+          className="bg-black hover:bg-black text-white disabled:text-white"
           disabled={isSubmitting}
         >
           Add New Address {isSubmitting && <InlineSpinner />}
@@ -254,11 +257,18 @@ const AddressForm = ({
 }: {
   isGeolocationSupported: boolean;
 }) => {
+  const [getAddress] = useLazyGetUserAddressQuery();
   const [addAddress] = useAddUserAddressMutation();
   const { profile } = useAuthStore();
   const handleAddAddress = async (value: FormikValues) => {
     try {
-      await addAddress(value as AddAddress);
+      const data = await addAddress({
+        ...value,
+        postalCode: Number(value.postalCode),
+      } as AddAddress);
+      if (data) {
+        await getAddress({});
+      }
     } catch (err) {}
   };
 

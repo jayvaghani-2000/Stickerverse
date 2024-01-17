@@ -179,18 +179,19 @@ model wishlistItem {
 }
 
 model userAddress {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user       user     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String   @db.Uuid
-  city       String
-  address1   String
-  address2   String?
-  state      String
-  postalCode Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  contact    String?
-  name       String?
-  default    Boolean  @default(false)
-  order      order[]
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user           user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String   @db.Uuid
+  city           String
+  address1       String
+  address2       String?
+  state          String
+  postalCode     Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  contact        String?
+  name           String?
+  default        Boolean  @default(false)
+  order          order[]
+  shallowDeleted Boolean  @default(false)
 }
