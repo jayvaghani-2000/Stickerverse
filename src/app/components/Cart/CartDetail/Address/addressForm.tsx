@@ -1,3 +1,4 @@
+//https://api.postalpincode.in/pincode/395006
 import Checkbox from "@/app/components/Shared/Checkbox";
 import Forms from "@/app/components/Shared/Forms";
 import InlineSpinner from "@/app/components/Shared/InlineSpinner";
