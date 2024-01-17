@@ -28,7 +28,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginForm = (props: FormPropType) => {
-  const { handleChange, values, isSubmitting, errors } = props;
+  const { handleChange, values, isSubmitting, handleBlur, touched, errors } =
+    props;
 
   const handleLogin = async () => {
     const res = await supabase.auth.signInWithOAuth({
@@ -50,14 +51,18 @@ const LoginForm = (props: FormPropType) => {
         name="email"
         placeholder="Email"
         onChange={handleChange}
+        onBlur={handleBlur}
         value={values.email}
+        error={touched.email ? (errors.email as string) : undefined}
       />
       <Text
         type="password"
         name="password"
         placeholder="Password"
         onChange={handleChange}
+        onBlur={handleBlur}
         value={values.password}
+        error={touched.password ? (errors.password as string) : undefined}
       />
 
       <Button

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import AddressForm from "./addressForm";
 
 const Address = () => {
-  const { data } = useGetUserAddressQuery({});
+  const { data, isFetching } = useGetUserAddressQuery({});
   const { address, loading } = useAddressStore();
   const [addNewAddress, setAddNewAddress] = useState(false);
 
@@ -25,7 +25,7 @@ const Address = () => {
         <AddressForm />
       ) : (
         <div className=" flex justify-center items-center mt-1 sm:mt-2 px-4 sm:px-5 md:px-7 py-3 sm:py-4 md:py-5  bg-coffee">
-          {loading && address.length ? <InlineSpinner /> : null}
+          {isFetching && address.length === 0 ? <InlineSpinner /> : null}
         </div>
       )}
     </div>

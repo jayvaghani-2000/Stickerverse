@@ -4,6 +4,18 @@ import { AddAddressSchema } from "./schema";
 export async function addAddress(id: string, data: unknown) {
   const payload = AddAddressSchema.parse(data);
 
+  if (payload.default) {
+    await prisma.userAddress.updateMany({
+      where: {
+        userId: id,
+        default: true,
+      },
+      data: {
+        default: false,
+      },
+    });
+  }
+
   return await prisma.userAddress.create({
     data: {
       userId: id,

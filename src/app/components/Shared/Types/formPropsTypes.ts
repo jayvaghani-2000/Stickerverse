@@ -1,4 +1,4 @@
-import { FormikErrors, FormikValues } from "formik";
+import { FormikErrors, FormikTouched, FormikValues } from "formik";
 
 export type FormPropType = {
   values: FormikValues;
@@ -11,4 +11,6 @@ export type FormPropType = {
     value: any,
     shouldValidate?: boolean | undefined
   ) => Promise<void> | Promise<FormikErrors<FormikValues>>;
+  touched: FormikTouched<FormikValues>;
+  handleBlur: (e: React.FocusEvent<any, Element>) => void;
 };

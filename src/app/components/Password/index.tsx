@@ -28,7 +28,8 @@ const validationSchema = Yup.object().shape({
 const PasswordForm = (props: FormPropType) => {
   const { redirectTo } = useAuthStore();
   const router = useRouter();
-  const { handleChange, values, isSubmitting, errors } = props;
+  const { handleChange, values, isSubmitting, errors, handleBlur, touched } =
+    props;
 
   return (
     <div className="flex flex-col items-center gap-3 md:gap-4">
@@ -37,14 +38,22 @@ const PasswordForm = (props: FormPropType) => {
         name="password"
         placeholder="Password"
         onChange={handleChange}
+        onBlur={handleBlur}
         value={values.password}
+        error={touched.password ? (errors.password as string) : undefined}
       />
       <Text
         type="password"
         name="confirmPassword"
         placeholder="Confirm It"
+        onBlur={handleBlur}
         onChange={handleChange}
         value={values.confirmPassword}
+        error={
+          touched.confirmPassword
+            ? (errors.confirmPassword as string)
+            : undefined
+        }
       />
 
       <Button
