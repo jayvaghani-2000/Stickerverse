@@ -75,23 +75,30 @@ export const handleGetPostalCodeData = async (postalCode: string) => {
 
 export const handleGetLocation = async (
   latitude: number,
-  longitude: number
+  longitude: number,
+  token: string
 ) => {
   try {
     const res = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`
+      `/api/location?latitude=${latitude}&longitude=${longitude}`,
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
     );
-    const json: LocationDataType = await res.json();
-    if (json.status === "OK") {
+    const json: { data: LocationDataType } = await res.json();
+
+    if (json.data.status === "OK") {
       const obj: {
         state?: string;
         city?: string;
         postalCode?: string;
       } = {};
-      if (getCountry(json) === "India") {
-        const state = getState(json);
-        const city = getCity(json);
-        const postalCode = getPostalCode(json);
+      if (getCountry(json.data) === "India") {
+        const state = getState(json.data);
+        const city = getCity(json.data);
+        const postalCode = getPostalCode(json.data);
 
         if (state) {
           obj.state = state;

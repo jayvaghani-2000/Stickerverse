@@ -25,6 +25,7 @@ const AddressFormFields = (
   }
 ) => {
   const dispatch = useAppDispatch();
+  const { token } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const [loadingZipCodeData, setLoadingZipCodeData] = useState(false);
   const {
@@ -68,7 +69,8 @@ const AddressFormFields = (
         async position => {
           const location = await handleGetLocation(
             position.coords.latitude,
-            position.coords.longitude
+            position.coords.longitude,
+            token
           );
 
           Object.keys(location).forEach(i => {
