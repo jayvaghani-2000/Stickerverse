@@ -1,13 +1,26 @@
 import Checkbox from "@/app/components/Shared/Checkbox";
 import Forms from "@/app/components/Shared/Forms";
+import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 import Text from "@/app/components/Shared/Input/Text";
 import { FormPropType } from "@/app/components/Shared/Types/formPropsTypes";
+import { useAppDispatch } from "@/app/store";
 import { useAuthStore } from "@/app/store/authentication";
+import { setGlobalData } from "@/app/store/global";
+import { handleGetLocation } from "@/app/utils/getLocation";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Typography } from "@mui/material";
 import { FormikValues } from "formik";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 
-const AddressFormFields = (props: FormPropType) => {
+const AddressFormFields = (
+  props: FormPropType & {
+    isGeolocationSupported: boolean;
+  }
+) => {
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
+
   const {
     handleChange,
     setFieldValue,
@@ -16,7 +29,50 @@ const AddressFormFields = (props: FormPropType) => {
     touched,
     isSubmitting,
     errors,
+    isGeolocationSupported,
   } = props;
+
+  const getLocation = async () => {};
+
+  useEffect(() => {
+    if (values.postalCode.length === 6) {
+      getLocation();
+    }
+  }, [values.postalCode]);
+
+  const getLocationData = () => {
+    if (navigator.geolocation) {
+      setLoading(true);
+      navigator.geolocation.getCurrentPosition(
+        async position => {
+          const location = await handleGetLocation(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+
+          Object.keys(location).forEach(i => {
+            const key = i as keyof typeof location;
+            if (location[key]) {
+              setFieldValue(key, location[key]);
+            }
+          });
+          setLoading(false);
+        },
+        error => {
+          dispatch(
+            setGlobalData({
+              toast: {
+                show: true,
+                message: "Please enable location access." ?? "",
+                type: "error",
+              },
+            })
+          );
+          setLoading(false);
+        }
+      );
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2 sm:gap-3 max-w-[600px]">
@@ -44,7 +100,23 @@ const AddressFormFields = (props: FormPropType) => {
         </div>
       </div>
       <div className="flex flex-col gap-2 sm:gap-3 ">
-        <Typography variant="h6">Address</Typography>
+        <div className="flex justify-between">
+          <Typography variant="h6">Address</Typography>
+          {isGeolocationSupported ? (
+            <button
+              type="button"
+              onClick={() => {
+                getLocationData();
+              }}
+              disabled={loading}
+              className="flex items-center gap-1"
+            >
+              <LocationOnIcon className="h-3 sm:h-4 md:h-5 w-3 sm:w-4 md:w-5" />
+              <Typography variant="body2">Use Location</Typography>
+              {loading ? <InlineSpinner /> : null}
+            </button>
+          ) : null}
+        </div>
         <div className="flex flex-col gap-1.5 sm:gap-2 px-1 sm:px-2">
           <Text
             type="number"
@@ -141,7 +213,11 @@ const validationSchema = Yup.object().shape({
   default: Yup.boolean(),
 });
 
-const AddressForm = () => {
+const AddressForm = ({
+  isGeolocationSupported,
+}: {
+  isGeolocationSupported: boolean;
+}) => {
   const { profile } = useAuthStore();
   const handleAddAddress = async (value: FormikValues) => {};
 
@@ -163,12 +239,13 @@ const AddressForm = () => {
           await handleAddAddress(value);
         }}
       >
-        <AddressFormFields {...({} as FormPropType)} />
+        <AddressFormFields
+          isGeolocationSupported={isGeolocationSupported}
+          {...({} as FormPropType)}
+        />
       </Forms>
     </div>
   );
 };
 
 export default AddressForm;
-
-//https://maps.googleapis.com/maps/api/geocode/json?latlng=21.1702,72.8311&key=AIzaSyCarq4P4YA0QcJxIs5g7eGSX40CvQQNX-4

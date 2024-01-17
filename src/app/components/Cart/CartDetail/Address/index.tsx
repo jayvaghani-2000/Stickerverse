@@ -6,9 +6,18 @@ import { useEffect, useState } from "react";
 import AddressForm from "./addressForm";
 
 const Address = () => {
-  const { data, isFetching } = useGetUserAddressQuery({});
+  const [isGeolocationSupported, setIsGeolocationSupported] = useState(false);
+  const { isFetching } = useGetUserAddressQuery({});
   const { address, loading } = useAddressStore();
   const [addNewAddress, setAddNewAddress] = useState(false);
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      setIsGeolocationSupported(true);
+    } else {
+      setIsGeolocationSupported(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (address.length === 0 && !loading) {
@@ -22,7 +31,7 @@ const Address = () => {
         {addNewAddress ? "Add New Address" : "Select address"}
       </Typography>
       {addNewAddress ? (
-        <AddressForm />
+        <AddressForm isGeolocationSupported={isGeolocationSupported} />
       ) : (
         <div className=" flex justify-center items-center mt-1 sm:mt-2 px-4 sm:px-5 md:px-7 py-3 sm:py-4 md:py-5  bg-coffee">
           {isFetching && address.length === 0 ? <InlineSpinner /> : null}
