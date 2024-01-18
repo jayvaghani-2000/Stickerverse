@@ -100,7 +100,7 @@ const Cart = (props: propType) => {
   const cartItemId = userCart.map(i => i.stickerId);
 
   return (
-    <div className="col-span-9 sm:col-span-5 lg:col-span-6 bg-coffee">
+    <div className="col-span-9 md:col-span-5 lg:col-span-6 bg-coffee">
       <div className="flex justify-between items-center  px-4 sm:px-5 md:px-7 py-3 sm:py-4 md:py-5 border-b-2 border-dashed border-lightGray">
         <Checkbox
           label={

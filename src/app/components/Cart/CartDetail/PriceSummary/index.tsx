@@ -1,8 +1,12 @@
 import Nova from "@/app/components/Font/nova";
 import Icon from "@/app/components/Icon";
 import Button from "@/app/components/Shared/Button";
+import InlineSpinner from "@/app/components/Shared/InlineSpinner";
+import { useAppDispatch } from "@/app/store";
 import { useAuthStore } from "@/app/store/authentication";
 import { useInitiateOrderMutation } from "@/app/store/checkout/api";
+import { setGlobalData } from "@/app/store/global";
+import { currency } from "@/app/utils/constant";
 import { Typography } from "@mui/material";
 import { activeStep } from "..";
 import {
@@ -14,10 +18,19 @@ type propType = {
   userCart: getCartType | getVisitorCartType;
   handleUpdateCurrentStep: (step: activeStep) => void;
   currentStep: activeStep;
+  shippingAddress: string;
+  isSuccess: boolean;
 };
 
 const PriceSummary = (props: propType) => {
-  const { userCart, handleUpdateCurrentStep, currentStep } = props;
+  const {
+    userCart,
+    handleUpdateCurrentStep,
+    currentStep,
+    shippingAddress,
+    isSuccess,
+  } = props;
+  const dispatch = useAppDispatch();
   const { profile } = useAuthStore();
   const [initiateOrder] = useInitiateOrderMutation();
 
@@ -56,8 +69,17 @@ const PriceSummary = (props: propType) => {
     }
   };
 
+  const getOrderButtonText = () => {
+    if (currentStep === activeStep.CART) {
+      return "Place Order";
+    } else if (currentStep === activeStep.ADDRESS) {
+      return "Continue";
+    }
+    return "Make Payment";
+  };
+
   return (
-    <div className="sm:sticky top-5 col-span-9 sm:col-span-4 lg:col-span-3 h-fit ">
+    <div className="sm:sticky top-5 col-span-9 md:col-span-4 lg:col-span-3 h-fit ">
       <div className="flex gap-1 items-center justify-center">
         <div className=" h-[18px] w-[18px] md:h-[30px] md:w-[30px]">
           <Icon name="secure" className="h-full w-full" />{" "}
@@ -71,7 +93,8 @@ const PriceSummary = (props: propType) => {
             Bag Total
           </Typography>
           <Typography variant="h5" fontWeight={500}>
-            ₹{total}
+            {currency}
+            {total}
           </Typography>
         </div>
       </div>
@@ -83,12 +106,28 @@ const PriceSummary = (props: propType) => {
           if (currentStep === activeStep.CART) {
             handleUpdateCurrentStep(activeStep.ADDRESS);
           } else if (currentStep === activeStep.ADDRESS) {
+            if (!shippingAddress) {
+              return dispatch(
+                setGlobalData({
+                  toast: {
+                    message: "Please select address!",
+                    show: true,
+                    type: "info",
+                  },
+                })
+              );
+            }
             handleUpdateCurrentStep(activeStep.PLACE_ORDER);
+          } else {
             handleInitiateOrder();
           }
         }}
+        disabled={currentStep === activeStep.PLACE_ORDER && !isSuccess}
       >
-        Place Order
+        {getOrderButtonText()}
+        {currentStep === activeStep.PLACE_ORDER && !isSuccess ? (
+          <InlineSpinner />
+        ) : null}
       </Button>
     </div>
   );

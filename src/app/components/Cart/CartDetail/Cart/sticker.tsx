@@ -33,6 +33,7 @@ import {
   getVisitorCartType,
 } from "../../../../../../pages/api/types";
 import styles from "./../../../Stickers/stickers.module.scss";
+import { currency } from "@/app/utils/constant";
 
 type propType = {
   item: getCartType[0] | getVisitorCartType[0];
@@ -192,7 +193,8 @@ const Sticker = (props: propType) => {
             variant="body1"
             className="text-start leading-none	font-semibold text-lightRed"
           >
-            ₹{i.sticker.price - 0.01}
+            {currency}
+            {i.sticker.price - 0.01}
           </Typography>
         </div>
         <div className="mt-1 sm:mt-2 md:mt-3 w-fit flex items-center gap-1">

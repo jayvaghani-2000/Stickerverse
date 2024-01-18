@@ -25,6 +25,7 @@ import InlineSpinner from "../../Shared/InlineSpinner";
 import ItemCount from "../../Shared/ItemCount";
 import Rating from "../../Shared/Rating";
 import WishlistItem from "../../Shared/WishlistItem";
+import { currency } from "@/app/utils/constant";
 
 const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
   const i = sticker;
@@ -115,7 +116,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
           </div>
           <div className="flex justify-center items-start mt-1 gap-[2px] sm:gap-1 ">
             <Typography variant="body1" className="text-start leading-none	">
-              {i.price - 0.01} ₹
+              {i.price - 0.01} {currency}
             </Typography>
           </div>
           <div className="ml-[20px] md:ml-[24px] relative flex justify-center items-center mt-1 sm:mt-2 md:mt-3">

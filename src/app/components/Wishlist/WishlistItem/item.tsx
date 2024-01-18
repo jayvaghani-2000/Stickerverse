@@ -13,6 +13,7 @@ import {
   useRemoveFromWishlistMutation,
 } from "@/app/store/wishlist/api";
 import { productAnimation, productHoverEffect } from "@/app/utils/animation";
+import { currency } from "@/app/utils/constant";
 import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
@@ -132,7 +133,8 @@ const Item = ({
               variant="body1"
               className="text-start leading-none	font-semibold text-lightRed"
             >
-              ₹{i.price - 0.01}
+              {currency}
+              {i.price - 0.01}
             </Typography>
           </div>
           <div className="ml-[20px] md:ml-[24px] relative flex justify-center items-center mt-1 sm:mt-2 md:mt-3">

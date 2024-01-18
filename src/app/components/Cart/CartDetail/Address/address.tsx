@@ -28,6 +28,9 @@ const UserAddress = ({
     setLoading(true);
     const data = await deleteAddress(i.id);
     if (data) {
+      if (shippingAddress === i.id) {
+        handleUpdateShipmentAddress("");
+      }
       getAddress({});
       setLoading(false);
     }
@@ -37,7 +40,7 @@ const UserAddress = ({
 
   return (
     <button
-      onChange={() => {
+      onClick={() => {
         handleUpdateShipmentAddress(i.id);
       }}
       className="text-start flex items-start gap-2 sm:gap-3 md:gap-4 bg-coffee  px-4 sm:px-5 md:px-7 py-3 sm:py-4 md:py-5"

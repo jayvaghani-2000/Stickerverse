@@ -26,6 +26,7 @@ import InlineSpinner from "../../Shared/InlineSpinner";
 import ItemCount from "../../Shared/ItemCount";
 import WishlistItem from "../../Shared/WishlistItem";
 import styles from "../stickers.module.scss";
+import { currency } from "@/app/utils/constant";
 
 const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const title = useRef<HTMLHeadingElement>(null!);
@@ -175,7 +176,8 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
               variant="body1"
               className="text-start leading-none	font-semibold text-lightRed"
             >
-              ₹{i.price - 0.01}
+              {currency}
+              {i.price - 0.01}
             </Typography>
           </div>
           <div className="mt-1 sm:mt-2 md:mt-3">

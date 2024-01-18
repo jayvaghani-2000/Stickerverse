@@ -4,6 +4,7 @@ import {
   setStickerData,
   useStickerStore,
 } from "@/app/store/stickers";
+import { currency } from "@/app/utils/constant";
 import { SORT_BY_LABEL } from "@/app/utils/enum";
 import { Typography } from "@mui/material";
 import Icon from "../../Icon";
@@ -56,7 +57,7 @@ const AppliedFilter = (props: propType) => {
       ))}
       {price ? (
         <Label
-          label={`₹${price[0]} - ₹${price[1]}`}
+          label={`${currency}${price[0]} - ${currency}${price[1]}`}
           onClick={() => {
             handleRemovePartialFilter({
               ...filter,

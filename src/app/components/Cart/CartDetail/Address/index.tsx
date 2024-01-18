@@ -3,17 +3,22 @@ import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 import { useAddressStore } from "@/app/store/address";
 import { useGetUserAddressQuery } from "@/app/store/address/api";
 import { Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import UserAddress from "./address";
 import AddressForm from "./addressForm";
 
-const Address = () => {
+type propType = {
+  shippingAddress: string;
+  setShippingAddress: Dispatch<SetStateAction<string>>;
+};
+
+const Address = (props: propType) => {
+  const { setShippingAddress, shippingAddress } = props;
   const [isGeolocationSupported, setIsGeolocationSupported] = useState(false);
   const { isFetching } = useGetUserAddressQuery({});
   const { address, loading } = useAddressStore();
   const [addNewAddress, setAddNewAddress] = useState(false);
   const [addAddress, setAddAddress] = useState(false);
-  const [shippingAddress, setShippingAddress] = useState("");
   const addressForm = useRef<HTMLDivElement>(null!);
 
   useEffect(() => {
@@ -26,7 +31,7 @@ const Address = () => {
 
   useEffect(() => {
     const defaultAddress = address.find(i => i.default)?.id;
-    setShippingAddress(defaultAddress ?? "");
+    setShippingAddress(defaultAddress ?? shippingAddress);
   }, [address]);
 
   useEffect(() => {
@@ -48,7 +53,7 @@ const Address = () => {
   };
 
   return (
-    <div className="col-span-9 sm:col-span-5 lg:col-span-6">
+    <div className="col-span-9 md:col-span-5 lg:col-span-6">
       <Typography variant="subtitle2" fontWeight={"500"} className="text-black">
         {addNewAddress ? "Add New Address" : "Select address"}
       </Typography>
