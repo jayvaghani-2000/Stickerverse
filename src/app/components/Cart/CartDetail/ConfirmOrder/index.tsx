@@ -33,7 +33,7 @@ const ConfirmOrder = ({
             Shipping Address
           </Typography>
           <button
-            className="flex justify-center items-center h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 p-[5px] sm:p-[6px] rounded-full bg-darkGray"
+            className="flex justify-center items-center h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 p-[3px] rounded-full bg-darkGray"
             onClick={e => {
               handleUpdateCurrentStep(activeStep.ADDRESS);
             }}
@@ -53,7 +53,7 @@ const ConfirmOrder = ({
             Items
           </Typography>
           <button
-            className="flex justify-center items-center h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 p-[5px] sm:p-[6px] rounded-full bg-darkGray"
+            className="flex justify-center items-center h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 p-[3px] rounded-full bg-darkGray"
             onClick={e => {
               handleUpdateCurrentStep(activeStep.CART);
             }}
