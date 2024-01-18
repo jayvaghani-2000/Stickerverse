@@ -31,7 +31,7 @@ const Address = (props: propType) => {
 
   useEffect(() => {
     const defaultAddress = address.find(i => i.default)?.id;
-    setShippingAddress(defaultAddress ?? shippingAddress);
+    setShippingAddress(shippingAddress || (defaultAddress ?? ""));
   }, [address]);
 
   useEffect(() => {

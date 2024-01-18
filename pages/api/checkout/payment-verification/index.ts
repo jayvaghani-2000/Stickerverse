@@ -16,12 +16,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         );
 
         if (isValid) {
-          await prisma.payment.update({
+          const user = await prisma.payment.update({
             where: {
               orderUniqId: razorpay_order_id,
             },
             data: {
               status: orderPaymentStatus.confirmed,
+            },
+            select: { userId: true },
+          });
+          await prisma.cart.delete({
+            where: {
+              userId: user.userId,
             },
           });
           return res
