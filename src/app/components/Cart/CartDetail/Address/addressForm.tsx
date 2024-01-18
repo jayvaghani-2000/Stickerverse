@@ -254,8 +254,10 @@ const validationSchema = Yup.object().shape({
 
 const AddressForm = ({
   isGeolocationSupported,
+  onAdd,
 }: {
   isGeolocationSupported: boolean;
+  onAdd?: () => void;
 }) => {
   const [getAddress] = useLazyGetUserAddressQuery();
   const [addAddress] = useAddUserAddressMutation();
@@ -268,6 +270,7 @@ const AddressForm = ({
       } as AddAddress);
       if (data) {
         await getAddress({});
+        onAdd && onAdd();
       }
     } catch (err) {}
   };

@@ -1,8 +1,9 @@
+import Button from "@/app/components/Shared/Button";
 import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 import { useAddressStore } from "@/app/store/address";
 import { useGetUserAddressQuery } from "@/app/store/address/api";
 import { Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UserAddress from "./address";
 import AddressForm from "./addressForm";
 
@@ -11,7 +12,9 @@ const Address = () => {
   const { isFetching } = useGetUserAddressQuery({});
   const { address, loading } = useAddressStore();
   const [addNewAddress, setAddNewAddress] = useState(false);
+  const [addAddress, setAddAddress] = useState(false);
   const [shippingAddress, setShippingAddress] = useState("");
+  const addressForm = useRef<HTMLDivElement>(null!);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -31,6 +34,14 @@ const Address = () => {
       setAddNewAddress(true);
     }
   }, [address, loading]);
+
+  useEffect(() => {
+    if (addAddress) {
+      addressForm.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  }, [addAddress]);
 
   const handleUpdateShipmentAddress = (id: string) => {
     setShippingAddress(id);
@@ -62,6 +73,28 @@ const Address = () => {
               ))}
             </div>
           ) : null}
+
+          {addAddress ? (
+            <div className="mt-3 sm:mt-4 md:mt-5" ref={addressForm}>
+              <AddressForm
+                isGeolocationSupported={isGeolocationSupported}
+                onAdd={() => {
+                  setAddAddress(false);
+                }}
+              />
+            </div>
+          ) : (
+            <Button
+              variant="outline"
+              className="bg-primeGreen hover:bg-primeGreen mt-3 sm:mt-4 md:mt-5"
+              icon="plusFilled"
+              onClick={() => {
+                setAddAddress(true);
+              }}
+            >
+              Add New Address
+            </Button>
+          )}
         </>
       )}
     </div>
