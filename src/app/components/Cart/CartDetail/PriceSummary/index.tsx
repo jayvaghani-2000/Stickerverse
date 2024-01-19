@@ -8,6 +8,7 @@ import { useInitiateOrderMutation } from "@/app/store/checkout/api";
 import { setGlobalData } from "@/app/store/global";
 import { currency } from "@/app/utils/constant";
 import { Typography } from "@mui/material";
+import { INormalizeError } from "razorpay/dist/types/api";
 import { activeStep } from "..";
 import {
   getCartType,
@@ -66,6 +67,9 @@ const PriceSummary = (props: propType) => {
       //@ts-ignore
       const rzp1 = new Razorpay(options);
       rzp1.open();
+      rzp1.on("payment.failed", (response: INormalizeError) => {
+        console.log("##############", { response: response });
+      });
     }
   };
 
