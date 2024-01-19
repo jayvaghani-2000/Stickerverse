@@ -1,9 +1,8 @@
-#!/bin/bash
 cd /home/ubuntu/sticker-verse
-npm i
-# Copy source files to DEVELOPMENT environment
-if [ "$DEPLOYMENT_GROUP_NAME" == "sticker-verse-dev-group" ]; then
+yarn 
+cp -a //home/ubuntu/node_services/.env /home/ubuntu/sticker-verse
+yarn build
+cp -a //home/ubuntu/node_services/.htaccess /var/www/html
 
-pm2 start ../node_services/development.json
-fi
-
+cd /home/ubuntu/sticker-verse
+cp -a //home/ubuntu/sticker-verse/dist/. /var/www/html/
