@@ -8,6 +8,7 @@ import { useInitiateOrderMutation } from "@/app/store/checkout/api";
 import { setGlobalData } from "@/app/store/global";
 import { currency } from "@/app/utils/constant";
 import { Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { INormalizeError } from "razorpay/dist/types/api";
 import { activeStep } from "..";
 import {
@@ -31,6 +32,7 @@ const PriceSummary = (props: propType) => {
     shippingAddress,
     isSuccess,
   } = props;
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { profile } = useAuthStore();
   const [initiateOrder] = useInitiateOrderMutation();
@@ -68,7 +70,12 @@ const PriceSummary = (props: propType) => {
       const rzp1 = new Razorpay(options);
       rzp1.open();
       rzp1.on("payment.failed", (response: INormalizeError) => {
-        console.log("##############", { response: response });
+        if (response.error.reason === "payment_failed") {
+          router.push(
+            `/payment-failed?order_id=${response.error.metadata?.order_id}&payment_id=${response.error.metadata?.payment_id}`
+          );
+          router.refresh();
+        }
       });
     }
   };

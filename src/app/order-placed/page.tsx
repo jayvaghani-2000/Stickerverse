@@ -1,13 +1,8 @@
 "use client";
-import WithHeader from "../components/HOC/withHeader";
 import OrderSuccess from "../components/OrderSuccess";
 
 const OrderPlacedPage = () => {
-  return (
-    <WithHeader>
-      <OrderSuccess />
-    </WithHeader>
-  );
+  return <OrderSuccess />;
 };
 
 export default OrderPlacedPage;
