@@ -1,0 +1,74 @@
+image: node:18.0.0
+clone:
+  depth: full
+definitions:
+  size: 2x
+  services:
+      docker:
+        memory: 1536
+  caches:
+    sonar: ~/.sonar/cache 
+  steps:
+    - step: &Test-build
+        name: Build
+        caches:
+          - node
+          - sonar
+        script:
+          - chmod +x ./cicd/scripts/initialScript.sh
+          # - pipe: sonarsource/sonarcloud-scan:1.4.0
+          #   variables:
+          #     SONAR_TOKEN: ${SONAR_TOKEN}
+          # - pipe: sonarsource/sonarcloud-quality-gate:0.1.6
+          #   variables:
+          #     SONAR_TOKEN: ${SONAR_TOKEN}
+        artifacts:
+          - latest.zip
+    - step: &Deploy-step
+        name: Upload to S3
+        script:
+          # Test upload
+          - pipe: atlassian/aws-code-deploy:1.1.1
+            variables:
+              AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY}
+              AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_KEY}
+              AWS_DEFAULT_REGION: ${AWS_REGION}
+              COMMAND: "upload"
+              APPLICATION_NAME: ${APPLICATION_NAME}
+              ZIP_FILE: "latest.zip"
+              S3_BUCKET: ${S3_BUCKET}
+              VERSION_LABEL: "sticker-0.0.1"
+    - step: &Push-to-server
+        name: Deploy with CodeDeploy
+        script:
+          # Test deploy
+          - pipe: atlassian/aws-code-deploy:1.1.1
+            variables:
+              AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY}
+              AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_KEY}
+              AWS_DEFAULT_REGION: ${AWS_REGION}
+              S3_BUCKET: ${S3_BUCKET}
+              COMMAND: "deploy"
+              APPLICATION_NAME: ${APPLICATION_NAME}
+              DEPLOYMENT_GROUP: ${DEPLOYMENT_GROUP}
+              IGNORE_APPLICATION_STOP_FAILURES: "true"
+              FILE_EXISTS_BEHAVIOR: "OVERWRITE"
+              WAIT: "true"
+              VERSION_LABEL: "sticker-0.0.1"
+pipelines:
+  default:  
+    - step:
+        <<: *Test-build
+        deployment: development-build
+
+  branches:
+    master:
+      - step:
+          <<: *Test-build
+          deployment: development-build
+      - step:
+          <<: *Deploy-step
+          deployment: development-upload-s3
+      - step:
+          <<: *Push-to-server
+          deployment: development-codedeploy
