@@ -140,6 +140,7 @@ model payment {
   user        user               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String             @db.Uuid
   orderUniqId String             @unique
+  paymentId   String?
   amount      Float
   status      orderPaymentStatus
   createdAt   DateTime           @default(now())

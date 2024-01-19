@@ -22,6 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             },
             data: {
               status: orderPaymentStatus.confirmed,
+              paymentId: razorpay_payment_id,
             },
             select: { userId: true },
           });
