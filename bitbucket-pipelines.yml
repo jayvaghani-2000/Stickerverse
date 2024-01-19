@@ -16,6 +16,9 @@ definitions:
           - sonar
         script:
           - chmod +x ./cicd/scripts/initialScript.sh
+          - apt update
+          - apt install -y zip
+          - zip -r latest.zip .
           # - pipe: sonarsource/sonarcloud-scan:1.4.0
           #   variables:
           #     SONAR_TOKEN: ${SONAR_TOKEN}
