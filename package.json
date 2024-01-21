@@ -9,7 +9,7 @@
     "lint": "npx lint-staged",
     "prepare": "husky install",
     "tsc": "npx tsc --noEmit",
-    "postinstall": "npx prisma generate",
+    "postinstall": "yarn prisma generate",
     "format": "yarn prettier --write '(src|pages)/**/*.(ts|tsx|js)'"
   },
   "engines": {
