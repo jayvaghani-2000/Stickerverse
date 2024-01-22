@@ -13,6 +13,7 @@ import {
   useRemoveFromWishlistMutation,
 } from "@/app/store/wishlist/api";
 import { productAnimation, productClickEffect } from "@/app/utils/animation";
+import { currency } from "@/app/utils/constant";
 import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { getPlatform } from "@/app/utils/getPlatform";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
@@ -26,7 +27,6 @@ import InlineSpinner from "../../Shared/InlineSpinner";
 import ItemCount from "../../Shared/ItemCount";
 import WishlistItem from "../../Shared/WishlistItem";
 import styles from "../stickers.module.scss";
-import { currency } from "@/app/utils/constant";
 
 const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   const title = useRef<HTMLHeadingElement>(null!);
@@ -65,7 +65,6 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
   };
 
   const handleWishlistItem = async () => {
-    abortGeWishlistApi();
     try {
       if (isInWishlist) {
         await removeFromWishlist({ stickerIds: [i.id] });
@@ -74,6 +73,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
       }
     } catch (err) {
     } finally {
+      abortGeWishlistApi();
       await fetchWishlist({});
     }
   };
@@ -193,16 +193,15 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
               setLoading(true);
               try {
                 if (authenticated) {
-                  abortGetCartApi();
                   await handleAddToCart({
                     quantity: quantity,
                     stickerId: sticker.id,
                   });
+                  abortGetCartApi();
                   await refetchCart();
                   setLoading(false);
                 } else {
                   if (visitorCartId) {
-                    abortGetVisitorCartApi();
                     await handleAddToVisitorCart({
                       id: visitorCartId,
                       body: {
@@ -210,10 +209,10 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
                         stickerId: sticker.id,
                       },
                     });
+                    abortGetVisitorCartApi();
                     await refetchVisitCart(visitorCartId);
                     setLoading(false);
                   } else {
-                    abortGetVisitorCartApi();
                     const id = await createCart();
                     if (id) {
                       await handleAddToVisitorCart({
@@ -223,6 +222,7 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
                           stickerId: sticker.id,
                         },
                       });
+                      abortGetVisitorCartApi();
                       await refetchVisitCart(id);
                       setLoading(false);
                     }

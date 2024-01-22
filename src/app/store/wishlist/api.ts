@@ -85,12 +85,3 @@ export const abortGeWishlistApi = () => {
   controller.abort();
   controller = new AbortController();
 };
-
-export const abortUpdateCartApi = () => {
-  updateController.abort();
-  updateController = new AbortController();
-};
-export const abortRemoveCartApi = () => {
-  removeController.abort();
-  removeController = new AbortController();
-};

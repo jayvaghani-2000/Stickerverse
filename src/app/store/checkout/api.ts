@@ -24,7 +24,15 @@ export const checkoutApi = createApi({
         return {} as Orders.RazorpayOrder;
       },
     }),
+    paymentFailed: builder.mutation({
+      query: (body: { order_id: string; payment_id: string }) => ({
+        url: `/api/checkout/payment-failed`,
+        method: "POST",
+        body: body,
+      }),
+    }),
   }),
 });
 
-export const { useInitiateOrderMutation } = checkoutApi;
+export const { useInitiateOrderMutation, usePaymentFailedMutation } =
+  checkoutApi;

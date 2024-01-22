@@ -13,6 +13,7 @@ import {
   useRemoveFromWishlistMutation,
 } from "@/app/store/wishlist/api";
 import { productAnimation, productHoverEffect } from "@/app/utils/animation";
+import { currency } from "@/app/utils/constant";
 import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
@@ -25,7 +26,6 @@ import InlineSpinner from "../../Shared/InlineSpinner";
 import ItemCount from "../../Shared/ItemCount";
 import Rating from "../../Shared/Rating";
 import WishlistItem from "../../Shared/WishlistItem";
-import { currency } from "@/app/utils/constant";
 
 const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
   const i = sticker;
@@ -60,7 +60,6 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
   const isInWishlist = wishlist.findIndex(j => j.stickerId === i.id) > -1;
 
   const handleWishlistItem = async () => {
-    abortGeWishlistApi();
     try {
       if (isInWishlist) {
         await removeFromWishlist({ stickerIds: [i.id] });
@@ -69,6 +68,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
       }
     } catch (err) {
     } finally {
+      abortGeWishlistApi();
       await fetchWishlist({});
     }
   };
@@ -127,16 +127,15 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                 setLoading(true);
                 try {
                   if (authenticated) {
-                    abortGetCartApi();
                     await handleAddToCart({
                       quantity: quantity,
                       stickerId: sticker.id,
                     });
+                    abortGetCartApi();
                     await refetchCart();
                     setLoading(false);
                   } else {
                     if (visitorCartId) {
-                      abortGetVisitorCartApi();
                       await handleAddToVisitorCart({
                         id: visitorCartId,
                         body: {
@@ -144,10 +143,10 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                           stickerId: sticker.id,
                         },
                       });
+                      abortGetVisitorCartApi();
                       await refetchVisitCart(visitorCartId);
                       setLoading(false);
                     } else {
-                      abortGetVisitorCartApi();
                       const id = await createCart();
                       if (id) {
                         await handleAddToVisitorCart({
@@ -157,6 +156,7 @@ const Sticker = ({ sticker }: { sticker: trendingStickerType[0] }) => {
                             stickerId: sticker.id,
                           },
                         });
+                        abortGetVisitorCartApi();
                         await refetchVisitCart(id);
                         setLoading(false);
                       }

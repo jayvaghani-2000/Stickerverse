@@ -17,6 +17,11 @@ import {
   useLazyGetVisitorCartQuery,
   useRemoveFromToVisitorCartMutation,
 } from "@/app/store/visitorCart/api";
+import { useWishlistStore } from "@/app/store/wishlist";
+import {
+  useAddToWishlistMutation,
+  useLazyGetUserWishlistQuery,
+} from "@/app/store/wishlist/api";
 import { ThemeColor } from "@/app/theme";
 import { Typography } from "@mui/material";
 import { useState } from "react";
@@ -38,6 +43,14 @@ const Cart = (props: propType) => {
     useRemoveFromToVisitorCartMutation();
   const [fetchCart, { isLoading: loadingGettingCart }] =
     useLazyGetUserCartQuery();
+  const { wishlist } = useWishlistStore();
+  const [fetchWishlist, { isLoading: loadingGetWishlist }] =
+    useLazyGetUserWishlistQuery();
+  const [addToWishlist, { isLoading: loadingAddToWishlist }] =
+    useAddToWishlistMutation();
+
+  const wishListedSticker = wishlist.map(i => i.stickerId);
+
   const [fetchVisitorCart, { isLoading: loadingGettingVisitorCart }] =
     useLazyGetVisitorCartQuery();
   const { visitorCartId } = useVisitorCartStore();
@@ -67,16 +80,15 @@ const Cart = (props: propType) => {
   const handleRemoveItem = async () => {
     try {
       if (authenticated) {
-        abortGetCartApi();
         abortUpdateCartApi();
         abortRemoveCartApi();
         const res = await removeFromCart({ stickerIds: selectedItem });
         if ("data" in res && res.data.success) {
+          abortGetCartApi();
           await fetchCart({});
           resetSelectedItem();
         }
       } else {
-        abortGetVisitorCartApi();
         abortVisitorUpdateCartApi();
         abortVisitorRemoveCartApi();
         const res = await removeFromVisitorCart({
@@ -84,12 +96,26 @@ const Cart = (props: propType) => {
           body: { stickerIds: selectedItem },
         });
         if ("data" in res && res.data.success) {
+          abortGetVisitorCartApi();
           await fetchVisitorCart({ id: visitorCartId as string });
           resetSelectedItem();
         }
       }
     } catch (err) {}
   };
+
+  const handleWishlistAllItem = async () => {
+    try {
+      const data = await addToWishlist({
+        stickerIds: selectedItem.filter(i => !wishListedSticker.includes(i)),
+      });
+      if (!("error" in data)) {
+        await fetchWishlist({});
+      }
+    } catch (err) {}
+  };
+
+  const loadingWishlist = loadingGetWishlist || loadingAddToWishlist;
 
   const loading =
     loadingGettingCart ||
@@ -118,16 +144,31 @@ const Cart = (props: propType) => {
             selectedItem.filter(i => cartItemId.includes(i)).length
           }
         />
-        <Button
-          typography="subtitle2"
-          variant="border-bottom"
-          className="text-lightRed disabled:text-lightRed bg-transparent hover:bg-transparent"
-          disabled={loading || selectedItem.length === 0}
-          onClick={handleRemoveItem}
-        >
-          Remove All
-          {loading ? <InlineSpinner color={ThemeColor.LIGHT_RED} /> : null}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            typography="subtitle2"
+            variant="border-bottom"
+            className="text-lightRed disabled:text-lightRed bg-transparent hover:bg-transparent"
+            disabled={loading || selectedItem.length === 0}
+            onClick={handleRemoveItem}
+          >
+            Remove All
+            {loading ? <InlineSpinner color={ThemeColor.LIGHT_RED} /> : null}
+          </Button>
+          <div className="text-lightRed">|</div>
+          <Button
+            typography="subtitle2"
+            variant="border-bottom"
+            className="text-lightRed disabled:text-lightRed bg-transparent hover:bg-transparent"
+            disabled={loadingWishlist || selectedItem.length === 0}
+            onClick={handleWishlistAllItem}
+          >
+            Wishlist All
+            {loadingWishlist ? (
+              <InlineSpinner color={ThemeColor.LIGHT_RED} />
+            ) : null}
+          </Button>
+        </div>
       </div>
       <div className="py-5">
         {userCart.map(i => (

@@ -17,6 +17,7 @@ import {
   useLazyGetVisitorCartQuery,
   useRemoveFromToVisitorCartMutation,
 } from "@/app/store/visitorCart/api";
+import { currency } from "@/app/utils/constant";
 import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { debounce } from "lodash";
@@ -33,7 +34,6 @@ import {
   getVisitorCartType,
 } from "../../../../../../pages/api/types";
 import styles from "./../../../Stickers/stickers.module.scss";
-import { currency } from "@/app/utils/constant";
 
 type propType = {
   item: getCartType[0] | getVisitorCartType[0];
@@ -76,14 +76,13 @@ const Sticker = (props: propType) => {
   const handleCartItemCount = useCallback(async () => {
     try {
       if (authenticated) {
-        abortGetCartApi();
         await addToCart({
           quantity: quantityRef.current,
           stickerId: i.stickerId,
         });
+        abortGetCartApi();
         await fetchCart({});
       } else {
-        abortGetVisitorCartApi();
         await addToVisitorCart({
           id: visitorCartId as string,
           body: {
@@ -91,6 +90,7 @@ const Sticker = (props: propType) => {
             stickerId: i.stickerId,
           },
         });
+        abortGetVisitorCartApi();
         await fetchVisitorCart({ id: visitorCartId as string });
       }
     } catch (err) {}
@@ -115,18 +115,18 @@ const Sticker = (props: propType) => {
   const handleRemoveItem = async () => {
     try {
       if (authenticated) {
-        abortGetCartApi();
         const res = await removeFromCart({ stickerIds: [i.stickerId] });
         if ("data" in res && res.data.success) {
+          abortGetCartApi();
           await fetchCart({});
         }
       } else {
-        abortGetVisitorCartApi();
         const res = await removeFromVisitorCart({
           cartId: visitorCartId as string,
           body: { stickerIds: [i.stickerId] },
         });
         if ("data" in res && res.data.success) {
+          abortGetVisitorCartApi();
           await fetchVisitorCart({ id: visitorCartId as string });
         }
       }

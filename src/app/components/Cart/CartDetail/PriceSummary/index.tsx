@@ -4,7 +4,10 @@ import Button from "@/app/components/Shared/Button";
 import InlineSpinner from "@/app/components/Shared/InlineSpinner";
 import { useAppDispatch } from "@/app/store";
 import { useAuthStore } from "@/app/store/authentication";
-import { useInitiateOrderMutation } from "@/app/store/checkout/api";
+import {
+  useInitiateOrderMutation,
+  usePaymentFailedMutation,
+} from "@/app/store/checkout/api";
 import { setGlobalData } from "@/app/store/global";
 import { currency } from "@/app/utils/constant";
 import { Typography } from "@mui/material";
@@ -36,6 +39,7 @@ const PriceSummary = (props: propType) => {
   const dispatch = useAppDispatch();
   const { profile } = useAuthStore();
   const [initiateOrder] = useInitiateOrderMutation();
+  const [handlePaymentFail] = usePaymentFailedMutation();
 
   const total = userCart.reduce((prev, curr) => {
     prev += curr.quantity * curr.sticker.price;
@@ -69,12 +73,15 @@ const PriceSummary = (props: propType) => {
       //@ts-ignore
       const rzp1 = new Razorpay(options);
       rzp1.open();
-      rzp1.on("payment.failed", (response: INormalizeError) => {
+      rzp1.on("payment.failed", async (response: INormalizeError) => {
         if (response.error.reason === "payment_failed") {
-          router.push(
-            `/payment-failed?order_id=${response.error.metadata?.order_id}&payment_id=${response.error.metadata?.payment_id}`
-          );
+          await handlePaymentFail({
+            order_id: response.error.metadata?.order_id ?? "",
+            payment_id: response.error.metadata?.payment_id ?? "",
+          });
+
           router.refresh();
+          rzp1.close();
         }
       });
     }

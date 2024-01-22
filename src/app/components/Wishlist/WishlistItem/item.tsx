@@ -66,7 +66,6 @@ const Item = ({
   const isInWishlist = wishlist.findIndex(j => j.stickerId === i.id) > -1;
 
   const handleWishlistItem = async () => {
-    abortGeWishlistApi();
     try {
       if (isInWishlist) {
         await removeFromWishlist({ stickerIds: [i.id] });
@@ -75,6 +74,7 @@ const Item = ({
       }
     } catch (err) {
     } finally {
+      abortGeWishlistApi();
       await fetchWishlist({});
     }
   };
@@ -145,16 +145,15 @@ const Item = ({
                 setLoading(true);
                 try {
                   if (authenticated) {
-                    abortGetCartApi();
                     await handleAddToCart({
                       quantity: quantity,
                       stickerId: i.id,
                     });
+                    abortGetCartApi();
                     await refetchCart();
                     setLoading(false);
                   } else {
                     if (visitorCartId) {
-                      abortGetVisitorCartApi();
                       await handleAddToVisitorCart({
                         id: visitorCartId,
                         body: {
@@ -162,10 +161,10 @@ const Item = ({
                           stickerId: i.id,
                         },
                       });
+                      abortGetVisitorCartApi();
                       await refetchVisitCart(visitorCartId);
                       setLoading(false);
                     } else {
-                      abortGetVisitorCartApi();
                       const id = await createCart();
                       if (id) {
                         await handleAddToVisitorCart({
@@ -175,6 +174,7 @@ const Item = ({
                             stickerId: i.id,
                           },
                         });
+                        abortGetVisitorCartApi();
                         await refetchVisitCart(id);
                         setLoading(false);
                       }
