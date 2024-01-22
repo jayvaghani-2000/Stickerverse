@@ -30,6 +30,12 @@ export const checkoutApi = createApi({
         method: "POST",
         body: body,
       }),
+      transformResponse: (response: { success: boolean }) => {
+        if (response?.success) {
+          return response.success;
+        }
+        return false;
+      },
     }),
   }),
 });

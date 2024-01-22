@@ -75,12 +75,17 @@ const PriceSummary = (props: propType) => {
       rzp1.open();
       rzp1.on("payment.failed", async (response: INormalizeError) => {
         if (response.error.reason === "payment_failed") {
-          await handlePaymentFail({
+          const res = await handlePaymentFail({
             order_id: response.error.metadata?.order_id ?? "",
             payment_id: response.error.metadata?.payment_id ?? "",
           });
 
-          router.refresh();
+          if ("data" in res && res.data) {
+            router.push(
+              `/payment-failed?order_id=${response.error.metadata?.order_id}&payment_id=${response.error.metadata?.payment_id}`
+            );
+          }
+
           rzp1.close();
         }
       });

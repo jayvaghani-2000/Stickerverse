@@ -1,5 +1,6 @@
 import { orderPaymentStatus } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import jwtMiddleware from "../../helpers/utils/validateToken";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -19,11 +20,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             select: { userId: true },
           });
 
-          return res
-            .writeHead(302, {
-              location: `/payment-failed?order_id=${order_id}&payment_id=${payment_id}`,
-            })
-            .end();
+          return res.json({ success: true });
         } catch (err) {
           return res.status(400).json({
             success: false,
@@ -39,4 +36,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default handler;
+export default jwtMiddleware(handler);
