@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Orders } from "razorpay/dist/types/orders";
 import { prepareHeaders } from "./../../utils/tokenManager";
+import { cartTotal } from "../../../../pages/api/models/checkout/schema";
 
 export const checkoutApi = createApi({
   reducerPath: "checkoutApi",
@@ -12,7 +13,7 @@ export const checkoutApi = createApi({
   refetchOnMountOrArgChange: true,
   endpoints: builder => ({
     initiateOrder: builder.mutation({
-      query: (body: { total: number }) => ({
+      query: (body: cartTotal) => ({
         url: `/api/checkout`,
         method: "POST",
         body: body,

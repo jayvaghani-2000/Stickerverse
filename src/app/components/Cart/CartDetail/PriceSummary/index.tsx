@@ -47,7 +47,10 @@ const PriceSummary = (props: propType) => {
   }, 0);
 
   const handleInitiateOrder = async () => {
-    const res = await initiateOrder({ total: total });
+    const res = await initiateOrder({
+      total: total,
+      addressId: shippingAddress,
+    });
     if ("data" in res && res.data) {
       const options = {
         key: process.env.RAZORPAY_API_KEY,

@@ -4,7 +4,8 @@ import prisma from "../../../../prisma";
 export const handleInitiateOrder = async (
   id: string,
   orderId: string,
-  amount: number
+  amount: number,
+  address: string
 ) => {
   const userCart = await prisma.cart.findFirstOrThrow({
     where: {
@@ -29,7 +30,7 @@ export const handleInitiateOrder = async (
 
   return await prisma.order.create({
     data: {
-      address: "",
+      deliveryAddressId: address,
       totalPrice: amount,
       userId: id,
       items: {

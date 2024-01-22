@@ -10,7 +10,7 @@ export const handleInitiateCheckout = async (id: string, data: unknown) => {
       amount: payload.total * 100, // amount in smallest unit of currency
       currency: "INR",
     });
-    await handleInitiateOrder(id, order.id, payload.total);
+    await handleInitiateOrder(id, order.id, payload.total, payload.addressId);
     return order;
   } catch (err) {
     throw err;

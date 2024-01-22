@@ -26,7 +26,6 @@ model user {
   username    String?
   email       String?       @unique
   phone       String?       @unique
-  address     String?
   password    Boolean       @default(false)
   orders      order[]
   cart        cart[]
@@ -87,7 +86,6 @@ model order {
   deliveryAddress   userAddress? @relation(fields: [deliveryAddressId], references: [id], onDelete: Cascade)
   deliveryAddressId String?      @db.Uuid
   totalPrice        Float
-  address           String
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
   payment           payment      @relation(fields: [paymentId], references: [id], onDelete: Cascade)
