@@ -13,7 +13,7 @@ type propsType = Omit<
 const Text = (props: propsType) => {
   const { error, ...rest } = props;
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <input
         className="w-full bg-white border-2 border-black placeholder-placeholder outline-none pl-3 sm:pl-4 md:pl-5 font-medium text-[16px] h-[32px] sm:h-[38px] md:h-[50px] rounded-none"
         {...rest}

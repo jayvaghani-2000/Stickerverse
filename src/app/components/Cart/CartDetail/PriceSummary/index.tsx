@@ -37,7 +37,7 @@ const PriceSummary = (props: propType) => {
   } = props;
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { profile } = useAuthStore();
+  const { profile, authenticated } = useAuthStore();
   const [initiateOrder] = useInitiateOrderMutation();
   const [handlePaymentFail] = usePaymentFailedMutation();
 
@@ -130,7 +130,15 @@ const PriceSummary = (props: propType) => {
         className="w-full bg-lightGreen hover:bg-lightGreen"
         onClick={() => {
           if (currentStep === activeStep.CART) {
-            handleUpdateCurrentStep(activeStep.ADDRESS);
+            if (authenticated) {
+              handleUpdateCurrentStep(activeStep.ADDRESS);
+            } else {
+              return dispatch(
+                setGlobalData({
+                  showLogin: true,
+                })
+              );
+            }
           } else if (currentStep === activeStep.ADDRESS) {
             if (!shippingAddress) {
               return dispatch(
