@@ -8,7 +8,7 @@ import { Typography } from "@mui/material";
 import axios from "axios";
 import classNames from "classnames";
 import { FormikValues } from "formik";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { LegacyRef, forwardRef } from "react";
 import * as Yup from "yup";
 import { supabase } from "../../../../supabase/init";
@@ -30,12 +30,14 @@ const validationSchema = Yup.object().shape({
 const LoginForm = (props: FormPropType) => {
   const { handleChange, values, isSubmitting, handleBlur, touched, errors } =
     props;
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const handleLogin = async () => {
     const res = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/verify`,
+        redirectTo: `${window.location.origin}/auth/verify?redirect_to=${pathname}?${searchParams}`,
       },
     });
 
@@ -129,6 +131,7 @@ const Login = (
             message: "Logged in successfully",
             type: "success",
           },
+          showLogin: false,
         })
       );
       dispatch(

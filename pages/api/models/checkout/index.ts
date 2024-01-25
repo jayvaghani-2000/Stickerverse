@@ -1,4 +1,4 @@
-import { orderPaymentStatus } from "@prisma/client";
+import { orderDeliveryStatus, orderPaymentStatus } from "@prisma/client";
 import prisma from "../../../../prisma";
 
 export const handleInitiateOrder = async (
@@ -42,6 +42,7 @@ export const handleInitiateOrder = async (
         },
       },
       paymentId: payment.id,
+      deliveryStatus: orderDeliveryStatus.ordered,
     },
     select: {
       id: true,

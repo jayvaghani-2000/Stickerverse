@@ -21,6 +21,12 @@ enum orderPaymentStatus {
   failed
 }
 
+enum orderDeliveryStatus {
+  ordered
+  shipped
+  delivered
+}
+
 model user {
   id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   username    String?
@@ -79,17 +85,18 @@ model image {
 }
 
 model order {
-  id                Int          @id @default(autoincrement())
-  user              user         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId            String       @db.Uuid
+  id                Int                  @id @default(autoincrement())
+  user              user                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String               @db.Uuid
   items             orderItem[]
-  deliveryAddress   userAddress? @relation(fields: [deliveryAddressId], references: [id], onDelete: Cascade)
-  deliveryAddressId String?      @db.Uuid
+  deliveryAddress   userAddress?         @relation(fields: [deliveryAddressId], references: [id], onDelete: Cascade)
+  deliveryAddressId String?              @db.Uuid
   totalPrice        Float
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
-  payment           payment      @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  payment           payment              @relation(fields: [paymentId], references: [id], onDelete: Cascade)
   paymentId         Int
+  deliveryStatus    orderDeliveryStatus?
 }
 
 model orderItem {

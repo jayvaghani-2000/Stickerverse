@@ -10,7 +10,7 @@ import { useLocalCart } from "@/app/utils/context/localCartProvider";
 import { getDifferenceInHours } from "@/app/utils/dates";
 import { handleSetToken } from "@/app/utils/handleSetToken";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { z } from "zod";
 import { supabase } from "../../../../supabase/init";
@@ -18,6 +18,7 @@ import { supabase } from "../../../../supabase/init";
 const Verify = () => {
   const router = useRouter();
   const { redirectTo } = useAuthStore();
+  const params = useSearchParams();
   const { toast } = useGlobalStore();
   const { show } = toast;
   const { setLocalCart, refetchCart } = useLocalCart();
@@ -25,7 +26,11 @@ const Verify = () => {
   const [getUser] = useLazyGetUserByIdQuery();
 
   const handleCompleteVerify = () => {
-    router.replace(redirectTo);
+    if (params?.has("redirect_to")) {
+      router.replace(params.get("redirect_to") ?? "/");
+    } else {
+      router.replace(redirectTo);
+    }
   };
 
   const getCurrentSession = async () => {
