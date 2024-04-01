@@ -19,6 +19,7 @@ import { getPlatform } from "@/app/utils/getPlatform";
 import { useMobileScreen, useTabScreen } from "@/app/utils/useScreenSize";
 import { Typography } from "@mui/material";
 import { animate, motion } from "framer-motion";
+import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
 import { stickersType } from "../../../../../pages/api/types";
 import { MotionImage } from "../../MotionImage";
@@ -118,132 +119,134 @@ const Sticker = ({ sticker }: { sticker: stickersType["sticker"][0] }) => {
         ]);
       }}
     >
-      <motion.div
-        className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col"
-        {...productClickEffect()}
-      >
+      <Link href={`/stickers/${i.slug}`}>
         <motion.div
-          className={`${imageClass} relative py-[10px] sm:py-[15px] md:py-[20px] bg-white border-2 border-black `}
+          className="w-[150px] sm:w-[180px] md:w-[240px]  flex flex-col"
+          {...productClickEffect()}
         >
-          <div
-            className={`h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden  bg-white flex justify-center items-center`}
-            style={{ aspectRatio: aspectRatio }}
+          <motion.div
+            className={`${imageClass} relative py-[10px] sm:py-[15px] md:py-[20px] bg-white border-2 border-black `}
           >
-            <MotionImage
-              src={i.image[0].url}
-              alt=""
-              fill
-              placeholder="blur"
-              blurDataURL={i.image[0].blurUrl}
-              style={{ objectFit: "cover" }}
-              sizes={getImageSize()}
-            />
-          </div>
-          <div className="absolute z-10 bottom-1 right-1 sm:bottom-2 sm:right-2">
-            <WishlistItem
-              favorite={isInWishlist}
-              onClick={handleWishlistItem}
-              loading={
-                loadingAddToWishlist ||
-                loadingGetWishlist ||
-                loadingRemoveFromWishlist
-              }
-            />
-          </div>
-        </motion.div>
-        <div className="flex-1 flex flex-col items-center pt-[5px] md:pt-[10px]  pb-[30px] sm:pb-[40px] md:pb-[80px] overflow-hidden">
-          <div className="relative max-w-full overflow-hidden">
-            <div className={styles.marquee}>
-              <Typography variant="subtitle2" ref={titleBackup}>
-                {i.productName}
+            <div
+              className={`h-[130px] sm:h-[140px] md:h-[200px] m-auto overflow-hidden  bg-white flex justify-center items-center`}
+              style={{ aspectRatio: aspectRatio }}
+            >
+              <MotionImage
+                src={i.image[0].url}
+                alt=""
+                fill
+                placeholder="blur"
+                blurDataURL={i.image[0].blurUrl}
+                style={{ objectFit: "cover" }}
+                sizes={getImageSize()}
+              />
+            </div>
+            <div className="absolute z-10 bottom-1 right-1 sm:bottom-2 sm:right-2">
+              <WishlistItem
+                favorite={isInWishlist}
+                onClick={handleWishlistItem}
+                loading={
+                  loadingAddToWishlist ||
+                  loadingGetWishlist ||
+                  loadingRemoveFromWishlist
+                }
+              />
+            </div>
+          </motion.div>
+          <div className="flex-1 flex flex-col items-center pt-[5px] md:pt-[10px]  pb-[30px] sm:pb-[40px] md:pb-[80px] overflow-hidden">
+            <div className="relative max-w-full overflow-hidden">
+              <div className={styles.marquee}>
+                <Typography variant="subtitle2" ref={titleBackup}>
+                  {i.productName}
+                </Typography>
+              </div>
+              <div className={styles.marquee2}>
+                <Typography variant="subtitle2" ref={title}>
+                  {i.productName}
+                </Typography>
+              </div>
+            </div>
+
+            <div className="flex justify-center items-start mt-1 sm:mt-2 gap-[2px] sm:gap-1 ">
+              <Typography
+                variant="body1"
+                className="text-start leading-none	font-semibold"
+              >
+                MRP.
+              </Typography>
+              <Typography
+                variant="body1"
+                className="text-start leading-none	font-semibold text-lightRed"
+              >
+                {currency}
+                {i.price - 0.01}
               </Typography>
             </div>
-            <div className={styles.marquee2}>
-              <Typography variant="subtitle2" ref={title}>
-                {i.productName}
-              </Typography>
+            <div className="mt-1 sm:mt-2 md:mt-3">
+              <ItemCount quantity={quantity} setQuantity={setQuantity} />
             </div>
-          </div>
 
-          <div className="flex justify-center items-start mt-1 sm:mt-2 gap-[2px] sm:gap-1 ">
-            <Typography
-              variant="body1"
-              className="text-start leading-none	font-semibold"
-            >
-              MRP.
-            </Typography>
-            <Typography
-              variant="body1"
-              className="text-start leading-none	font-semibold text-lightRed"
-            >
-              {currency}
-              {i.price - 0.01}
-            </Typography>
-          </div>
-          <div className="mt-1 sm:mt-2 md:mt-3">
-            <ItemCount quantity={quantity} setQuantity={setQuantity} />
-          </div>
-
-          <Button
-            childClassName="normal-case"
-            typography="subtitle2"
-            className="bg-primeGreen hover:bg-primeGreen w-fit mt-2 sm:mt-3 md:mt-4 pl-2 sm:pl-3 md:pl-4  pr-2 sm:pr-3 md:pr-3  pt-1 pb-1 sm:pt-[6px] sm:pb-[6px] md:pt-2"
-            icon={loading ? "" : "cart"}
-            onClick={async () => {
-              setLoading(true);
-              try {
-                if (authenticated) {
-                  await handleAddToCart({
-                    quantity: quantity,
-                    stickerId: sticker.id,
-                  });
-                  abortGetCartApi();
-                  await refetchCart();
-                  setLoading(false);
-                } else {
-                  if (visitorCartId) {
-                    await handleAddToVisitorCart({
-                      id: visitorCartId,
-                      body: {
-                        quantity: quantity,
-                        stickerId: sticker.id,
-                      },
+            <Button
+              childClassName="normal-case"
+              typography="subtitle2"
+              className="bg-primeGreen hover:bg-primeGreen w-fit mt-2 sm:mt-3 md:mt-4 pl-2 sm:pl-3 md:pl-4  pr-2 sm:pr-3 md:pr-3  pt-1 pb-1 sm:pt-[6px] sm:pb-[6px] md:pt-2"
+              icon={loading ? "" : "cart"}
+              onClick={async () => {
+                setLoading(true);
+                try {
+                  if (authenticated) {
+                    await handleAddToCart({
+                      quantity: quantity,
+                      stickerId: sticker.id,
                     });
-                    abortGetVisitorCartApi();
-                    await refetchVisitCart(visitorCartId);
+                    abortGetCartApi();
+                    await refetchCart();
                     setLoading(false);
                   } else {
-                    const id = await createCart();
-                    if (id) {
+                    if (visitorCartId) {
                       await handleAddToVisitorCart({
-                        id: id,
+                        id: visitorCartId,
                         body: {
                           quantity: quantity,
                           stickerId: sticker.id,
                         },
                       });
                       abortGetVisitorCartApi();
-                      await refetchVisitCart(id);
+                      await refetchVisitCart(visitorCartId);
                       setLoading(false);
+                    } else {
+                      const id = await createCart();
+                      if (id) {
+                        await handleAddToVisitorCart({
+                          id: id,
+                          body: {
+                            quantity: quantity,
+                            stickerId: sticker.id,
+                          },
+                        });
+                        abortGetVisitorCartApi();
+                        await refetchVisitCart(id);
+                        setLoading(false);
+                      }
                     }
                   }
+                  setQuantity(1);
+                } catch (err) {
+                  setLoading(false);
                 }
-                setQuantity(1);
-              } catch (err) {
-                setLoading(false);
-              }
-            }}
-            disabled={loading}
-          >
-            Add to Cart{" "}
-            {loading ? (
-              <div className="inline-block ml-1 h-[15px] sm:h-[18px] md:h-[21px] w-[15px] sm:w-[18px] md:w-[21px]">
-                <InlineSpinner />
-              </div>
-            ) : null}
-          </Button>
-        </div>
-      </motion.div>
+              }}
+              disabled={loading}
+            >
+              Add to Cart{" "}
+              {loading ? (
+                <div className="inline-block ml-1 h-[15px] sm:h-[18px] md:h-[21px] w-[15px] sm:w-[18px] md:w-[21px]">
+                  <InlineSpinner />
+                </div>
+              ) : null}
+            </Button>
+          </div>
+        </motion.div>
+      </Link>
     </motion.figure>
   );
 };
