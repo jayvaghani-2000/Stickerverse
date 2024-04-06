@@ -17,7 +17,7 @@ export const getStickerDetails = async (slug: string) => {
 
     return { success: true, data: product };
   } catch (err) {
-    // redirect()
+    console.log("get sticker error::)", err);
     return { success: false, error: "Product not found" };
   }
 };
