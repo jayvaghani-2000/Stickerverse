@@ -11,7 +11,7 @@ import { FormikValues } from "formik";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { LegacyRef, forwardRef } from "react";
 import * as Yup from "yup";
-import { supabase } from "../../../../supabase/init";
+import { supabase } from "../../../../init";
 import Nova from "../Font/nova";
 import Icon from "../Icon";
 import Button from "../Shared/Button";

@@ -1,15 +1,15 @@
+import { useMobileScreen, useWindowSize } from "@/app/utils/useScreenSize";
+import { motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "./carousal.scss";
-import { motion } from "framer-motion";
 import { EffectFade, Navigation, Pagination } from "swiper/modules";
-import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
 import Button from "../../Shared/Button";
-import { useMobileScreen, useWindowSize } from "@/app/utils/useScreenSize";
+import "./carousal.scss";
 
 const CarousalImages = [
   {
@@ -56,7 +56,12 @@ const Carousal = () => {
         }}
         transition={{ type: "spring" }}
       >
-        <Button className="bg-primeGreen hover:bg-primeGreen">Shop Now</Button>
+        <Button
+          className="bg-primeGreen hover:bg-primeGreen"
+          onClick={() => {}}
+        >
+          Shop Now
+        </Button>
       </motion.div>
       <Swiper
         spaceBetween={30}

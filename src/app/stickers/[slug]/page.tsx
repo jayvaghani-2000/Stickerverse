@@ -1,6 +1,7 @@
 import WithHeader from "@/app/components/HOC/withHeader";
 import ProductDetail from "@/app/components/ProductDetailPage";
 import { getStickerDetails } from "actions/(public)/stickers/getStickerDetail";
+import axios from "axios";
 type propType = { params: { slug: string }; searchParams: {} };
 
 export async function generateMetadata(prop: propType) {
@@ -31,13 +32,16 @@ export async function generateMetadata(prop: propType) {
 }
 
 const StickerDetail = async (props: propType) => {
-  const sticker = await getStickerDetails(props.params.slug);
+  const res = await axios.get(
+    `/api/stickers/get-sticker-details?slug=${props.params.slug}`
+  );
+
   return (
     <WithHeader>
-      {sticker.success ? (
-        <ProductDetail product={sticker.data} />
+      {res.data.success ? (
+        <ProductDetail product={res.data.data} />
       ) : (
-        <div>{sticker.error}</div>
+        <div>{res.data.error}</div>
       )}
     </WithHeader>
   );

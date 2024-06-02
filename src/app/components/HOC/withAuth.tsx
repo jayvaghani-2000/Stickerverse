@@ -4,7 +4,7 @@ import { handleSetToken } from "@/app/utils/handleSetToken";
 import { Session } from "@supabase/supabase-js";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { supabase } from "../../../../supabase/init";
+import { supabase } from "../../../../init";
 import Nova from "../Font/nova";
 import Loader from "../Loader";
 

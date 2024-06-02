@@ -13,7 +13,7 @@ import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { z } from "zod";
-import { supabase } from "../../../../supabase/init";
+import { supabase } from "../../../../init";
 
 const Verify = () => {
   const router = useRouter();

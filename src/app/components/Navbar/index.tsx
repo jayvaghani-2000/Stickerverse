@@ -17,7 +17,7 @@ import classNames from "classnames";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../../../supabase/init";
+import { supabase } from "../../../../init";
 import Icon from "../Icon";
 import Profile from "./Profile";
 import Drawer from "./drawer";
