@@ -1,11 +1,14 @@
 import WithHeader from "@/app/components/HOC/withHeader";
 import ProductDetail from "@/app/components/ProductDetailPage";
-import { getStickerDetails } from "actions/(public)/stickers/getStickerDetail";
 import axios from "axios";
 type propType = { params: { slug: string }; searchParams: {} };
 
 export async function generateMetadata(prop: propType) {
-  const { data } = await getStickerDetails(prop.params.slug);
+  const res = await axios.get(
+    `/api/stickers/get-sticker-details?slug=${prop.params.slug}`
+  );
+
+  const data = res.data;
   return {
     metadataBase: new URL("https://jayvaghani.info"),
     title: data?.productName,
