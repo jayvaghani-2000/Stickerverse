@@ -5,7 +5,7 @@ type propType = { params: { slug: string }; searchParams: {} };
 
 export async function generateMetadata(prop: propType) {
   const res = await axios.get(
-    `/api/stickers/get-sticker-details?slug=${prop.params.slug}`
+    `https://jayvaghani.info/api/sticker/get-sticker-details?slug=${prop.params.slug}`
   );
 
   const data = res.data;
@@ -18,31 +18,28 @@ export async function generateMetadata(prop: propType) {
       title: data?.productName,
       description:
         "Explore StickerVerse, where every amusing, eccentric, and side-splitting sticker comes to life! We've got a vast collection of funny stickers for you to discover and enjoy.",
-      images: [
-        {
-          url: data?.image[0].url,
-        },
-      ],
     },
     openGraph: {
       type: "website",
       title: data?.productName,
       description:
         "Explore StickerVerse, where every amusing, eccentric, and side-splitting sticker comes to life! We've got a vast collection of funny stickers for you to discover and enjoy.",
-      images: [{ url: data?.image[0].url }],
     },
   };
 }
 
 const StickerDetail = async (props: propType) => {
-  const res = await axios.get(
-    `/api/stickers/get-sticker-details?slug=${props.params.slug}`
+  const a = await fetch(
+    `https://jayvaghani.info/api/sticker/get-sticker-details?slug=${props.params.slug}`
   );
+
+  const res = await a.json();
+  console.log(res);
 
   return (
     <WithHeader>
-      {res.data.success ? (
-        <ProductDetail product={res.data.data} />
+      {res.data ? (
+        <ProductDetail product={res.data} />
       ) : (
         <div>{res.data.error}</div>
       )}
